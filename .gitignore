@@ -1,0 +1,15 @@
+*.class
+/bin/
+.classpath
+
+/build/*
+/dist/*
+*.prefs
+NRGRobot2017/.classpath
+*.classpath
+*.jar
+*.xml
+*.classpath
+*.jar
+*.jar
+*.jar*.jar
