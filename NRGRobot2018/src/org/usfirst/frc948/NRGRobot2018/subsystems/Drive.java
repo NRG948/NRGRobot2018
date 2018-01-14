@@ -51,7 +51,9 @@ public class Drive extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
-
+    public void rawDrive(double velX, double velY, double rot) {
+    	RobotMap.driveMecanumDrive.driveCartesian(velX, velY, rot);
+    }
     @Override
     public void periodic() {
         // Put code here to be run every loop
