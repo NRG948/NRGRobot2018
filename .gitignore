@@ -1,7 +1,6 @@
 # Ignore build and machine specific artifacts 
 build/
 dist/
-.classpath
 
 # From [Ecplise.gitignore](https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore)
 .metadata
