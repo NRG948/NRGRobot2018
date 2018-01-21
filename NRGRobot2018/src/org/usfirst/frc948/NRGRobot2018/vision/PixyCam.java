@@ -1,7 +1,7 @@
 package org.usfirst.frc948.NRGRobot2018.vision;
 
 
-public class TPixy {
+public class PixyCam {
 	public static final int PIXY_INITIAL_ARRAYSIZE =  30;
 	public static final int PIXY_MAXIMUM_ARRAYSIZE = 130;
 	public static final int PIXY_START_WORD  = 0xaa55;
