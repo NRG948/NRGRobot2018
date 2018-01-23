@@ -109,4 +109,10 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
     }
+    
+    @Override
+    public void testPeriodic() {
+    	// TODO Auto-generated method stub
+    	
+    }
 }
