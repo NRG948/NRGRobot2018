@@ -39,14 +39,14 @@ public class Drive extends Subsystem implements PIDOutput {
 	private PIDController drivePIDController;
 	private volatile double PIDOutput = 0;
 	
-	private final static double DEFAULT_TURN_P = 0.02;
-	private final static double DEFAULT_TURN_I = 0.0;
-	private final static double DEFAULT_TURN_D = 0.0;
+	public final static double DEFAULT_TURN_P = 0.02;
+	public final static double DEFAULT_TURN_I = 0.0;
+	public final static double DEFAULT_TURN_D = 0.0;
 	
 	public final static double SCALE_HIGH = 1.0;
 	public final static double SCALE_LOW = 0.5;
 	public double scale = SCALE_LOW;
-	private static final double DEF_MAX_VEL_CHANGE = 0.1;
+	public static final double DEF_MAX_VEL_CHANGE = 0.1;
 	
 	private double lastVelX = 0.0;
 	private double lastVelY = 0.0;
