@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class ContinuousGyro implements PIDSource {
-	AHRS navx;
-	private double headingOffset;
+	private AHRS navx;
+	private double headingOffset = 0.0;
 	
 	public ContinuousGyro(AHRS gyro) {
 		this.navx = navx;
@@ -27,11 +27,12 @@ public class ContinuousGyro implements PIDSource {
 	
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
+		
 	}
 
 	@Override
 	public PIDSourceType getPIDSourceType() {
-		return PIDSourceType.kDisplacement;
+		return navx.getPIDSourceType();
 	}
 
 	@Override

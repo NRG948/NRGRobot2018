@@ -65,31 +65,38 @@ public class Drive extends Subsystem implements PIDOutput {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 	
-	public void drivePIDControllerInit(double p, double i, double d, double setpoint) {
+	public void drivePIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
 		drivePIDController = new PIDController(p, i, d, RobotMap.navxWrapper, this);
 		drivePIDController.reset();
 		
 		drivePIDController.setOutputRange(-1, 1);
 		drivePIDController.setSetpoint(setpoint);
-		drivePIDController.setAbsoluteTolerance(1.0);
+		drivePIDController.setAbsoluteTolerance(tolerance);
 		
 		drivePIDController.enable();
 	}
 	
-	public void turnToHeadingPIDInit(double desiredHeading) {
-		drivePIDControllerInit(DEFAULT_TURN_P, DEFAULT_TURN_I, DEFAULT_TURN_D, desiredHeading);
+	public void turnToHeadingPIDInit(double desiredHeading, double tolerance) {
+		drivePIDControllerInit(Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P),
+				Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P),
+				Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P),
+				desiredHeading,
+				tolerance);
 	}
 	
-	public void turnToHeadingPID(double desiredHeading) {
-		SmartDashboard.putNumber("Turn To Heading PID Error", drivePIDController.getError());
-		
+	public void turnToHeadingPIDExecute(double desiredHeading) {
 		double currentPIDOutput = PIDOutput;
+
+		SmartDashboard.putNumber("Turn To Heading PID Error", drivePIDController.getError());
+		SmartDashboard.putNumber("Turn To Heading PID Output", drivePIDController.getError());
+		
 		rawDriveCartesian(0, 0, currentPIDOutput);
 	}
 	
 	public void turnToHeadingPIDEnd() {
 		drivePIDController.reset();
 		drivePIDController.free();
+		drivePIDController = null;
 		
 		stop();
 	}
