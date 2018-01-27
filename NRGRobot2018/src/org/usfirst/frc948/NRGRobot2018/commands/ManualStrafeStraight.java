@@ -1,36 +1,37 @@
 package org.usfirst.frc948.NRGRobot2018.commands;
 
+import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.Robot;
+import org.usfirst.frc948.NRGRobot2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TurnToHeading extends Command {
-
-	double targetHeading;
+public class ManualStrafeStraight extends Command {
 	
-    public TurnToHeading(double targetHeading) {
+	private double currentHeading;
+
+    public ManualStrafeStraight() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	this.targetHeading = targetHeading;
-    	requires(Robot.drive);
+        requires(Robot.drive);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drive.driveHeadingPIDInit(targetHeading, 1.0);
+    	currentHeading = RobotMap.navxWrapper.getAngle();
+    	Robot.drive.driveHeadingPIDInit(currentHeading, 1.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drive.driveHeadingPIDExecute(targetHeading, 0.0, 0.0);
+    	Robot.drive.driveHeadingPIDExecute(currentHeading, OI.getX(), 0.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.drive.onTarget();
+        return false;
     }
 
     // Called once after isFinished returns true

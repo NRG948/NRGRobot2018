@@ -27,6 +27,10 @@ public class OI {
 	public static Joystick xboxController;
 
 	public JoystickButton shiftGears;
+	public JoystickButton driveStraight;
+	public JoystickButton strafeStraight;
+
+
 
 	public OI() {
 		// Initializing Joysticks
@@ -38,11 +42,14 @@ public class OI {
 		
 		// Initializing buttons AFTER the Joysticks
 		shiftGears = new JoystickButton(leftJoystick, 1);
+		driveStraight = new JoystickButton(leftJoystick, 2);
+		strafeStraight = new JoystickButton(leftJoystick, 3);
 
 		// Initialize commands after initializing buttons
 		shiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
 		shiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
-
+		driveStraight.whileHeld(new ManualDriveStraight());
+		strafeStraight.whileHeld(new ManualStrafeStraight());
 
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
@@ -73,7 +80,7 @@ public class OI {
 	}
 
 	public static double getY() {
-		return leftJoystick.getY();
+		return -leftJoystick.getY();
 	}
 
 	public static double getRot() {
