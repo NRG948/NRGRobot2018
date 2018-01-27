@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
+       
     }
 
     @Override
@@ -120,5 +120,12 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
     	// TODO Auto-generated method stub
     	
+    }
+    
+    @Override
+    public void robotPeriodic() {
+    	// TODO Auto-generated method stub
+        SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
+
     }
 }

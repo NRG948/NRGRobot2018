@@ -9,7 +9,7 @@ public class ContinuousGyro implements PIDSource {
 	private AHRS navx;
 	private double headingOffset = 0.0;
 	
-	public ContinuousGyro(AHRS gyro) {
+	public ContinuousGyro(AHRS navx) {
 		this.navx = navx;
 	}
 	
