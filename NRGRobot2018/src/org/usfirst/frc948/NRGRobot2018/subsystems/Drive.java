@@ -84,13 +84,13 @@ public class Drive extends Subsystem implements PIDOutput {
 				tolerance);
 	}
 	
-	public void driveHeadingPIDExecute(double desiredHeading, double velY) {
+	public void driveHeadingPIDExecute(double desiredHeading, double velX, double velY) {
 		double currentPIDOutput = PIDOutput;
 
 		SmartDashboard.putNumber("Turn To Heading PID Error", drivePIDController.getError());
 		SmartDashboard.putNumber("Turn To Heading PID Output", drivePIDController.getError());
 		
-		rawDriveCartesian(0, velY, currentPIDOutput);
+		rawDriveCartesian(velX, velY, currentPIDOutput);
 	}
 	
 	public void driveHeadingPIDEnd() {

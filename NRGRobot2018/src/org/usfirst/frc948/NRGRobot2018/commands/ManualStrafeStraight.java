@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ManualDriveStraight extends Command {
+public class ManualStrafeStraight extends Command {
 	
 	private double currentHeading;
 
-    public ManualDriveStraight() {
+    public ManualStrafeStraight() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.drive);
     }
@@ -26,7 +26,7 @@ public class ManualDriveStraight extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drive.driveHeadingPIDExecute(currentHeading, 0.0, OI.getY());
+    	Robot.drive.driveHeadingPIDExecute(currentHeading, OI.getX(), 0.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
