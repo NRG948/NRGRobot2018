@@ -78,8 +78,8 @@ public class Drive extends Subsystem implements PIDOutput {
 	
 	public void turnToHeadingPIDInit(double desiredHeading, double tolerance) {
 		drivePIDControllerInit(Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P),
-				Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P),
-				Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P),
+				Robot.preferences.getDouble(PreferenceKeys.TURN_I_TERM, DEFAULT_TURN_I),
+				Robot.preferences.getDouble(PreferenceKeys.TURN_D_TERM, DEFAULT_TURN_D),
 				desiredHeading,
 				tolerance);
 	}
