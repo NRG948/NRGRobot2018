@@ -21,7 +21,7 @@ public class I2Cwrapper implements IPixyLink{
 	}
 
 	public byte getByte() {
-		byte[] c = new byte[2];
+		byte[] c = new byte[1];
 		i2c.readOnly(c, 1);
 		return c[0];
 	}

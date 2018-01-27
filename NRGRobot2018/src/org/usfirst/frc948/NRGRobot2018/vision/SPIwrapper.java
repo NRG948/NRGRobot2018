@@ -22,13 +22,13 @@ public class SPIwrapper implements IPixyLink {
 	}
 
 	public byte getByte() {
-		byte[] c = new byte[2];
+		byte[] c = new byte[1];
 		spi.read(true, c, 1);
 		return c[0];
 	}
 
-	public void send(byte[] data, int size) {
-		spi.write(data, size);
+	public void send(byte[] data) {
+		spi.write(data, data.length);
 	}
 
 }
