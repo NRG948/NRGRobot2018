@@ -1,5 +1,5 @@
 package org.usfirst.frc948.NRGRobot2018.vision;
-
+import java.util.*;
 
 public class PixyCam {
 	public static final int PIXY_INITIAL_ARRAYSIZE =  30;
@@ -21,11 +21,111 @@ public class PixyCam {
 	public static final long PIXY_RCS_MAX_POS = 1000L;
 	public static final long PIXY_RCS_CENTER_POS = ((PIXY_RCS_MAX_POS-PIXY_RCS_MIN_POS)/2);
 	
-	enum BlockType
-	{
+	private IPixyLink link;
+	private boolean  skipStart;
+	private BlockType blockType;
+	private int blockCount;
+	private int blockArraySize;
+	ArrayList<Block> blocks = new ArrayList<Block>(blockCount);
+	
+	public PixyCam(IPixyLink link) {
+		this.link = link;
+	}
+	
+	enum BlockType {
 	  NORMAL_BLOCK,
 	  CC_BLOCK
 	};
+	
+	
+	void setBrightness(int brightness) {
+		byte[] outBuf = new byte[3];
+		
+		outBuf[0] = (byte)0x00;
+		outBuf[1] = (byte)0xfe;
+		outBuf[2] = (byte)brightness;
+		
+		link.send(outBuf);
+	}
+	
+	boolean getStart() {
+		int w, lastw;
+		lastw = (short)0xffff;
+		while(true) {
+			w = link.getWord();
+			if(w==0 && lastw==0) {
+				Timer delay = new Timer();
+				delay.schedule(new TimerTask() {
+					  @Override
+					  public void run() {
+					  }
+					}, 50);
+				return false;
+			} else if(w==PIXY_START_WORD && lastw==PIXY_START_WORD) {
+				blockType = BlockType.NORMAL_BLOCK;
+				return true;
+			} else if(w==PIXY_START_WORD_CC && lastw==PIXY_START_WORD) {
+				blockType = BlockType.CC_BLOCK;
+				return true;
+			} else if (w==PIXY_START_WORDX) {
+			    link.getByte(); // resync
+			}
+			lastw = w;
+		}
+	}
+	
+	void resize() {
+		blockArraySize += PIXY_INITIAL_ARRAYSIZE;
+	}
+	
+	int getBlocks(int maxBlocks) {
+		int i, w, checksum, sum;
+		Block block;
+		if (!skipStart) {
+		   if (getStart()==false)
+		     return 0;
+		}
+		else {
+			skipStart = false;
+		}
+		
+		blockCount = 0;
+		while(blockCount<maxBlocks && blockCount<PIXY_MAXIMUM_ARRAYSIZE) {
+			checksum = link.getWord();
+		    if (checksum==PIXY_START_WORD) {
+		    	skipStart = true;
+		    	blockType = BlockType.NORMAL_BLOCK;
+		    	return blockCount;
+		    } else if(checksum==PIXY_START_WORD_CC) {
+		    	skipStart = true;
+		        blockType = BlockType.CC_BLOCK;
+		        return blockCount;
+		    } else if(checksum == 0) {
+		    	return blockCount;
+		    }
+		    if (blockCount>blockArraySize)
+		        resize();
+		    block = blocks.get(blockCount); 
+		    block.signature = link.getWord();
+		    block.x = link.getWord();
+		    block.y = link.getWord();
+		    block.width = link.getWord();
+		    block.height = link.getWord();
+		    block.angle = link.getWord();
+		    
+		    if (checksum==sum) {
+		    	blockCount++;
+		    }
+		    w = link.getWord();
+		    if (w==PIXY_START_WORD) {
+		    	blockType = BlockType.NORMAL_BLOCK;
+		    } else if (w==PIXY_START_WORD_CC) {
+		    	blockType = BlockType.CC_BLOCK;
+		    } else {
+		        return blockCount;
+		    }
+		}
+	}
 	
 	class Block {
 		public void print() {
