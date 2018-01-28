@@ -74,9 +74,10 @@ public class PixyCam {
 		}
 	}
 	
-	void resize() {
+	/*void resize() {
 		blockArraySize += PIXY_INITIAL_ARRAYSIZE;
-	}
+	}*/
+	//might not need this method, because Arraylist automatically resizes.
 	
 	int getBlocks(int maxBlocks) {
 		int i, w, checksum, sum;
@@ -103,8 +104,9 @@ public class PixyCam {
 		    } else if(checksum == 0) {
 		    	return blockCount;
 		    }
-		    if (blockCount>blockArraySize)
-		        resize();
+		    /*if (blockCount>blockArraySize)
+		        resize();*/
+		    //we might not need this if statement, because we have an arraylist now
 		    block = blocks.get(blockCount); 
 		    block.signature = link.getWord();
 		    block.x = link.getWord();
