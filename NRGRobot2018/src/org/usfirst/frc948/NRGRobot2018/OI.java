@@ -34,7 +34,7 @@ public class OI {
 	public JoystickButton driveStraight;
 	public JoystickButton strafeStraight;
 
-	SendableChooser<Command> chooser;
+	public static SendableChooser<Command> chooser;
 
 	public OI() {
 		// Initializing Joysticks
