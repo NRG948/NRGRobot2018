@@ -66,7 +66,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 	
 	public void drivePIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
-		drivePIDController = new PIDController(p, i, d, RobotMap.navxWrapper, this);
+		drivePIDController = new PIDController(p, i, d, RobotMap.gyro, this);
 		drivePIDController.reset();
 		
 		drivePIDController.setOutputRange(-1, 1);

@@ -24,7 +24,7 @@ public class StrafeStraightTimed extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	currentHeading = RobotMap.navxWrapper.getAngle();
+    	currentHeading = RobotMap.gyro.getAngle();
     	Robot.drive.driveHeadingPIDInit(currentHeading, 1.0);
     	timer.start();
     }
