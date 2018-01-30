@@ -15,11 +15,11 @@ public class DriveSquare extends CommandGroup {
     public DriveSquare() {
     	addSequential(new DriveStraightTimed(0.5, 2));
     	addSequential(new DelaySeconds(1));
-    	addSequential(new StrafeStraightTimed(0.7, 2));
+    	addSequential(new StrafeStraightTimed(0.7, 3));
     	addSequential(new DelaySeconds(1));
     	addSequential(new DriveStraightTimed(-0.5, 2));
     	addSequential(new DelaySeconds(1));
-    	addSequential(new StrafeStraightTimed(-0.7, 2));
+    	addSequential(new StrafeStraightTimed(-0.7, 3));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
