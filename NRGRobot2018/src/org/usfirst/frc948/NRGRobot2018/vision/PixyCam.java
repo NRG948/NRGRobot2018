@@ -157,7 +157,7 @@ public class PixyCam {
 			int d;
 			boolean flag;
 			String rep;
-			/*if (signature > PIXY_MAX_SIGNATURE) {
+			if (signature > PIXY_MAX_SIGNATURE) {
 				for (i = 12, j = 0, flag = false; i >= 0; i -= 3) {
 					d = (signature >>> i) & 0x07;
 					if (d > 0 && !flag) {
@@ -167,19 +167,21 @@ public class PixyCam {
 						sig[j++] = (char) (d + 0);
 					}
 				}
-				sig[j++] = '\0';*/
-				rep = "Block, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
+				sig[j++] = '\0';
+				rep = "CC block!, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
 				return rep;
 				// not sure how to convert this line:
 				// sprintf(buf, "CC block! sig: %s (%d decimal) x: %d y: %d width: %d height: %d
 				// angle %d\n", sig, signature, x, y, width, height, angle);
-			/*} else {
+			} else {
 				// not sure about these two either:
 				// sprintf(buf, "sig: %d x: %d y: %d width: %d height: %d\n", signature, x, y,
 				// width, height);
-				// printf(buf);*/
-				//rep = "Normal Block!, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
-				//return rep;
+				// printf(buf);
+				rep = "Normal Block!, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
+				return rep;
+			}
+			
 		}
 
 	}
