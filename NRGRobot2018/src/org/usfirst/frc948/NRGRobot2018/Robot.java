@@ -123,7 +123,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
     	// TODO Auto-generated method stub
         SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
-
+        RobotMap.pixy.getBlocks();
     }
     
     public void initPreferences() {
