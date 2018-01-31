@@ -150,12 +150,13 @@ public class PixyCam {
 			return checksum;
 		}
 
-		public void print() {
+		public String toString() {
 			int i, j;
 			char[] buf = new char[128];
 			char[] sig = new char[6];
 			int d;
 			boolean flag;
+			String rep;
 			if (signature > PIXY_MAX_SIGNATURE) {
 				for (i = 12, j = 0, flag = false; i >= 0; i -= 3) {
 					d = (signature >>> i) & 0x07;
@@ -167,6 +168,8 @@ public class PixyCam {
 					}
 				}
 				sig[j++] = '\0';
+				rep = "CC block!, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
+				return rep;
 				// not sure how to convert this line:
 				// sprintf(buf, "CC block! sig: %s (%d decimal) x: %d y: %d width: %d height: %d
 				// angle %d\n", sig, signature, x, y, width, height, angle);
@@ -175,7 +178,10 @@ public class PixyCam {
 				// sprintf(buf, "sig: %d x: %d y: %d width: %d height: %d\n", signature, x, y,
 				// width, height);
 				// printf(buf);
+				rep = "Normal Block!, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
+				return rep;
 			}
+			
 		}
 
 	}
