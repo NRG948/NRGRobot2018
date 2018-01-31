@@ -77,7 +77,7 @@ public class PixyCam {
 	 */
 	// might not need this method, because Arraylist automatically resizes.
 
-	int getBlocks(int maxBlocks) {
+	public int getBlocksLoop() {
 		ArrayList<Block> blocks = new ArrayList<Block>(PIXY_MAXIMUM_ARRAYSIZE);
 
 		if (!skipStart) {
@@ -89,7 +89,7 @@ public class PixyCam {
 			skipStart = false;
 		}
 
-		while (blocks.size() < maxBlocks && blocks.size() < PIXY_MAXIMUM_ARRAYSIZE) {
+		while (blocks.size() < PIXY_MAXIMUM_ARRAYSIZE) {
 			int checksum = link.getWord();
 			if (checksum == PIXY_START_WORD) {
 				skipStart = true;
@@ -131,7 +131,7 @@ public class PixyCam {
 		return blocks;
 	}
 
-	class Block {
+	public class Block {
 		public int signature, x, y, width, height, angle;
 		private int checksum;
 
@@ -157,29 +157,25 @@ public class PixyCam {
 			int d;
 			boolean flag;
 			String rep;
-			/*if (signature > PIXY_MAX_SIGNATURE) {
-				for (i = 12, j = 0, flag = false; i >= 0; i -= 3) {
-					d = (signature >>> i) & 0x07;
-					if (d > 0 && !flag) {
-						flag = true;
-					}
-					if (flag) {
-						sig[j++] = (char) (d + 0);
-					}
-				}
-				sig[j++] = '\0';*/
-				rep = "Block, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
-				return rep;
-				// not sure how to convert this line:
-				// sprintf(buf, "CC block! sig: %s (%d decimal) x: %d y: %d width: %d height: %d
-				// angle %d\n", sig, signature, x, y, width, height, angle);
-			/*} else {
-				// not sure about these two either:
-				// sprintf(buf, "sig: %d x: %d y: %d width: %d height: %d\n", signature, x, y,
-				// width, height);
-				// printf(buf);*/
-				//rep = "Normal Block!, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
-				//return rep;
+			/*
+			 * if (signature > PIXY_MAX_SIGNATURE) { for (i = 12, j = 0, flag = false; i >=
+			 * 0; i -= 3) { d = (signature >>> i) & 0x07; if (d > 0 && !flag) { flag = true;
+			 * } if (flag) { sig[j++] = (char) (d + 0); } } sig[j++] = '\0';
+			 */
+			rep = "Block, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height
+					+ ", angle=" + angle + " degrees";
+			return rep;
+			// not sure how to convert this line:
+			// sprintf(buf, "CC block! sig: %s (%d decimal) x: %d y: %d width: %d height: %d
+			// angle %d\n", sig, signature, x, y, width, height, angle);
+			/*
+			 * } else { // not sure about these two either: // sprintf(buf,
+			 * "sig: %d x: %d y: %d width: %d height: %d\n", signature, x, y, // width,
+			 * height); // printf(buf);
+			 */
+			// rep = "Normal Block!, " + "sig = " + signature + ", x=" + x + ", y=" + y + ",
+			// width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
+			// return rep;
 		}
 
 	}
