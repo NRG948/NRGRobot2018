@@ -21,8 +21,7 @@ public class SPIwrapper implements IPixyLink {
 		short w;
 		byte[] c = new byte[2];
 		spi.read(true, c, 2);
-		int pHolder = (c[1] << 8) + c[0];
-		w = (short) pHolder;
+		w = (short) ((c[0] << 8) + c[1]);
 		return w;
 	}
 

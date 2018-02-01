@@ -23,7 +23,7 @@ public class PixyCam {
 	public static final long PIXY_RCS_CENTER_POS = ((PIXY_RCS_MAX_POS - PIXY_RCS_MIN_POS) / 2);
 
 	private IPixyLink link;
-	private boolean skipStart;
+	private boolean skipStart = false;
 	private BlockType blockType;
 	private int blockCount;
 	ArrayList<Block> blocks = new ArrayList<Block>(blockCount);
@@ -51,6 +51,7 @@ public class PixyCam {
 		lastw = (short) 0xffff;
 		while (true) {
 			w = link.getWord();
+			
 			if (w == 0 && lastw == 0) {
 				try {
 					Thread.sleep(50L);

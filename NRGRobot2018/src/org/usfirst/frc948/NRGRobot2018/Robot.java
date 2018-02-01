@@ -124,11 +124,8 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		// TODO Auto-generated method stub
 		SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
-		// RobotMap.pixy.getBlocksLoop();
-		// System.out.println("Dumping pixy blocks");
-		// for (Block block : RobotMap.pixy.getBlocks()) {
-		// System.out.println(block);
-		// }
+//		System.out.println("spi data: "+ Integer.toHexString(RobotMap.pixyLink.getWord()));
+//		
 	}
 
 	public void initPreferences() {
