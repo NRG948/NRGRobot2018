@@ -125,7 +125,13 @@ public class Robot extends TimedRobot {
 		// TODO Auto-generated method stub
 		SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
 //		System.out.println("spi data: "+ Integer.toHexString(RobotMap.pixyLink.getWord()));
-//		
+		RobotMap.pixy.getBlocksLoop();
+//		RobotMap.pixy.getStart();
+		
+//		for (Block block : RobotMap.pixy.getBlocks()) {
+//			System.out.println("aaa");
+//			System.out.println(block);
+//		}
 	}
 
 	public void initPreferences() {

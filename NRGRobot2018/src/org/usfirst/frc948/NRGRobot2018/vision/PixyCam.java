@@ -46,9 +46,10 @@ public class PixyCam {
 		link.send(outBuf);
 	}
 
-	boolean getStart() {
+	public boolean getStart() {
 		int w, lastw;
 		lastw = (short) 0xffff;
+		
 		while (true) {
 			w = link.getWord();
 			
@@ -83,6 +84,7 @@ public class PixyCam {
 
 		if (!skipStart) {
 			if (!getStart()) {
+				System.out.println("uh oh");
 				setBlocks(blocks);
 				return 0;
 			}
