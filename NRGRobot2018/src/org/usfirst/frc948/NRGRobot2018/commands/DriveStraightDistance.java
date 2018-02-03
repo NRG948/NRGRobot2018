@@ -1,10 +1,10 @@
 package org.usfirst.frc948.NRGRobot2018.commands;
 
-import org.usfirst.frc.team948.robot.subsystems.Drive;
-import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
-
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ *
+ */
 public class DriveStraightDistance extends Command {
 	
     // According to RobotDrive.mecanumDrive_Cartesian in WPILib:
@@ -23,20 +23,20 @@ public class DriveStraightDistance extends Command {
     // => (LF + LR) - (RF + RR) = 4rot
     // => rot = ((LF + LR) - (RF + RR))/4
     
-	private double power;
-	protected double distance;
-	private Direction direction;
-	
-	public DriveStraightDistance (double power, double distance, Drive.Direction direction) {
-		this.direction = direction;
-		this.distance = Math.abs(distance);
-		if (direction == Drive.Direction.FORWARD || direction == Drive.Direction,BACKWARD) {
-			this.power = (direction == Drive.Direction.FORWARD) ? Math.abs(power) : -Math.abs(power);
-		}
-		else {
-			
-		}
-	}
+//	private double power;
+//	protected double distance;
+//	private Direction direction;
+//	
+//	public DriveStraightDistance (double power, double distance, Drive.Direction direction) {
+//		this.direction = direction;
+//		this.distance = Math.abs(distance);
+//		if (direction == Drive.Direction.FORWARD || direction == Drive.Direction,BACKWARD) {
+//			this.power = (direction == Drive.Direction.FORWARD) ? Math.abs(power) : -Math.abs(power);
+//		}
+//		else {
+//			
+//		}
+//	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
