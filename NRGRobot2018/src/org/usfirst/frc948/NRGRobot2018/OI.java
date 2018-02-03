@@ -88,7 +88,7 @@ public class OI {
 	}
 
 	public static double getX() {
-		return leftJoystick.getX();
+		return rightJoystick.getX();
 	}
 
 	public static double getY() {
