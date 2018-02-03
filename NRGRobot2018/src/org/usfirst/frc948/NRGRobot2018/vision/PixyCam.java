@@ -83,6 +83,7 @@ public class PixyCam {
 		ArrayList<Block> blocks = new ArrayList<Block>(PIXY_MAXIMUM_ARRAYSIZE);
 
 		if (!skipStart) {
+			//going to remove uh oh
 			if (!getStart()) {
 				System.out.println("uh oh");
 				setBlocks(blocks);
