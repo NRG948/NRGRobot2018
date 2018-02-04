@@ -48,27 +48,36 @@ public class PixyCam {
 
 	public boolean getStart() {
 		int w, lastw;
-		lastw = (short) 0xffff;
-		
+		lastw = 0xffff;
+
 		while (true) {
 			w = link.getWord();
-			
-			if (w == 0 && lastw == 0) {
+//			System.out.println(String.format("%04X", w));
+
+//			if (w != 0) {
+//				System.out.println("Getting data");
+//				return true;
+//			} 
+			if (w == PIXY_START_WORD && lastw == PIXY_START_WORD) {
+				System.out.println("\n getStart(): New frame, Normal Block");
+				blockType = BlockType.NORMAL_BLOCK;
+				return true;
+			} else if (w == PIXY_START_WORD_CC && lastw == PIXY_START_WORD) {
+				System.out.println("\n getStart(): New frame, CC Block");
+				blockType = BlockType.CC_BLOCK;
+				return true;
+			} else if (w == PIXY_START_WORDX) {
+				System.out.println("\n getStart(): resyncing");
+				link.getByte(); // resync
+			} else if (w == 0 && lastw == 0) {
 				try {
+					System.out.println("\n getStart(): camera \"sees\" nothing");
 					Thread.sleep(50L);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return false;
-			} else if (w == PIXY_START_WORD && lastw == PIXY_START_WORD) {
-				blockType = BlockType.NORMAL_BLOCK;
-				return true;
-			} else if (w == PIXY_START_WORD_CC && lastw == PIXY_START_WORD) {
-				blockType = BlockType.CC_BLOCK;
-				return true;
-			} else if (w == PIXY_START_WORDX) {
-				link.getByte(); // resync
 			}
 			lastw = w;
 		}
@@ -83,47 +92,56 @@ public class PixyCam {
 		ArrayList<Block> blocks = new ArrayList<Block>(PIXY_MAXIMUM_ARRAYSIZE);
 
 		if (!skipStart) {
-			//going to remove uh oh
 			if (!getStart()) {
-				System.out.println("uh oh");
 				setBlocks(blocks);
 				return 0;
 			}
 		} else {
 			skipStart = false;
 		}
-
 		while (blocks.size() < PIXY_MAXIMUM_ARRAYSIZE) {
 			int checksum = link.getWord();
 			if (checksum == PIXY_START_WORD) {
+				System.out.println("\ngetBlocksLoop(): New frame, normal block");
 				skipStart = true;
 				blockType = BlockType.NORMAL_BLOCK;
 				break;
 			} else if (checksum == PIXY_START_WORD_CC) {
+				System.out.println("\ngetBlocksLoop(): New frame, color code block");
 				skipStart = true;
 				blockType = BlockType.CC_BLOCK;
 				break;
 			} else if (checksum == 0) {
+				System.out.println("\ngetBlocksLoop(): returning 0, no block detected");
 				break;
 			}
 			/*
 			 * if (blockCount>blockArraySize) resize();
 			 */
-			// we might not need this if statement, because we have an arraylist now
+			// we might not need this if statement, because we have an arraylist
+			// now
 			Block block = new Block(link);
 			if (block.getChecksum() == checksum) {
+				System.out.println("getBlocksLoop(): Checksums equal, block added: " + block);
 				blocks.add(block);
+			}else{
+				System.out.println(
+				  "getBlocksLoop(): Checksums not equal: " + block.getChecksum() + "!=" + checksum);
 			}
 			int w = link.getWord();
 			if (w == PIXY_START_WORD) {
+				System.out.println("getBlocksLoop(): next word is normal sync word");
 				blockType = BlockType.NORMAL_BLOCK;
 			} else if (w == PIXY_START_WORD_CC) {
+				System.out.println("getBlocksLoop(): next word is normal sync word");
 				blockType = BlockType.CC_BLOCK;
 			} else {
+				System.out.println("getBlocksLooop(): no data");
 				break;
 			}
 		}
 		setBlocks(blocks);
+		System.out.println("getBlocks(): blocks added to list, size " + blocks.size());
 		return blocks.size();
 	}
 
@@ -155,30 +173,20 @@ public class PixyCam {
 		}
 
 		public String toString() {
-			int i, j;
-			char[] buf = new char[128];
-			char[] sig = new char[6];
-			int d;
-			boolean flag;
-			String rep;
-			/*
-			 * if (signature > PIXY_MAX_SIGNATURE) { for (i = 12, j = 0, flag = false; i >=
-			 * 0; i -= 3) { d = (signature >>> i) & 0x07; if (d > 0 && !flag) { flag = true;
-			 * } if (flag) { sig[j++] = (char) (d + 0); } } sig[j++] = '\0';
-			 */
-			rep = "Block, " + "sig = " + signature + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height
-					+ ", angle=" + angle + " degrees";
-			return rep;
+			return String.format("block: sig=%04X x=%d y=%d width=%d height=%d angle=%d", signature, x, y, width, height, angle);
 			// not sure how to convert this line:
-			// sprintf(buf, "CC block! sig: %s (%d decimal) x: %d y: %d width: %d height: %d
+			// sprintf(buf, "CC block! sig: %s (%d decimal) x: %d y: %d width:
+			// %d height: %d
 			// angle %d\n", sig, signature, x, y, width, height, angle);
 			/*
 			 * } else { // not sure about these two either: // sprintf(buf,
-			 * "sig: %d x: %d y: %d width: %d height: %d\n", signature, x, y, // width,
-			 * height); // printf(buf);
+			 * "sig: %d x: %d y: %d width: %d height: %d\n", signature, x, y, //
+			 * width, height); // printf(buf);
 			 */
-			// rep = "Normal Block!, " + "sig = " + signature + ", x=" + x + ", y=" + y + ",
-			// width=" + width + ", height=" + height + ", angle=" + angle + " degrees";
+			// rep = "Normal Block!, " + "sig = " + signature + ", x=" + x + ",
+			// y=" + y + ",
+			// width=" + width + ", height=" + height + ", angle=" + angle + "
+			// degrees";
 			// return rep;
 		}
 

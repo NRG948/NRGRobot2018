@@ -17,11 +17,11 @@ public class SPIwrapper implements IPixyLink {
 		spi.setChipSelectActiveLow();
 	}
 
-	public short getWord() {
-		short w;
+	public int getWord() {
+		int w;
 		byte[] c = new byte[2];
 		spi.read(true, c, 2);
-		w = (short) ((c[0] << 8) + c[1]);
+		w = (int) (((c[0] & 0xff) << 8) + (c[1] & 0xff));
 		return w;
 	}
 

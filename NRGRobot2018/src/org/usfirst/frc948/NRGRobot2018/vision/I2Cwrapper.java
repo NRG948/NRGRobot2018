@@ -11,12 +11,10 @@ public class I2Cwrapper implements IPixyLink{
 		this.deviceAddress = deviceAddress;
 		i2c = new I2C(i2cPort, this.deviceAddress);
 	}
-	public short getWord() {
-		short w;
+	public int getWord() {
 		byte[] c = new byte[2];
 		i2c.readOnly(c, 2);
-		int pHolder = (c[1] << 8) + c[0];
-		w = (short)pHolder;
+		int w = ((c[1] & 0xff) << 8) + (c[0] & 0xff);
 		return w;
 	}
 
