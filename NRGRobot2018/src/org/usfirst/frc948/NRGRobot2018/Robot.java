@@ -127,6 +127,10 @@ public class Robot extends TimedRobot {
 		// System.out.println("spi data: "+
 		// Integer.toHexString(RobotMap.pixyLink.getWord()));
 		System.out.println(RobotMap.pixy.getBlocks().size());
+		SmartDashboard.putString("Alliance Scale Side", OI.getScaleSide().toString());
+		SmartDashboard.putString("Alliance Switch Side", OI.getAllianceSwitchSide().toString());
+		SmartDashboard.putString("Opposing Switch Side", OI.getOppsingSwitchSide().toString());
+
 	}
 
 	public void initPreferences() {
