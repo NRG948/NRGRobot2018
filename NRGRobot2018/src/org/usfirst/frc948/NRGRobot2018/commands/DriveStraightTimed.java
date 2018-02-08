@@ -35,7 +35,7 @@ public class DriveStraightTimed extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drive.driveHeadingPIDExecute(currentHeading, 0.0, power);
+    	Robot.drive.driveHeadingPIDExecute(0.0, power);
     	
     }
 
