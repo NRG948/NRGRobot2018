@@ -38,9 +38,15 @@ public class RobotMap {
 	public static Victor driveRightFrontMotor;
 	public static Victor driveRightRearMotor;
 	public static MecanumDrive driveMecanumDrive;
+	public static DoubleSolenoid cubeAcquirer;
 	
 	public static AHRS navx;
 	public static ContinuousGyro gyro;
+	
+	public static Victor aqVictorR;
+	public static Victor aqVictorL;
+	
+	public static Victor cubeLifter;
 	
 	//spi portion
 	public static IPixyLink pixyLink;
@@ -65,6 +71,12 @@ public class RobotMap {
 
 		navx = new AHRS(SPI.Port.kMXP);
 		gyro = new ContinuousGyro(navx);
+		
+		cubeLifter=new Victor(4);
+		aqVictorL=new Victor(5);
+		aqVictorR=new Victor(6);
+		
+		cubeAcquirer=new DoubleSolenoid(2, 3);
 		
 		
 		pixyLink = new SPIwrapper(SPI.Port.kOnboardCS0);
