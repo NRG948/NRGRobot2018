@@ -48,6 +48,8 @@ public class RobotMap {
 	
 	public static Victor cubeLifter;
 	
+	public static Victor climberVictor;
+	
 	//spi portion
 	public static IPixyLink pixyLink;
 	
