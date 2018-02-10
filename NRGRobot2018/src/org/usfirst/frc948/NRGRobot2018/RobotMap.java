@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -47,6 +48,8 @@ public class RobotMap {
 	public static Victor aqVictorL;
 	
 	public static Victor cubeLifter;
+	
+	public static Servo acquireServo;
 	
 	public static Victor climberVictor;
 	
@@ -78,6 +81,8 @@ public class RobotMap {
 		cubeLifter=new Victor(4);
 		aqVictorL=new Victor(5);
 		aqVictorR=new Victor(6);	
+		
+		acquireServo=new Servo(0);
 		
 		xEncoder=new Encoder(2,3);//lateral
 		yEncoder=new Encoder(0,1);//forward and backward
