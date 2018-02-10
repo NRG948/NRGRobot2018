@@ -13,8 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ManualCubeAcquire extends Command {
 
     public ManualCubeAcquire() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(RobotMap.cubeAcquirer);
     }
 
     // Called just before this Command runs the first time
