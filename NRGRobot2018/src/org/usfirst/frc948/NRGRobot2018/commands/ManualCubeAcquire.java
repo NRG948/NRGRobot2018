@@ -1,6 +1,7 @@
 package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
+import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 
 import edu.wpi.first.wpilibj.Victor;
@@ -13,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ManualCubeAcquire extends Command {
 
     public ManualCubeAcquire() {
-        requires(RobotMap.cubeAcquirer);
+        requires(Robot.acquirer);
     }
 
     // Called just before this Command runs the first time

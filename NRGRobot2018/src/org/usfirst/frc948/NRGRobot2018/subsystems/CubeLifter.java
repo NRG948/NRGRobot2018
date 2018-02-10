@@ -20,7 +20,7 @@ public class CubeLifter extends Subsystem {
     }
     
     public void periodic() {
-    	SmartDashboard.putData("LiftVictor", RobotMap.liftVictor);
+    	SmartDashboard.putData("LiftVictor", RobotMap.cubeLifter);
     }
 }
 

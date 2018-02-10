@@ -12,7 +12,7 @@ public class ManualCubeLift extends Command {
 	private final double LIFT_POWER_SCALE_DOWN = 0.3;
 
     public ManualCubeLift() {
-    	requires(Robot.cubelifter);
+    	requires(Robot.cubeLifter);
     }
 
     // Called just before this Command runs the first time

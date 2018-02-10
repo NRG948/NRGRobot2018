@@ -98,7 +98,12 @@ public class OI {
 	public static double getY() {
 		return -leftJoystick.getY();
 	}
-
+	public static double getTriggerR() {
+		return xboxController.getRawAxis(3);
+	}
+	public static double getTriggerL() {
+		return xboxController.getRawAxis(2);
+	}
 	public static double getRot() {
 		return leftJoystick.getRawAxis(2);
 	}
