@@ -75,7 +75,10 @@ public class RobotMap {
 		
 		cubeLifter=new Victor(4);
 		aqVictorL=new Victor(5);
-		aqVictorR=new Victor(6);		
+		aqVictorR=new Victor(6);	
+		
+		xEncoder=new Encoder(2,3);//lateral
+		yEncoder=new Encoder(0,1);//forward and backward
 		
 		pixyLink = new SPIwrapper(SPI.Port.kOnboardCS0);
 		pixy = new PixyCam(pixyLink);
