@@ -1,8 +1,6 @@
 package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.Robot;
-import org.usfirst.frc948.NRGRobot2018.RobotMap;
-import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -22,12 +20,7 @@ public class TestPixyData extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	RobotMap.pixy.getBlocksLoop();
-		System.out.println("Dumping pixy blocks");
-		
-		for (Block block : RobotMap.pixy.getPixyFrameData()) {
-			System.out.println(block);
-		}
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -82,7 +82,7 @@ public class RobotMap {
 		aqVictorL=new Victor(5);
 		aqVictorR=new Victor(6);	
 		
-		acquireServo=new Servo(0);
+//		acquireServo = new Servo(0);
 		
 		xEncoder=new Encoder(2,3);//lateral
 		yEncoder=new Encoder(0,1);//forward and backward

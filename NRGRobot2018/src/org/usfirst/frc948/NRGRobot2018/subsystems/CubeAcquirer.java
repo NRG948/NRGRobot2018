@@ -20,6 +20,6 @@ public class CubeAcquirer extends Subsystem {
 	}
 
 	public void periodic() {
-		SmartDashboard.putData("acquire Servo", RobotMap.acquireServo);
+//		SmartDashboard.putData("acquire Servo", RobotMap.acquireServo);
 	}
 }

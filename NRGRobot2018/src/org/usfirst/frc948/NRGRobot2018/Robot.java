@@ -17,6 +17,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.ArrayList;
+
 import org.usfirst.frc948.NRGRobot2018.commands.*;
 import org.usfirst.frc948.NRGRobot2018.subsystems.*;
 import org.usfirst.frc948.NRGRobot2018.utilities.*;
@@ -129,10 +132,15 @@ public class Robot extends TimedRobot {
 		// System.out.println("spi data: "+
 		// Integer.toHexString(RobotMap.pixyLink.getWord()));
 		System.out.println(RobotMap.pixy.getPixyFrameData().size());
-		SmartDashboard.putString("Alliance Scale Side", OI.getScaleSide().toString());
-		SmartDashboard.putString("Alliance Switch Side", OI.getAllianceSwitchSide().toString());
-		SmartDashboard.putString("Opposing Switch Side", OI.getOppsingSwitchSide().toString());
+//		SmartDashboard.putString("Alliance Scale Side", OI.getScaleSide().toString());
+//		SmartDashboard.putString("Alliance Switch Side", OI.getAllianceSwitchSide().toString());
+//		SmartDashboard.putString("Opposing Switch Side", OI.getOppsingSwitchSide().toString());
+		
+		ArrayList<Block> currFrame = RobotMap.pixy.getPixyFrameData();
 
+		if (currFrame.size() > 0) {
+			SmartDashboard.putString("Cube", currFrame.get(0).toString());
+		}
 	}
 
 	public void initPreferences() {

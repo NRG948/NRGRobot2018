@@ -21,9 +21,11 @@ public class PixyCam {
 	public static final double KNOWN_DISTANCE_INCHES = 36;
 	public static final double KNOWN_AREA_PIXELS = (90 - 10) * (75 - 10); // subtracting 10 pixels to compensate for
 																			// noise
+	public static final double KNOWN_FOCAL_LENGTH_PIXELS = 208.52; // (320 / 2) / tan(37.5 deg)
 
 	private IPixyLink link;
 	private boolean skipStart = false;
+	private boolean isEnabled = false;
 	private BlockType blockType;
 	volatile ArrayList<Block> pixyFrameData = new ArrayList<Block>(10); // arraylist to store blocks in each frame
 
@@ -33,6 +35,7 @@ public class PixyCam {
 
 	public void startVisionThread() { // starts vision thread
 		new Timer().schedule(new VisionTask(this), 0, 10);
+		this.enableVision();
 	}
 
 	private boolean getStart() { // checks for new frames
@@ -67,62 +70,67 @@ public class PixyCam {
 	}
 
 	private void updateFrameData() { // parses data into blocks, then updates pixyFrameData when frame ends
-		ArrayList<Block> blocks = new ArrayList<Block>(PIXY_MAXIMUM_ARRAYSIZE);
+		if (this.isVisionEnabled()) {
+			ArrayList<Block> blocks = new ArrayList<Block>(PIXY_MAXIMUM_ARRAYSIZE);
 
-		if (!skipStart) {
-			if (!getStart()) { // no data
-				setPixyFrameData(blocks);
-				return;
-			}
-		} else {
-			skipStart = false;
-		}
-
-		while (blocks.size() < PIXY_MAXIMUM_ARRAYSIZE) { // maximum number of objects per frame that can be sent by pixy
-			int checksum = link.getWord();
-
-			if (checksum == PIXY_START_WORD) { // previous word was extra sync word to indicate new frame
-				System.out.println("getBlocksLoop(): New frame, normal block");
-				skipStart = true;
-				blockType = BlockType.NORMAL_BLOCK;
-				break;
-			} else if (checksum == PIXY_START_WORD_CC) { // previous word was extra sync word to indicate new frame
-				System.out.println("getBlocksLoop(): New frame, color code block");
-				skipStart = true;
-				blockType = BlockType.CC_BLOCK;
-				break;
-			} else if (checksum == 0) { // no data
-				break;
-			}
-
-			Block block = new Block(link, blockType); // constructor reads data from link and stores in fields e.g. x, y
-
-			if (block.getChecksum() == checksum) {
-				System.out.print("getBlocksLoop(): Checksums equal, added " + block);
-				double distance = Math.sqrt(KNOWN_AREA_PIXELS / ((block.width - 10) * (block.height - 10)))
-						* KNOWN_DISTANCE_INCHES;
-				System.out.println(", distance in inches = " + distance);
-				blocks.add(block);
+			if (!skipStart) {
+				if (!getStart()) { // no data
+					setPixyFrameData(blocks);
+					return;
+				}
 			} else {
-				System.out.println("getBlocksLoop(): Checksums not equal: " + block.getChecksum() + " != " + checksum);
+				skipStart = false;
 			}
 
-			int word = link.getWord();
+			while (blocks.size() < PIXY_MAXIMUM_ARRAYSIZE) { // maximum number of objects per frame that can be sent by
+																// pixy
+				int checksum = link.getWord();
 
-			if (word == PIXY_START_WORD) {
-				System.out.println("getBlocksLoop(): got normal sync word");
-				blockType = BlockType.NORMAL_BLOCK;
-			} else if (word == PIXY_START_WORD_CC) {
-				System.out.println("getBlocksLoop(): got CC sync word");
-				blockType = BlockType.CC_BLOCK;
-			} else { // unexpected data
-				System.out.println("getBlocksLooop(): unexpected data, w = " + Integer.toHexString(word));
-				break;
+				if (checksum == PIXY_START_WORD) { // previous word was extra sync word to indicate new frame
+					System.out.println("getBlocksLoop(): New frame, normal block");
+					skipStart = true;
+					blockType = BlockType.NORMAL_BLOCK;
+					break;
+				} else if (checksum == PIXY_START_WORD_CC) { // previous word was extra sync word to indicate new frame
+					System.out.println("getBlocksLoop(): New frame, color code block");
+					skipStart = true;
+					blockType = BlockType.CC_BLOCK;
+					break;
+				} else if (checksum == 0) { // no data
+					break;
+				}
+
+				Block block = new Block(link, blockType); // constructor reads data from link and stores in fields e.g.
+															// x, y
+
+				if (block.getChecksum() == checksum) {
+					System.out.print("getBlocksLoop(): Checksums equal, added " + block);
+					double distance = Math.sqrt(KNOWN_AREA_PIXELS / ((block.width - 10) * (block.height - 10)))
+							* KNOWN_DISTANCE_INCHES;
+					System.out.println(", distance in inches = " + distance);
+					blocks.add(block);
+				} else {
+					System.out.println(
+							"getBlocksLoop(): Checksums not equal: " + block.getChecksum() + " != " + checksum);
+				}
+
+				int word = link.getWord();
+
+				if (word == PIXY_START_WORD) {
+					System.out.println("getBlocksLoop(): got normal sync word");
+					blockType = BlockType.NORMAL_BLOCK;
+				} else if (word == PIXY_START_WORD_CC) {
+					System.out.println("getBlocksLoop(): got CC sync word");
+					blockType = BlockType.CC_BLOCK;
+				} else { // unexpected data
+					System.out.println("getBlocksLooop(): unexpected data, w = " + Integer.toHexString(word));
+					break;
+				}
 			}
+
+			setPixyFrameData(blocks);
+			System.out.println("getBlocksLoop(): blocks added to list, size: " + blocks.size() + "\n");
 		}
-
-		setPixyFrameData(blocks);
-		System.out.println("getBlocksLoop(): blocks added to list, size: " + blocks.size() + "\n");
 	}
 
 	public synchronized ArrayList<Block> getPixyFrameData() { // will be called in other classes to retrieve frame data
@@ -141,6 +149,39 @@ public class PixyCam {
 		outBuf[2] = (byte) brightness;
 
 		link.send(outBuf);
+	}
+
+	public boolean isVisionEnabled() {
+		return isEnabled;
+	}
+
+	public void enableVision() {
+		isEnabled = true;
+	}
+
+	public void disableVision() {
+		isEnabled = false;
+	}
+
+	public double getDistance(ArrayList<Block> blocks) {
+		if (blocks.size() > 0) {
+			Block powerCube = blocks.get(0);
+
+			double currAreaPixels = powerCube.width * powerCube.height;
+			double currDistanceInches = KNOWN_DISTANCE_INCHES * Math.sqrt(KNOWN_AREA_PIXELS / currAreaPixels);
+			return currDistanceInches;
+		}
+		return 0;
+	}
+
+	public double getAngleToTurn(ArrayList<Block> blocks) {
+		if (blocks.size() > 0) {
+			Block powerCube = blocks.get(0);
+
+			double angleToTurn = Math.atan((powerCube.x - 159.5) / KNOWN_FOCAL_LENGTH_PIXELS);
+			return angleToTurn;
+		}
+		return 0;
 	}
 
 	enum BlockType {
