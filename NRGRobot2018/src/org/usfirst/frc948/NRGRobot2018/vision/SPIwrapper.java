@@ -10,7 +10,7 @@ public class SPIwrapper implements IPixyLink {
 	public SPIwrapper(Port port) {
 		spiPort = port;
 		spi = new SPI(spiPort);
-		
+
 		spi.setMSBFirst();
 		spi.setClockActiveHigh();
 		spi.setSampleDataOnRising();
