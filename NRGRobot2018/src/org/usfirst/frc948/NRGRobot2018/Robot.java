@@ -27,9 +27,10 @@ import org.usfirst.frc948.NRGRobot2018.utilities.*;
 import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 
 /**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.properties file in the
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to each mode, as described in the TimedRobot
+ * documentation. If you change the name of this class or the package after
+ * creating this project, you must also update the build.properties file in the
  * project.
  */
 public class Robot extends TimedRobot {
@@ -43,8 +44,8 @@ public class Robot extends TimedRobot {
 	public static final Climber climber;
 
 	/**
-	 * This function is run when the robot is first started up and should be used for any
-	 * initialization code.
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
@@ -61,7 +62,7 @@ public class Robot extends TimedRobot {
 		// (which it very likely will), subsystems are not guaranteed to be
 		// constructed yet. Thus, their requires() statements may grab null
 		// pointers. Bad news. Don't move it.
-		
+
 		// Add commands to Autonomous Sendable Chooser
 
 		initPreferences();
@@ -70,8 +71,8 @@ public class Robot extends TimedRobot {
 	}
 
 	/**
-	 * This function is called when the disabled button is hit. You can use it to reset subsystems
-	 * before shutting down.
+	 * This function is called when the disabled button is hit. You can use it to
+	 * reset subsystems before shutting down.
 	 */
 	@Override
 	public void disabledInit() {
@@ -132,8 +133,10 @@ public class Robot extends TimedRobot {
 		if (currFrame.size() > 0) {
 			SmartDashboard.putString("Cube", currFrame.get(0).toString());
 		}
-		
+
 		PositionTracker.updatePosition();
+		SmartDashboard.putNumber("PositionTracker current x", PositionTracker.getX());
+		SmartDashboard.putNumber("PositionTracker current y", PositionTracker.getY());
 	}
 
 	public void initPreferences() {
