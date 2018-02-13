@@ -10,21 +10,21 @@
 
 package org.usfirst.frc948.NRGRobot2018;
 
+import java.util.ArrayList;
+
+import org.usfirst.frc948.NRGRobot2018.subsystems.Climber;
+import org.usfirst.frc948.NRGRobot2018.subsystems.CubeAcquirer;
+import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
+import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
+import org.usfirst.frc948.NRGRobot2018.utilities.PositionTracker;
+import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
+import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
+
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import src.org.usfirst.frc948.NRGRobot2018.utilities.PositionTracker;
-
-import java.util.ArrayList;
-
-import org.usfirst.frc948.NRGRobot2018.commands.*;
-import org.usfirst.frc948.NRGRobot2018.subsystems.*;
-import org.usfirst.frc948.NRGRobot2018.utilities.*;
-import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,12 +36,13 @@ import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 public class Robot extends TimedRobot {
 
 	Command autonomousCommand;
-	public static final Preferences preferences;
-	public static final OI oi;
-	public static final Drive drive;
-	public static final CubeAcquirer cubeAcquirer;
-	public static final CubeLifter cubeLifter;
-	public static final Climber climber;
+	public static Preferences preferences;
+	public static OI oi;
+	public static Drive drive;
+	public static CubeAcquirer cubeAcquirer;
+	public static CubeLifter cubeLifter;
+	public static Climber climber;
+	public static PositionTracker positionTracker;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -57,6 +58,7 @@ public class Robot extends TimedRobot {
 		cubeLifter = new CubeLifter();
 		climber = new Climber();
 		oi = new OI();
+		positionTracker = new PositionTracker(0,0);
 
 		// OI must be constructed after subsystems. If the OI creates Commands
 		// (which it very likely will), subsystems are not guaranteed to be
@@ -67,7 +69,6 @@ public class Robot extends TimedRobot {
 
 		initPreferences();
 		RobotMap.pixy.startVisionThread();
-		PositionTracker.initialize(0, 0);
 	}
 
 	/**
@@ -134,9 +135,9 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putString("Cube", currFrame.get(0).toString());
 		}
 
-		PositionTracker.updatePosition();
-		SmartDashboard.putNumber("PositionTracker current x", PositionTracker.getX());
-		SmartDashboard.putNumber("PositionTracker current y", PositionTracker.getY());
+		positionTracker.updatePosition();
+		SmartDashboard.putNumber("PositionTracker current x", positionTracker.getX());
+		SmartDashboard.putNumber("PositionTracker current y", positionTracker.getY());
 	}
 
 	public void initPreferences() {

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ManualCubeAcquire extends Command {
 
     public ManualCubeAcquire() {
-        requires(Robot.acquirer);
+        requires(Robot.cubeAcquirer);
     }
 
     // Called just before this Command runs the first time
