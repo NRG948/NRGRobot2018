@@ -9,12 +9,10 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc948.NRGRobot2018.commands;
+package src.org.usfirst.frc948.NRGRobot2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc948.NRGRobot2018.OI;
-import org.usfirst.frc948.NRGRobot2018.Robot;
-import org.usfirst.frc948.NRGRobot2018.RobotMap;
+import src.org.usfirst.frc948.NRGRobot2018.OI;
+import src.org.usfirst.frc948.NRGRobot2018.Robot;
 
 /**
  *

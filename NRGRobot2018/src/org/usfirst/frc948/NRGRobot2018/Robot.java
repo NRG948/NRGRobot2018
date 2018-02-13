@@ -8,22 +8,21 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-package org.usfirst.frc948.NRGRobot2018;
+package src.org.usfirst.frc948.NRGRobot2018;
+
+import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.util.ArrayList;
-
-import org.usfirst.frc948.NRGRobot2018.commands.*;
-import org.usfirst.frc948.NRGRobot2018.subsystems.*;
-import org.usfirst.frc948.NRGRobot2018.utilities.*;
-import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
+import src.org.usfirst.frc948.NRGRobot2018.subsystems.Climber;
+import src.org.usfirst.frc948.NRGRobot2018.subsystems.CubeAcquirer;
+import src.org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
+import src.org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
+import src.org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
+import src.org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to

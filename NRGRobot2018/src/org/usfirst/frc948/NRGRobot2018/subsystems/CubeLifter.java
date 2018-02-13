@@ -1,10 +1,9 @@
-package org.usfirst.frc948.NRGRobot2018.subsystems;
-
-import org.usfirst.frc948.NRGRobot2018.RobotMap;
-import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
+package src.org.usfirst.frc948.NRGRobot2018.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import src.org.usfirst.frc948.NRGRobot2018.RobotMap;
+import src.org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
 
 /**
  *

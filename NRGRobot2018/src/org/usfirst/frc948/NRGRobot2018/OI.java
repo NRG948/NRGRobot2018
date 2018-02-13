@@ -8,19 +8,26 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-package org.usfirst.frc948.NRGRobot2018;
+package src.org.usfirst.frc948.NRGRobot2018;
 
-import org.usfirst.frc948.NRGRobot2018.commands.*;
-import org.usfirst.frc948.NRGRobot2018.commandGroups.*;
-
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc948.NRGRobot2018.subsystems.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import src.org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquare;
+import src.org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
+import src.org.usfirst.frc948.NRGRobot2018.commands.AutonomousCommand;
+import src.org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
+import src.org.usfirst.frc948.NRGRobot2018.commands.ManualDrive;
+import src.org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
+import src.org.usfirst.frc948.NRGRobot2018.commands.ManualStrafeStraight;
+import src.org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
+import src.org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
+import src.org.usfirst.frc948.NRGRobot2018.commands.TestPixyData;
+import src.org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
+import src.org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -37,8 +44,8 @@ public class OI {
 
 	public static SendableChooser<Command> chooser;
 	
-	public enum Side{
-		LEFT, RIGHT
+	public enum Side {
+		LEFT, RIGHT;
 	}
 
 	public OI() {
