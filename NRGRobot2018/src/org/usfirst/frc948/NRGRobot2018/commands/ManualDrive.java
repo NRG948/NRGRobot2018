@@ -10,11 +10,10 @@
 
 
 package org.usfirst.frc948.NRGRobot2018.commands;
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.Robot;
-import org.usfirst.frc948.NRGRobot2018.RobotMap;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
@@ -40,6 +39,7 @@ public class ManualDrive extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+    	System.out.println("ManualDrive initialize");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -57,6 +57,7 @@ public class ManualDrive extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+    	System.out.println("ManualDrive end");
     	Robot.drive.stop();
     }
 

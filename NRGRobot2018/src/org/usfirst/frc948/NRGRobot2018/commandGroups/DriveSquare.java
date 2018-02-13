@@ -2,7 +2,6 @@ package org.usfirst.frc948.NRGRobot2018.commandGroups;
 
 import org.usfirst.frc948.NRGRobot2018.commands.DelaySeconds;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
-import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.StrafeStraightTimed;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

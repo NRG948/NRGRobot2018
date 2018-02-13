@@ -1,10 +1,8 @@
 package org.usfirst.frc948.NRGRobot2018.vision;
 
-import static java.util.Objects.requireNonNull;
-
-import java.util.*;
-
-import edu.wpi.first.wpilibj.PIDController;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PixyCam {
 	// PixyCam constants
@@ -15,13 +13,6 @@ public class PixyCam {
 	public static final int PIXY_START_WORDX = 0x55aa;
 	public static final int PIXY_MAX_SIGNATURE = 7;
 	public static final int PIXY_DEFAULT_ARGVAL = 0xffff;
-
-	// Measured constants for converting camera coordinates (pixels) ->
-	// real-world coordinates relative to robot (inches)
-	public static final double KNOWN_DISTANCE_INCHES = 36;
-	public static final double KNOWN_AREA_PIXELS = (90 - 10) * (75 - 10); // subtracting 10 pixels to compensate for
-																			// noise
-	public static final double KNOWN_FOCAL_LENGTH_PIXELS = 208.52; // (320 / 2) / tan(37.5 deg)
 
 	private IPixyLink link;
 	private boolean skipStart = false;
@@ -46,15 +37,15 @@ public class PixyCam {
 			word = link.getWord();
 
 			if (word == PIXY_START_WORD && prevWord == PIXY_START_WORD) {
-				System.out.println("getStart(): New frame, Normal Block");
+//				System.out.println("getStart(): New frame, Normal Block");
 				blockType = BlockType.NORMAL_BLOCK;
 				return true;
 			} else if (word == PIXY_START_WORD_CC && prevWord == PIXY_START_WORD) {
-				System.out.println("\ngetStart(): New frame, CC Block");
+//				System.out.println("\ngetStart(): New frame, CC Block");
 				blockType = BlockType.CC_BLOCK;
 				return true;
 			} else if (word == PIXY_START_WORDX) {
-				System.out.println("getStart(): resyncing");
+//				System.out.println("getStart(): resyncing");
 				link.getByte(); // resync
 			} else if (word == 0 && prevWord == 0) {
 				try {
@@ -87,12 +78,12 @@ public class PixyCam {
 				int checksum = link.getWord();
 
 				if (checksum == PIXY_START_WORD) { // previous word was extra sync word to indicate new frame
-					System.out.println("getBlocksLoop(): New frame, normal block");
+//					System.out.println("getBlocksLoop(): New frame, normal block");
 					skipStart = true;
 					blockType = BlockType.NORMAL_BLOCK;
 					break;
 				} else if (checksum == PIXY_START_WORD_CC) { // previous word was extra sync word to indicate new frame
-					System.out.println("getBlocksLoop(): New frame, color code block");
+//					System.out.println("getBlocksLoop(): New frame, color code block");
 					skipStart = true;
 					blockType = BlockType.CC_BLOCK;
 					break;
@@ -104,32 +95,30 @@ public class PixyCam {
 															// x, y
 
 				if (block.getChecksum() == checksum) {
-					System.out.print("getBlocksLoop(): Checksums equal, added " + block);
-					double distance = Math.sqrt(KNOWN_AREA_PIXELS / ((block.width - 10) * (block.height - 10)))
-							* KNOWN_DISTANCE_INCHES;
-					System.out.println(", distance in inches = " + distance);
+//					System.out.print("getBlocksLoop(): Checksums equal, added " + block);
+//					System.out.println(", distance in inches = " + distance);
 					blocks.add(block);
 				} else {
-					System.out.println(
-							"getBlocksLoop(): Checksums not equal: " + block.getChecksum() + " != " + checksum);
+//					System.out.println(
+//							"getBlocksLoop(): Checksums not equal: " + block.getChecksum() + " != " + checksum);
 				}
 
 				int word = link.getWord();
 
 				if (word == PIXY_START_WORD) {
-					System.out.println("getBlocksLoop(): got normal sync word");
+//					System.out.println("getBlocksLoop(): got normal sync word");
 					blockType = BlockType.NORMAL_BLOCK;
 				} else if (word == PIXY_START_WORD_CC) {
-					System.out.println("getBlocksLoop(): got CC sync word");
+//					System.out.println("getBlocksLoop(): got CC sync word");
 					blockType = BlockType.CC_BLOCK;
 				} else { // unexpected data
-					System.out.println("getBlocksLooop(): unexpected data, w = " + Integer.toHexString(word));
+//					System.out.println("getBlocksLooop(): unexpected data, w = " + Integer.toHexString(word));
 					break;
 				}
 			}
 
 			setPixyFrameData(blocks);
-			System.out.println("getBlocksLoop(): blocks added to list, size: " + blocks.size() + "\n");
+//			System.out.println("getBlocksLoop(): blocks added to list, size: " + blocks.size() + "\n");
 		}
 	}
 
@@ -161,27 +150,6 @@ public class PixyCam {
 
 	public void disableVision() {
 		isEnabled = false;
-	}
-
-	public double getDistance(ArrayList<Block> blocks) {
-		if (blocks.size() > 0) {
-			Block powerCube = blocks.get(0);
-
-			double currAreaPixels = powerCube.width * powerCube.height;
-			double currDistanceInches = KNOWN_DISTANCE_INCHES * Math.sqrt(KNOWN_AREA_PIXELS / currAreaPixels);
-			return currDistanceInches;
-		}
-		return 0;
-	}
-
-	public double getAngleToTurn(ArrayList<Block> blocks) {
-		if (blocks.size() > 0) {
-			Block powerCube = blocks.get(0);
-
-			double angleToTurn = Math.atan((powerCube.x - 159.5) / KNOWN_FOCAL_LENGTH_PIXELS);
-			return angleToTurn;
-		}
-		return 0;
 	}
 
 	enum BlockType {
