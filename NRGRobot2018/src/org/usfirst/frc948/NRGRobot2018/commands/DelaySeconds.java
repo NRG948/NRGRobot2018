@@ -1,4 +1,4 @@
-package src.org.usfirst.frc948.NRGRobot2018.commands;
+package org.usfirst.frc948.NRGRobot2018.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;

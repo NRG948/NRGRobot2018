@@ -1,4 +1,4 @@
-package src.org.usfirst.frc948.NRGRobot2018.utilities;
+package org.usfirst.frc948.NRGRobot2018.utilities;
 
 public class PreferenceKeys {
 	

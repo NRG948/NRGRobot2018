@@ -10,6 +10,11 @@
 
 package org.usfirst.frc948.NRGRobot2018;
 
+import org.usfirst.frc948.NRGRobot2018.utilities.ContinuousGyro;
+import org.usfirst.frc948.NRGRobot2018.vision.IPixyLink;
+import org.usfirst.frc948.NRGRobot2018.vision.PixyCam;
+import org.usfirst.frc948.NRGRobot2018.vision.SPIwrapper;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -17,10 +22,6 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import src.org.usfirst.frc948.NRGRobot2018.utilities.ContinuousGyro;
-import src.org.usfirst.frc948.NRGRobot2018.vision.IPixyLink;
-import src.org.usfirst.frc948.NRGRobot2018.vision.PixyCam;
-import src.org.usfirst.frc948.NRGRobot2018.vision.SPIwrapper;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into to a variable name.

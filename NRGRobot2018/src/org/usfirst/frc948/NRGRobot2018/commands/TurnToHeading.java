@@ -1,7 +1,8 @@
-package src.org.usfirst.frc948.NRGRobot2018.commands;
+package org.usfirst.frc948.NRGRobot2018.commands;
+
+import org.usfirst.frc948.NRGRobot2018.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import src.org.usfirst.frc948.NRGRobot2018.Robot;
 
 /**
  *

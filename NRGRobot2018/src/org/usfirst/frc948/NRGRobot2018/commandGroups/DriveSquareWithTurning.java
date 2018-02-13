@@ -1,8 +1,9 @@
-package src.org.usfirst.frc948.NRGRobot2018.commandGroups;
+package org.usfirst.frc948.NRGRobot2018.commandGroups;
+
+import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
+import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import src.org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
-import src.org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 
 public class DriveSquareWithTurning extends CommandGroup {
 	public DriveSquareWithTurning() {
