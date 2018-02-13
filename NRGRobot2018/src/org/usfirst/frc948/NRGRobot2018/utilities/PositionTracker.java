@@ -9,12 +9,8 @@ public class PositionTracker {
 	private double prevYEncoder;
 
 	public PositionTracker(double x, double y) {
-		// already converted to inches
-		this.x = x;
-		this.y = y;
-
-		prevXEncoder = RobotMap.xEncoder.getDistance();
-		prevYEncoder = RobotMap.yEncoder.getDistance();
+		// parameters are in inches
+		reset(x,y);
 	}
 
 	public void updatePosition() {
@@ -28,7 +24,7 @@ public class PositionTracker {
 		double distanceTraveled = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
 
 		// converting to field reference frame
-		double robotToFieldHeading = 90 - (currHeading + Math.toDegrees(Math.atan(xDelta / yDelta)));
+		double robotToFieldHeading = 90 - (currHeading + Math.toDegrees(Math.atan2(xDelta, yDelta)));
 		x += distanceTraveled * Math.cos(robotToFieldHeading);
 		y += distanceTraveled * Math.sin(robotToFieldHeading);
 
@@ -44,11 +40,18 @@ public class PositionTracker {
 		return y;
 	}
 
-	public void setX(double x) {
+	public void setXY(double x, double y) {
 		this.x = x;
+		this.y = y;
 	}
 
-	public void setY(double y) {
-		this.y = y;
+	public void reset(double x, double y) {
+		// parameters are in inches
+		setXY(x,y);
+		prevXEncoder = RobotMap.xEncoder.getDistance();
+		prevYEncoder = RobotMap.yEncoder.getDistance();
+	}
+	public void reset() {
+		reset(0,0);
 	}
 }
