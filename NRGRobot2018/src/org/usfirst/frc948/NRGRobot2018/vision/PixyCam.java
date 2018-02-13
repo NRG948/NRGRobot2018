@@ -1,10 +1,8 @@
 package org.usfirst.frc948.NRGRobot2018.vision;
 
-import static java.util.Objects.requireNonNull;
-
-import java.util.*;
-
-import edu.wpi.first.wpilibj.PIDController;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PixyCam {
 	// PixyCam constants

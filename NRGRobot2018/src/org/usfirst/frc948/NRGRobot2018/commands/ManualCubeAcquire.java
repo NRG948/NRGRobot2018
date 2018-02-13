@@ -1,12 +1,11 @@
-package org.usfirst.frc948.NRGRobot2018.commands;
+package src.org.usfirst.frc948.NRGRobot2018.commands;
 
-import org.usfirst.frc948.NRGRobot2018.OI;
-import org.usfirst.frc948.NRGRobot2018.Robot;
-import org.usfirst.frc948.NRGRobot2018.RobotMap;
-
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Command;
+import src.org.usfirst.frc948.NRGRobot2018.OI;
+import src.org.usfirst.frc948.NRGRobot2018.Robot;
+import src.org.usfirst.frc948.NRGRobot2018.RobotMap;
 
 /**
  *
