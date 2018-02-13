@@ -24,6 +24,8 @@ public class ResetSensors extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	RobotMap.navx.reset();
+    	RobotMap.xEncoder.reset();
+    	RobotMap.yEncoder.reset();
     }
 
     // Make this return true when this Command no longer needs to run execute()
