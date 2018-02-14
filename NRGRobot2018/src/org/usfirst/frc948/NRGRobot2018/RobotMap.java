@@ -76,12 +76,13 @@ public class RobotMap {
 		cubeLifter = new Victor(4);
 		aqVictorL = new Victor(5);
 		aqVictorR = new Victor(6);
+		climberVictor = new Victor(7);
 
 		// acquireServo = new Servo(0);
 
 		xEncoder = new Encoder(2, 3, true); // positive is right
 		yEncoder = new Encoder(0, 1, false); // positive is forward
-		xEncoder.setDistancePerPulse(0.0478); // inches per pulse
+		xEncoder.setDistancePerPulse(0.0478); // inches per pulse, encoder is slipping
 		yEncoder.setDistancePerPulse(0.0506);
 
 		pixyLink = new SPIwrapper(SPI.Port.kOnboardCS0);
