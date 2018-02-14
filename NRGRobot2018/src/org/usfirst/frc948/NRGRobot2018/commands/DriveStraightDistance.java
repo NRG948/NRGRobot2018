@@ -1,70 +1,89 @@
 package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.Robot;
+import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
+//Units are in inches
 public class DriveStraightDistance extends Command {
-	
-    // According to RobotDrive.mecanumDrive_Cartesian in WPILib:
-    //
-    // LF =  x + y + rot    RF = -x + y - rot
-    // LR = -x + y + rot    RR =  x + y - rot
-    //
-    // (LF + RR) - (RF + LR) = (2x + 2y) - (-2x + 2y)
-    // => (LF + RR) - (RF + LR) = 4x
-    // => x = ((LF + RR) - (RF + LR))/4
-    //
-    // LF + RF + LR + RR = 4y
-    // => y = (LF + RF + LR + RR)/4
-    //
-    // (LF + LR) - (RF + RR) = (2y + 2rot) - (2y - 2rot)
-    // => (LF + LR) - (RF + RR) = 4rot
-    // => rot = ((LF + LR) - (RF + RR))/4
-    
+	private boolean powerInY = false;
+	private double startEncoderLeftFront;
+	private double startX;
+	private double startY;
+	private double startEncoderRightBack;
+	private double distanceTravelled = 0.0;
+
 	private double power;
-	protected double distance;
+	private double distance;
 	private Drive.Direction direction;
-	
+	private double currentHeading;
+
 	public DriveStraightDistance(double power, double distance, Drive.Direction direction) {
-		requires(Robot.drive);
 		this.direction = direction;
 		this.distance = Math.abs(distance);
-		if (direction == Drive.Direction.FORWARD || direction == Drive.Direction.BACKWARD) {
-			this.power = (direction == Drive.Direction.FORWARD) ? Math.abs(power) : -Math.abs(power);
-		}
-		else {
-			
+
+		switch (direction) {
+		case FORWARD:
+			this.power = Math.abs(power);
+			powerInY = true;
+			break;
+		case BACKWARD:
+			this.power = -Math.abs(power);
+			powerInY = true;
+			break;
+		case LEFT:
+			this.power = -Math.abs(power);
+			powerInY = false;
+			break;
+		case RIGHT:
+			this.power = Math.abs(power);
+			powerInY = false;
+			break;
 		}
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		
+		currentHeading = RobotMap.gyro.getAngle();
+		distanceTravelled = 0.0;
+		startX = RobotMap.xEncoder.getDistance();
+		startY = RobotMap.yEncoder.getDistance();
+		Robot.drive.driveHeadingPIDInit(RobotMap.gyro.getAngle(), 2.0);
+		System.out.println(String.format("DriveStraightDistance()", power, distance, direction));
 	}
 
-	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		double deltaX = RobotMap.xEncoder.getDistance() - startX;
+		double deltaY = RobotMap.yEncoder.getDistance() - startY;
+		double distanceTraveled = Math.sqrt((deltaY * deltaY) + (deltaX * deltaX));
+
+		// double rot = ((distanceTravelledLF + distanceTravelledLB) -
+		// (distanceTravelledRF + distanceTravelledRB)) / 4;
+		SmartDashboard.putNumber("x displacement", distanceTraveled);
+		if (powerInY) {
+			Robot.drive.driveHeadingPIDExecute(0, power);
+		} else {
+			Robot.drive.driveHeadingPIDExecute(power, 0);
+		}
+		SmartDashboard.putNumber("distance travelled", distanceTravelled);
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return (distanceTravelled >= distance);
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		
+		Robot.drive.driveHeadingPIDEnd();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		
+		end();
 	}
 
 }

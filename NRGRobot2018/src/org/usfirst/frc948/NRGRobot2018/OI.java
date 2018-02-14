@@ -14,15 +14,18 @@ package org.usfirst.frc948.NRGRobot2018;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquare;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
 import org.usfirst.frc948.NRGRobot2018.commands.AutonomousCommand;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDrive;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualStrafeStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
+import org.usfirst.frc948.NRGRobot2018.commands.StrafeStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.TestPixyData;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
+import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -78,9 +81,11 @@ public class OI {
 		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
 		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
 		SmartDashboard.putData("Drive Straight 2 seconds", new DriveStraightTimed(0.5, 2.0));
+		SmartDashboard.putData("Strafe Straight 2 seconds", new StrafeStraightTimed(1, 2.0));
 		SmartDashboard.putData("DriveSquareAuto", new DriveSquare());
 		SmartDashboard.putData("DriveSquareWithTurning", new DriveSquareWithTurning());
 		SmartDashboard.putData("TestPixyData", new TestPixyData());
+		SmartDashboard.putData("driveStraightDistance 4 feet", new DriveStraightDistance(0.5, 48, Direction.FORWARD));
 	}
 
 	public Joystick getLeftJoystick() {
