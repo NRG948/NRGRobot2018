@@ -1,5 +1,6 @@
 package org.usfirst.frc948.NRGRobot2018.commandGroups;
 
+import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_LEFT;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_RIGHT;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_CENTER;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_LEFT;
@@ -62,7 +63,7 @@ public class AutonomousRoutine extends CommandGroup {
 			} else if (autoPosition == BLUE_CENTER) {
 				addSequential(new BlueMiddleToRightSwitch());
 			} else if (autoPosition == RED_LEFT) {
-\\				addSequential(new RedLeftToRightSwitch());
+				addSequential(new RedLeftToRightSwitch());
 			} else if (autoPosition == BLUE_LEFT) {
 				addSequential(new BlueLeftToRightSwitch());
 			}
