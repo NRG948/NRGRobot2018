@@ -14,7 +14,7 @@ public class CubeAcquirer extends Subsystem {
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new ManualCubeAcquire());
+//		setDefaultCommand(new ManualCubeAcquire());
 	}
 
 	public void periodic() {

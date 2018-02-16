@@ -16,7 +16,7 @@ public class CubeLifter extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ManualCubeLift());
+//        setDefaultCommand(new ManualCubeLift());
     }
     
     public void periodic() {

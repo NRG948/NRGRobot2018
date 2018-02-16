@@ -81,8 +81,8 @@ public class RobotMap {
 
 		xEncoder = new Encoder(2, 3, true); // positive is right
 		yEncoder = new Encoder(0, 1, false); // positive is forward
-		xEncoder.setDistancePerPulse(0.0478); // inches per pulse
-		yEncoder.setDistancePerPulse(0.0506);
+//		xEncoder.setDistancePerPulse(0.0478); // inches per pulse
+//		yEncoder.setDistancePerPulse(0.0506);
 
 		pixyLink = new SPIwrapper(SPI.Port.kOnboardCS0);
 		pixy = new PixyCam(pixyLink);
