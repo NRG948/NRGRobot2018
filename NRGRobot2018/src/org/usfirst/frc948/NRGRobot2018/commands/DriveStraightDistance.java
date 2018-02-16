@@ -58,11 +58,12 @@ public class DriveStraightDistance extends Command {
 	protected void execute() {
 		double deltaX = RobotMap.xEncoder.getDistance() - startX;
 		double deltaY = RobotMap.yEncoder.getDistance() - startY;
-		double distanceTraveled = Math.sqrt((deltaY * deltaY) + (deltaX * deltaX));
+		
+		distanceTravelled = Math.sqrt((deltaY * deltaY) + (deltaX * deltaX));
 
 		// double rot = ((distanceTravelledLF + distanceTravelledLB) -
 		// (distanceTravelledRF + distanceTravelledRB)) / 4;
-		SmartDashboard.putNumber("x displacement", distanceTraveled);
+		SmartDashboard.putNumber("x displacement", distanceTravelled);
 		if (powerInY) {
 			Robot.drive.driveHeadingPIDExecute(0, power);
 		} else {

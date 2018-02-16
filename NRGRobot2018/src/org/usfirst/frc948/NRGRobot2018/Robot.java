@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
+import org.usfirst.frc948.NRGRobot2018.commandGroups.AutonomousRoutine;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Climber;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeAcquirer;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
@@ -83,6 +84,23 @@ public class Robot extends TimedRobot {
 		initPreferences();
 		RobotMap.pixy.startVisionThread();
 		System.out.println("robotInit() done");
+		
+		autoPositionChooser = new SendableChooser<AutoPosition>();
+		autoPositionChooser.addDefault("Red left", AutoPosition.RED_LEFT);
+		autoPositionChooser.addObject("Red center", AutoPosition.RED_CENTER);
+		autoPositionChooser.addObject("Red right", AutoPosition.RED_RIGHT);
+		autoPositionChooser.addObject("Blue left", AutoPosition.BLUE_LEFT);
+		autoPositionChooser.addObject("Blue center", AutoPosition.BLUE_CENTER);
+		autoPositionChooser.addObject("Blue right", AutoPosition.BLUE_RIGHT);
+
+		autoMovementChooser = new SendableChooser<AutoMovement>();
+		autoMovementChooser.addObject("Left Scale", AutoMovement.LEFT_SCALE);
+		autoMovementChooser.addObject("Left Switch", AutoMovement.LEFT_SWITCH);
+		autoMovementChooser.addObject("Right Switch", AutoMovement.RIGHT_SWITCH);
+		autoMovementChooser.addDefault("Right Scale", AutoMovement.RIGHT_SCALE);
+
+		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
+		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
 	}
 
 	/**
@@ -102,8 +120,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = OI.chooser.getSelected();
 		// schedule the autonomous command (example)
+		System.out.println("autoInit()");
+		autonomousCommand = new AutonomousRoutine();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
