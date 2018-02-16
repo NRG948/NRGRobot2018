@@ -10,19 +10,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //Units are in inches
 public class DriveStraightDistance extends Command {
 	private boolean powerInY = false;
-	private double startEncoderLeftFront;
 	private double startX;
 	private double startY;
-	private double startEncoderRightBack;
-	private double distanceTravelled = 0.0;
-
 	private double power;
 	private double distance;
-	private Drive.Direction direction;
-	private double currentHeading;
+	private double distanceTravelled;
 
 	public DriveStraightDistance(double power, double distance, Drive.Direction direction) {
-		this.direction = direction;
 		this.distance = Math.abs(distance);
 
 		switch (direction) {
@@ -47,29 +41,39 @@ public class DriveStraightDistance extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		currentHeading = RobotMap.gyro.getAngle();
-		distanceTravelled = 0.0;
-		startX = RobotMap.xEncoder.getDistance();
-		startY = RobotMap.yEncoder.getDistance();
+		startX = Robot.positionTracker.getX();
+		startY = Robot.positionTracker.getY();
 		Robot.drive.driveHeadingPIDInit(RobotMap.gyro.getAngle(), 2.0);
-		System.out.println(String.format("DriveStraightDistance()", power, distance, direction));
+		SmartDashboard.putNumber("startX", startX);
+		SmartDashboard.putNumber("startY", startY);
 	}
 
 	protected void execute() {
-		double deltaX = RobotMap.xEncoder.getDistance() - startX;
-		double deltaY = RobotMap.yEncoder.getDistance() - startY;
-		
-		distanceTravelled = Math.sqrt((deltaY * deltaY) + (deltaX * deltaX));
-
-		// double rot = ((distanceTravelledLF + distanceTravelledLB) -
-		// (distanceTravelledRF + distanceTravelledRB)) / 4;
-		SmartDashboard.putNumber("x displacement", distanceTravelled);
+		distanceTravelled=calculateDistanceTravelled();
 		if (powerInY) {
+			power*=Math.min(1.0, (distance-Math.min(distance, distanceTravelled))/9.0);
 			Robot.drive.driveHeadingPIDExecute(0, power);
 		} else {
 			Robot.drive.driveHeadingPIDExecute(power, 0);
 		}
-		SmartDashboard.putNumber("distance travelled", distanceTravelled);
+	}
+	
+	private double calculateDistanceTravelled() {
+		double currentX = Robot.positionTracker.getX();
+		double currentY = Robot.positionTracker.getY();
+		
+		double deltaX = currentX - startX;
+		double deltaY = currentY - startY;
+		
+		double travel = Math.sqrt((deltaY * deltaY) + (deltaX * deltaX));
+		
+		SmartDashboard.putNumber("distance travelled", travel);
+		SmartDashboard.putNumber("deltaX", deltaX);
+		SmartDashboard.putNumber("deltaY", deltaY);
+		SmartDashboard.putNumber("currentX", currentX);
+		SmartDashboard.putNumber("currentY", currentY);
+		
+		return travel;
 	}
 
 	protected boolean isFinished() {
