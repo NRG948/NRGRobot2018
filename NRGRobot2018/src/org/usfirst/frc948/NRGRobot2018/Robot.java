@@ -12,6 +12,8 @@ package org.usfirst.frc948.NRGRobot2018;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
+import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Climber;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeAcquirer;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
@@ -25,6 +27,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -35,16 +38,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
+	public static SendableChooser<AutoPosition> autoPositionChooser;
+	public static SendableChooser<AutoMovement> autoMovementChooser;
 
 	Command autonomousCommand;
 	public static Preferences preferences;
 	public static OI oi;
 	public static Drive drive;
+	public enum AutoPosition {
+		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_LEFT, BLUE_CENTER, BLUE_RIGHT
+	}
+	public enum AutoMovement {
+		RIGHT_SWITCH, LEFT_SWITCH, LEFT_SCALE, RIGHT_SCALE
+	}
 	public static CubeAcquirer cubeAcquirer;
 	public static CubeLifter cubeLifter;
 	public static Climber climber;
 	public static PositionTracker positionTracker;
-
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.

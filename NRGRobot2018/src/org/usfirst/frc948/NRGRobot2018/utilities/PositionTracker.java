@@ -24,9 +24,9 @@ public class PositionTracker {
 		double distanceTraveled = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
 
 		// converting to field reference frame
-		double robotToFieldHeading = 90 - (currHeading + Math.toDegrees(Math.atan2(xDelta, yDelta)));
-		x += distanceTraveled * Math.cos(robotToFieldHeading);
-		y += distanceTraveled * Math.sin(robotToFieldHeading);
+		double robotToFieldRadians = Math.toRadians(90 - (currHeading + Math.toDegrees(Math.atan2(xDelta, yDelta))));
+		x += distanceTraveled * Math.cos(robotToFieldRadians);
+		y += distanceTraveled * Math.sin(robotToFieldRadians);
 
 		prevXEncoder = currXEncoder;
 		prevYEncoder = currYEncoder;
