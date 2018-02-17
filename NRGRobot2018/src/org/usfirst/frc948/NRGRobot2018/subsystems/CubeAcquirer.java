@@ -19,7 +19,6 @@ public class CubeAcquirer extends Subsystem {
 	}
 
 	public void acquire(double power, Direction direction) {
-		//TODO: directions need to be tested
 		power = Math.abs(power);
 		
 		if (direction == Direction.ACQUIRE) {
@@ -35,6 +34,6 @@ public class CubeAcquirer extends Subsystem {
 	}
 
 	public void periodic() {
-//		SmartDashboard.putData("acquire Servo", RobotMap.acquireServo);
+		
 	}
 }

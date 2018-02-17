@@ -19,13 +19,12 @@ public class CubeLifter extends Subsystem {
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-//        setDefaultCommand(new ManualCubeLift());
+        setDefaultCommand(new ManualCubeLift());
     }
     
     public void lift(double power, Direction direction) {
     	power = Math.abs(power);
     	
-    	//TODO: directions need to be tested
     	if (direction == Direction.UP) {
     		rawLift(power);
     	} else {
@@ -42,6 +41,6 @@ public class CubeLifter extends Subsystem {
     }
     
     public void periodic() {
-    	SmartDashboard.putData("LiftVictor", RobotMap.cubeLifterMotor);
+    	
     }
 }
