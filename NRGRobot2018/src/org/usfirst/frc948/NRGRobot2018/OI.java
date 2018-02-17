@@ -87,36 +87,45 @@ public class OI {
 		SmartDashboard.putData("TestPixyData", new TestPixyData());
 		SmartDashboard.putData("driveStraightDistance 4 feet", new DriveStraightDistance(0.5, 48, Direction.FORWARD));
 	}
+	
+	public Joystick getRightJoystick() {
+		return rightJoystick;
+	}
 
 	public Joystick getLeftJoystick() {
 		return leftJoystick;
-	}
-
-	public Joystick getRightJoystick() {
-		return rightJoystick;
 	}
 
 	public Joystick getXboxController() {
 		return xboxController;
 	}
 
-	public static double getX() {
+	public static double getRightJoystickX() {
 		return rightJoystick.getX();
 	}
+	
+	public static double getRightJoystickY() {
+		return -rightJoystick.getY();
+	}
 
-	public static double getY() {
+	public static double getLeftJoystickX() {
+		return leftJoystick.getX();
+	}
+	
+	public static double getLeftJoystickY() {
 		return -leftJoystick.getY();
 	}
 
-	public static double getRot() {
+	// Only right JS is able to rotate
+	public static double getRightJoystickRot() {
 		return rightJoystick.getRawAxis(2);
 	}
 
-	public static double getTriggerL() {
+	public static double getXBoxTriggerL() {
 		return xboxController.getRawAxis(2);
 	}
 
-	public static double getTriggerR() {
+	public static double getXBoxTriggerR() {
 		return xboxController.getRawAxis(3);
 	}
 
