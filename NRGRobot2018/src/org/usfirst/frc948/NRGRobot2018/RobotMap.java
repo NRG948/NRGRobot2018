@@ -72,7 +72,7 @@ public class RobotMap {
 		acquirerLeftMotor = new Victor(5);
 		acquirerRightMotor = new Victor(6);
 		
-		climberMotor = new Victor(7);
+		climberMotor = new Victor(8);
 
 		xEncoder = new Encoder(2, 3, true); // positive is right
 		yEncoder = new Encoder(0, 1, false); // positive is forward
