@@ -12,8 +12,6 @@ public class TurnToHeading extends Command {
 	double targetHeading;
 	
     public TurnToHeading(double targetHeading) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	this.targetHeading = targetHeading;
     	requires(Robot.drive);
     }
