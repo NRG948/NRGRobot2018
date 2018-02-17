@@ -9,9 +9,6 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ManualCubeLift extends Command {
-	private final double LIFT_POWER_SCALE_UP = 1;
-	private final double LIFT_POWER_SCALE_DOWN = 0.3;
-
     public ManualCubeLift() {
     	requires(Robot.cubeLifter);
     }
@@ -22,9 +19,10 @@ public class ManualCubeLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double upSpeed = OI.getXBoxTriggerL() * LIFT_POWER_SCALE_UP;
-    	double downSpeed = OI.getXBoxTriggerR() * LIFT_POWER_SCALE_DOWN;
-    	 
+    	double upSpeed = OI.getXBoxTriggerL();
+    	double downSpeed = OI.getXBoxTriggerR();
+    	
+    	Robot.cubeLifter.rawLift(upSpeed - downSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CubeAcquirer extends Subsystem {
 
 	public enum Direction {
-		ACQUIRE, EJECT
+		ACQUIRE, EJECT;
 	}
 	
 	public void initDefaultCommand() {
@@ -20,6 +20,8 @@ public class CubeAcquirer extends Subsystem {
 
 	public void acquire(double power, Direction direction) {
 		//TODO: directions need to be tested
+		power = Math.abs(power);
+		
 		if (direction == Direction.ACQUIRE) {
 			rawAcquire(power, -power);
 		} else {
