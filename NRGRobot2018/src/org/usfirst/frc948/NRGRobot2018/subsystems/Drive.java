@@ -31,8 +31,8 @@ public class Drive extends Subsystem implements PIDOutput {
 	public enum Direction {
 		FORWARD, BACKWARD, LEFT, RIGHT
 	}
-	
-//	private PIDController drivePIDController;
+
+	//	private PIDController drivePIDController;
 	private SimplePIDController drivePIDController;
 	private volatile double PIDOutput = 0;
 	
@@ -57,6 +57,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		drivePIDController = new SimplePIDController(p, i, d, false, RobotMap.gyro, this);
 		
 		drivePIDController.setOutputRange(-1, 1);
+		drivePIDController.setInputRange(-1, 1);
 		drivePIDController.setSetpoint(setpoint);
 		drivePIDController.setAbsoluteTolerance(tolerance);
 		
@@ -129,7 +130,6 @@ public class Drive extends Subsystem implements PIDOutput {
 	
 	@Override
 	public void periodic() {
-		// Put code here to be run every loop
 
 	}
 

@@ -16,8 +16,8 @@ public class SimplePIDController {
 
 	private double minimumOutput = -1.0; // minimum output
 	private double maximumOutput = 1.0; // maximum output
-	private double minimumInput = 0.0; // minimum input - limit setpoint to this
-	private double maximumInput = 0.0; // maximum input - limit setpoint to this
+	private double minimumInput = -1.0; // minimum input - limit setpoint to this
+	private double maximumInput = 1.0; // maximum input - limit setpoint to this
 	
 	private PIDSource source;
 	private PIDOutput output;
