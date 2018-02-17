@@ -28,7 +28,7 @@ public class SimplePIDController {
 	// the tolerance object used to check if on target
 	private Tolerance tolerance;
 	private double setpoint = 0.0;
-	private double error = 0.0;
+
 	private double result = 0.0;
 	private double prevInput;
 	
@@ -63,9 +63,9 @@ public class SimplePIDController {
 	public double update(double input) {
 		double currTime = System.nanoTime() / 1.0e9;
 		double deltaTime = currTime - prevTime;
-		input = MathUtil.clamp(input, minimumInput, maximumInput);
+		double error = setpoint - input;
 		
-		error = setpoint - input;
+		input = MathUtil.clamp(input, minimumInput, maximumInput);
 		
 		if (wasPIDReset) {
 			prevError = error;
@@ -121,6 +121,10 @@ public class SimplePIDController {
 				return Math.abs(setpoint - prevInput) <= tolerance;
 			}
 		};
+	}
+
+	public double getError() {
+		return prevError;
 	}
 
 	public boolean onTarget() {

@@ -14,6 +14,7 @@ import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDrive;
 import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
+import org.usfirst.frc948.NRGRobot2018.utilities.SimplePIDController;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -31,7 +32,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		FORWARD, BACKWARD, LEFT, RIGHT
 	}
 	
-	private PIDController drivePIDController;
+//	private PIDController drivePIDController;
+	private SimplePIDController drivePIDController;
 	private volatile double PIDOutput = 0;
 	
 	public final static double DEFAULT_TURN_P = 0.02;
@@ -45,7 +47,6 @@ public class Drive extends Subsystem implements PIDOutput {
 	
 	private double lastVelX = 0.0;
 	private double lastVelY = 0.0;
-	
 
 	@Override
 	public void initDefaultCommand() {
@@ -53,14 +54,13 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 	
 	public void drivePIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
-		drivePIDController = new PIDController(p, i, d, RobotMap.gyro, this);
-		drivePIDController.reset();
+		drivePIDController = new SimplePIDController(p, i, d, false, RobotMap.gyro, this);
 		
 		drivePIDController.setOutputRange(-1, 1);
 		drivePIDController.setSetpoint(setpoint);
 		drivePIDController.setAbsoluteTolerance(tolerance);
 		
-		drivePIDController.enable();
+		drivePIDController.start();
 	}
 	
 	public void driveHeadingPIDInit(double desiredHeading, double tolerance) {
@@ -72,6 +72,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 	
 	public void driveHeadingPIDExecute(double velX, double velY) {
+		drivePIDController.update();
 		double currentPIDOutput = PIDOutput;
 
 		SmartDashboard.putNumber("Turn To Heading PID Error", drivePIDController.getError());
@@ -81,10 +82,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 	
 	public void driveHeadingPIDEnd() {
-		drivePIDController.reset();
-		drivePIDController.free();
 		drivePIDController = null;
-		
 		stop();
 	}
 	
