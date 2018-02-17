@@ -79,8 +79,6 @@ public class Robot extends TimedRobot {
 		// constructed yet. Thus, their requires() statements may grab null
 		// pointers. Bad news. Don't move it.
 
-		// Add commands to Autonomous Sendable Chooser
-
 		initPreferences();
 		RobotMap.pixy.startVisionThread();
 		System.out.println("robotInit() done");
@@ -162,17 +160,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
-		// System.out.println("spi data: "+
-		// Integer.toHexString(RobotMap.pixyLink.getWord()));
-		// System.out.println(RobotMap.pixy.getPixyFrameData().size());
-		// SmartDashboard.putString("Alliance Scale Side", OI.getScaleSide().toString());
-		// SmartDashboard.putString("Alliance Switch Side", OI.getAllianceSwitchSide().toString());
-		// SmartDashboard.putString("Opposing Switch Side", OI.getOppsingSwitchSide().toString());
 
 		ArrayList<Block> currFrame = RobotMap.pixy.getPixyFrameData();
 		
 		if (currFrame.size() > 0) {
 			Block cube = currFrame.get(0);
+			
 			SmartDashboard.putString("Cube", cube.toString());
 			SmartDashboard.putNumber("Angle to turn", CubeCalculations.getAngleToTurn(cube));
 			SmartDashboard.putNumber("Inches to cube from width", CubeCalculations.getDistanceFromWidth(cube));
