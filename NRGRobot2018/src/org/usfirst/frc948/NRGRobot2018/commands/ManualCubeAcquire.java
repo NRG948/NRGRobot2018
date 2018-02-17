@@ -23,19 +23,12 @@ public class ManualCubeAcquire extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double rSpeed = OI.xboxController.getY(Hand.kRight);
-    	double lSpeed = OI.xboxController.getY(Hand.kLeft);
-    	setAcquireSpeed(-rSpeed, RobotMap.acquirerLeftMotor);
-    	setAcquireSpeed(lSpeed-0.05, RobotMap.acquirerRightMotor);
-    //	Left Acquirer victor power subtracted to create deadband
+    	double leftPower = -OI.xboxController.getY(Hand.kLeft);
+    	double rightPower = OI.xboxController.getY(Hand.kRight);
+    	Robot.cubeAcquirer.rawAcquire(leftPower, rightPower);
+    	// TODO: Left acq motor needs to be calibrated (subtracting power is bad fix). This has happened in the past
     }
-    private void setAcquireSpeed(double speed, Victor victor) {
-		if(Math.abs(speed) > 0.05) {
-    		victor.set(speed);
-    	} else {
-    		victor.set(0);
-    	}
-	}
+    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;

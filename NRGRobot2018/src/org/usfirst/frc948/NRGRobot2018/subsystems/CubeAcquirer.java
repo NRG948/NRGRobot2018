@@ -1,5 +1,6 @@
 package org.usfirst.frc948.NRGRobot2018.subsystems;
 
+import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeAcquire;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -9,12 +10,26 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class CubeAcquirer extends Subsystem {
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-
+	public enum Direction {
+		ACQUIRE, EJECT
+	}
+	
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-//		setDefaultCommand(new ManualCubeAcquire());
+		setDefaultCommand(new ManualCubeAcquire());
+	}
+
+	public void acquire(double power, Direction direction) {
+		//TODO: directions need to be tested
+		if (direction == Direction.ACQUIRE) {
+			rawAcquire(power, -power);
+		} else {
+			rawAcquire(-power, power);
+		}
+	}
+	
+	public void rawAcquire(double leftPower, double rightPower) {
+		RobotMap.acquirerLeftMotor.set(leftPower);
+		RobotMap.acquirerRightMotor.set(rightPower);
 	}
 
 	public void periodic() {
