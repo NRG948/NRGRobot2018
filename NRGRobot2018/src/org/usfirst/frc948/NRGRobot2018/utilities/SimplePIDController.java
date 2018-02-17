@@ -6,7 +6,7 @@ public class SimplePIDController {
 	private double kP; // factor for "proportional" control
 	private double kI; // factor for "integral" control
 	private double kD; // factor for "derivative" control
-	private double maximumOutput = 1.0; // maximum output|
+	private double maximumOutput = 1.0; // maximum output
 	private double minimumOutput = -1.0; // minimum output
 	private double maximumInput = 0.0; // maximum input - limit setpoint to this
 	private double minimumInput = 0.0; // minimum input - limit setpoint to this
@@ -40,22 +40,28 @@ public class SimplePIDController {
 	}
 
 	public double update(double sensorValue) {
-		double time = System.nanoTime() / 1.0e9;
+		double currTime = System.nanoTime() / 1.0e9;
+		double deltaTime = currTime - prevTime;
+
 		error = setpoint - sensorValue;
+		
 		if (wasPIDReset) {
 			prevError = error;
 			wasPIDReset = false;
 		}
+
 		// integral is reset if sensor value overshoots the setpoint
 		if (Math.signum(error) != Math.signum(prevError)) {
+			// TODO: clamp integral
 			integral = 0;
 		}
-		// TODO: clamp integral
-		integral += (error + prevError) * 0.5 * (time - prevTime);
 
-		double derivative = (error - prevError) / (time - prevTime);
+		integral += (error + prevError) * 0.5 * deltaTime;
+		double derivative = (error - prevError) / deltaTime;
+
 		result = kP * error + kI * integral + kD * derivative;
-		prevTime = time;
+
+		prevTime = currTime;
 		prevError = error;
 		// TODO: clamp result
 		return result;
@@ -70,5 +76,5 @@ public class SimplePIDController {
 	public boolean onTarget() {
 		return tolerance.onTarget();
 	}
-
 }
+
