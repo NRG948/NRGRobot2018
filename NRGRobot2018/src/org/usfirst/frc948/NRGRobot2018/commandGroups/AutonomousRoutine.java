@@ -158,7 +158,7 @@ public class AutonomousRoutine extends CommandGroup {
 
 	public class RedRightToRightSwitch extends CommandGroup {
 		public RedRightToRightSwitch() {
-			addSequential(new DriveStraightDistance(1.0,149.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0,116.5,Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
 			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
 		}

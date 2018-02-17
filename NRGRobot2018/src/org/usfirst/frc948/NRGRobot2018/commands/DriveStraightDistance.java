@@ -49,30 +49,30 @@ public class DriveStraightDistance extends Command {
 	}
 
 	protected void execute() {
-		distanceTravelled=calculateDistanceTravelled();
+		distanceTravelled = calculateDistanceTravelled();
 		if (powerInY) {
-			power*=Math.min(1.0, (distance-Math.min(distance, distanceTravelled))/9.0);
+			power *= Math.min(1.0, (distance - Math.min(distance, distanceTravelled)) / 9.0);
 			Robot.drive.driveHeadingPIDExecute(0, power);
 		} else {
 			Robot.drive.driveHeadingPIDExecute(power, 0);
 		}
 	}
-	
+
 	private double calculateDistanceTravelled() {
 		double currentX = Robot.positionTracker.getX();
 		double currentY = Robot.positionTracker.getY();
-		
+
 		double deltaX = currentX - startX;
 		double deltaY = currentY - startY;
-		
+
 		double travel = Math.sqrt((deltaY * deltaY) + (deltaX * deltaX));
-		
+
 		SmartDashboard.putNumber("distance travelled", travel);
 		SmartDashboard.putNumber("deltaX", deltaX);
 		SmartDashboard.putNumber("deltaY", deltaY);
 		SmartDashboard.putNumber("currentX", currentX);
 		SmartDashboard.putNumber("currentY", currentY);
-		
+
 		return travel;
 	}
 

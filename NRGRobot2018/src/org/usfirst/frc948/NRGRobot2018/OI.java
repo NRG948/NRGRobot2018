@@ -43,10 +43,11 @@ public class OI {
 	public static Joystick rightJoystick;
 	public static Joystick xboxController;
 
-	public JoystickButton shiftGears;
+	public JoystickButton leftShiftGears;
 	public JoystickButton driveStraight;
 	public JoystickButton strafeStraight;
-
+	public JoystickButton rightShiftGears;
+	
 	public static SendableChooser<Command> chooser;
 	
 	public enum Side {
@@ -60,13 +61,16 @@ public class OI {
 		xboxController = new Joystick(2);
 
 		// Initializing buttons AFTER the Joysticks
-		shiftGears = new JoystickButton(leftJoystick, 1);
+		leftShiftGears = new JoystickButton(leftJoystick, 1);
 		driveStraight = new JoystickButton(leftJoystick, 2);
 		strafeStraight = new JoystickButton(leftJoystick, 3);
+		rightShiftGears = new JoystickButton(rightJoystick, 1); //drive team needed it for both joysticks
 
 		// Initialize commands after initializing buttons
-		shiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
-		shiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
+		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
+		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
+		rightShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
+		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
 		driveStraight.whileHeld(new ManualDriveStraight());
 		strafeStraight.whileHeld(new ManualStrafeStraight());
 
