@@ -43,6 +43,7 @@ public class DriveStraightDistance extends Command {
 	protected void initialize() {
 		startX = Robot.positionTracker.getX();
 		startY = Robot.positionTracker.getY();
+
 		Robot.drive.driveHeadingPIDInit(RobotMap.gyro.getAngle(), 2.0);
 		SmartDashboard.putNumber("startX", startX);
 		SmartDashboard.putNumber("startY", startY);
@@ -91,4 +92,3 @@ public class DriveStraightDistance extends Command {
 		end();
 	}
 }
-
