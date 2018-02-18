@@ -9,4 +9,8 @@ public class PreferenceKeys {
 	public static final String TURN_P_TERM = "Turn_P";
 	public static final String TURN_I_TERM = "Turn_I";
 	public static final String TURN_D_TERM = "Turn_D";
+	
+	public static final String LIFT_P_TERM = "Lift_P";
+	public static final String LIFT_I_TERM = "Lift_I";
+	public static final String LIFT_D_TERM = "Lift_D";
 }

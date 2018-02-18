@@ -34,7 +34,7 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	//	private PIDController drivePIDController;
 	private SimplePIDController drivePIDController;
-	private volatile double PIDOutput = 0;
+	private volatile double drivePIDOutput = 0;
 	
 	public final static double DEFAULT_TURN_P = 0.02;
 	public final static double DEFAULT_TURN_I = 0.0;
@@ -58,8 +58,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		
 		drivePIDController.setOutputRange(-1, 1);
 		drivePIDController.setInputRange(-1, 1);
-		drivePIDController.setSetpoint(setpoint);
 		drivePIDController.setAbsoluteTolerance(tolerance);
+		drivePIDController.setSetpoint(setpoint);
 		
 		drivePIDController.start();
 	}
@@ -74,7 +74,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	
 	public void driveHeadingPIDExecute(double velX, double velY) {
 		drivePIDController.update();
-		double currentPIDOutput = PIDOutput;
+		double currentPIDOutput = drivePIDOutput;
 
 		SmartDashboard.putNumber("Turn To Heading PID Error", drivePIDController.getError());
 		SmartDashboard.putNumber("Turn To Heading PID Output", currentPIDOutput);
@@ -137,6 +137,6 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	@Override
 	public void pidWrite(double output) {
-		PIDOutput = output;
+		drivePIDOutput = output;
 	}
 }

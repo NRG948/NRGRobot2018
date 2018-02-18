@@ -126,7 +126,6 @@ public class OI {
 	// Only right JS is able to rotate
 	public static double getRightJoystickRot() {
 		return rightJoystick.getRawAxis(2);
-		xboxController.getPOV()
 	}
 
 	public static double getXBoxTriggerL() {
