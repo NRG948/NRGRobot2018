@@ -15,8 +15,10 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveToCubeNoPID extends Command {
 	ArrayList<Block> currFrame;
+	private final double DISTANCE_TO_SLOW = 25;
+	private final int DISTANCE_TO_STOP = 21;
+
 	double distanceToCube; // in inches
-	final double DISTANCE_TO_SLOW = 25;
 	
     public DriveToCubeNoPID() {
     	requires(Robot.drive);
@@ -39,7 +41,7 @@ public class DriveToCubeNoPID extends Command {
     		
     		double cubeNormalized = CubeCalculations.getDistanceToCenterNormalized(currBlock);
     		double turnPower = Math.copySign(MathUtil.clamp(Math.abs(cubeNormalized), 0.15, 1), cubeNormalized);
-    		double drivePower = Math.min(1.0, distanceToCube / DISTANCE_TO_SLOW);
+    		double drivePower = Math.min(1.0, (distanceToCube - DISTANCE_TO_STOP) / (DISTANCE_TO_SLOW - DISTANCE_TO_STOP));
 
 			Robot.drive.rawDriveCartesian(0, drivePower, turnPower);
     	}
@@ -47,7 +49,7 @@ public class DriveToCubeNoPID extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return distanceToCube <= 21;
+        return distanceToCube <= DISTANCE_TO_STOP;
     }
 
     // Called once after isFinished returns true
