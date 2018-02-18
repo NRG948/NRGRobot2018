@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveToCubeNoPID extends Command {
 	ArrayList<Block> currFrame;
-	double distanceToCube = Double.MAX_VALUE; // inches
+	double distanceToCube; // in inches
 	final double DISTANCE_TO_SLOW = 25;
 	
     public DriveToCubeNoPID() {
@@ -24,6 +24,8 @@ public class DriveToCubeNoPID extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	distanceToCube = Double.MAX_VALUE;
+    	currFrame = null;
     }
 
     // Called repeatedly when this Command is scheduled to run
