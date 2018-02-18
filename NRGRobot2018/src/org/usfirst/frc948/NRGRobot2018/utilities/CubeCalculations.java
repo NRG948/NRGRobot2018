@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 
 public class CubeCalculations {
+	public static final double CENTER_PIXEL_LOCATION = 159.5;
 	// Measured constants for converting camera coordinates (pixels) -> real-world coordinates
 	// relative to robot (inches)
 	public static final double KNOWN_DISTANCE_INCHES = 36;
@@ -27,7 +28,18 @@ public class CubeCalculations {
 
 	// assumes entire cube is in frame
 	public static double getAngleToTurn(Block cube) {
-		double angleToTurn = Math.toDegrees(Math.atan((cube.x - 159.5) / KNOWN_FOCAL_LENGTH_PIXELS));
+		double angleToTurn = Math.toDegrees(Math.atan((cube.x - CENTER_PIXEL_LOCATION) / KNOWN_FOCAL_LENGTH_PIXELS));
 		return angleToTurn;
+	}
+	
+	// returns -1 to 1
+	public static double getDistanceToCenterNormalized(Block cube) {
+		double distance = 
+		if (cube.x > CENTER_PIXEL_LOCATION) {
+			distance = ((cube.x + cube.width / 2) - CENTER_PIXEL_LOCATION) / CENTER_PIXEL_LOCATION;
+		} else {
+			distance = ((cube.x - cube.width / 2) - CENTER_PIXEL_LOCATION) / CENTER_PIXEL_LOCATION;
+		}
+		return distance;
 	}
 }
