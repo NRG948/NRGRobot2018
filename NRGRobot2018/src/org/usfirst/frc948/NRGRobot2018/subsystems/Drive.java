@@ -111,6 +111,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		velY *= scale;
 		rot *= scale;
 		RobotMap.driveMecanumDrive.driveCartesian(velX, velY, rot);
+		SmartDashboard.putNumber("velY", velY);
+		SmartDashboard.putNumber("velX", velX);
 	}
 
 	public void stop() {

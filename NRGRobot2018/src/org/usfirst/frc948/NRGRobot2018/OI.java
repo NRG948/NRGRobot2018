@@ -91,6 +91,8 @@ public class OI {
 		SmartDashboard.putData("DriveSquareWithTurning", new DriveSquareWithTurning());
 		SmartDashboard.putData("TestPixyData", new TestPixyData());
 		SmartDashboard.putData("driveStraightDistance 4 feet", new DriveStraightDistance(0.5, 48, Direction.FORWARD));
+		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
+		SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
 	}
 
 	public Joystick getRightJoystick() {
