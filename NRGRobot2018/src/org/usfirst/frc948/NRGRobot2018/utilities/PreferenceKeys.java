@@ -12,4 +12,7 @@ public class PreferenceKeys {
 	
 	public static final String X2 = "X2";
 	public static final String Y2 = "Y2";
+	public static final String LIFT_P_TERM = "Lift_P";
+	public static final String LIFT_I_TERM = "Lift_I";
+	public static final String LIFT_D_TERM = "Lift_D";
 }

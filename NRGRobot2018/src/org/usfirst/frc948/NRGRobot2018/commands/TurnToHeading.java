@@ -12,8 +12,6 @@ public class TurnToHeading extends Command {
 	double targetHeading;
 	
     public TurnToHeading(double targetHeading) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	this.targetHeading = targetHeading;
     	requires(Robot.drive);
     }
@@ -30,7 +28,7 @@ public class TurnToHeading extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.drive.onTarget();
+        return Robot.drive.drivePIDControllerOnTarget();
     }
 
     // Called once after isFinished returns true

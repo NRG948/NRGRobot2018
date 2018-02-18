@@ -6,10 +6,12 @@ import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeAcquire;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * CubeAcquirer subsystem: controls wheels to acquire/eject power-cube.
+ * 
+ * Positive power is for ejecting, negative power is for acquiring.
  */
-public class CubeAcquirer extends Subsystem {
 
+public class CubeAcquirer extends Subsystem {
 	public enum Direction {
 		ACQUIRE, EJECT;
 	}
@@ -22,9 +24,9 @@ public class CubeAcquirer extends Subsystem {
 		power = Math.abs(power);
 		
 		if (direction == Direction.ACQUIRE) {
-			rawAcquire(power, -power);
+			rawAcquire(-power, -power);
 		} else {
-			rawAcquire(-power, power);
+			rawAcquire(power, power);
 		}
 	}
 	
@@ -32,8 +34,9 @@ public class CubeAcquirer extends Subsystem {
 		RobotMap.acquirerLeftMotor.set(leftPower);
 		RobotMap.acquirerRightMotor.set(rightPower);
 	}
-
-	public void periodic() {
-		
+	
+	public void stop() {
+		RobotMap.acquirerLeftMotor.stopMotor();
+		RobotMap.acquirerRightMotor.stopMotor();
 	}
 }

@@ -9,33 +9,36 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //Units are in inches
 public class DriveStraightDistance extends Command {
-	private boolean powerInY = false;
+	private final boolean powerInY;
+	private final double maxPower;
+	private final double distance;
 	private double startX;
 	private double startY;
-	private double power;
-	private double distance;
 	private double distanceTravelled;
 
 	public DriveStraightDistance(double power, double distance, Drive.Direction direction) {
+		requires(Robot.drive);
 		this.distance = Math.abs(distance);
 
 		switch (direction) {
 		case FORWARD:
-			this.power = Math.abs(power);
+			this.maxPower = Math.abs(power);
 			powerInY = true;
 			break;
 		case BACKWARD:
-			this.power = -Math.abs(power);
+			this.maxPower = -Math.abs(power);
 			powerInY = true;
 			break;
 		case LEFT:
-			this.power = -Math.abs(power);
+			this.maxPower = -Math.abs(power);
 			powerInY = false;
 			break;
 		case RIGHT:
-			this.power = Math.abs(power);
+			this.maxPower = Math.abs(power);
 			powerInY = false;
 			break;
+		default:
+			throw new IllegalStateException("invalid direction");
 		}
 	}
 
@@ -43,6 +46,7 @@ public class DriveStraightDistance extends Command {
 	protected void initialize() {
 		startX = Robot.positionTracker.getX();
 		startY = Robot.positionTracker.getY();
+		distanceTravelled = 0.0;
 
 		Robot.drive.driveHeadingPIDInit(RobotMap.gyro.getAngle(), 2.0);
 		SmartDashboard.putNumber("startX", startX);
@@ -52,10 +56,11 @@ public class DriveStraightDistance extends Command {
 	protected void execute() {
 		distanceTravelled = calculateDistanceTravelled();
 		if (powerInY) {
-			power *= Math.min(1.0, (distance - Math.min(distance, distanceTravelled)) / 9.0);
+			double power = maxPower * Math.min(1.0, (distance - Math.min(distance, distanceTravelled)) / 9.0);
+			SmartDashboard.putNumber("dsdYpower", power);
 			Robot.drive.driveHeadingPIDExecute(0, power);
 		} else {
-			Robot.drive.driveHeadingPIDExecute(power, 0);
+			Robot.drive.driveHeadingPIDExecute(maxPower, 0);
 		}
 	}
 

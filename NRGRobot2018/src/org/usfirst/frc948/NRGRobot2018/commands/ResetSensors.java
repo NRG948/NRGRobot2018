@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ResetSensors extends Command {
 
     public ResetSensors() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.drive);
     }
 

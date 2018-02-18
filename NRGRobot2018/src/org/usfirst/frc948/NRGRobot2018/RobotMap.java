@@ -17,6 +17,7 @@ import org.usfirst.frc948.NRGRobot2018.vision.SPIwrapper;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Servo;
@@ -38,15 +39,20 @@ public class RobotMap {
 	public static MecanumDrive driveMecanumDrive;
 
 	public static Victor cubeLifterMotor;
-
+	
 	public static Victor acquirerRightMotor;
 	public static Victor acquirerLeftMotor;
-	public static Servo acquirerLifterServo;
+	public static Victor cubeTitlerMotor;
 
 	public static Victor climberMotor;
 
 	public static Encoder xEncoder;
 	public static Encoder yEncoder;
+	public static Encoder cubeLiftEncoder;
+	public static Encoder cubeTiltEncoder;
+	
+	public static DigitalInput lifterLowerLimitSwitch;
+	public static DigitalInput lifterUpperLimitSwitch;
 
 	public static AHRS navx;
 	public static ContinuousGyro gyro;
@@ -60,7 +66,7 @@ public class RobotMap {
 		driveLeftRearMotor = new Victor(3);
 		driveRightFrontMotor = new Victor(0);
 		driveRightRearMotor = new Victor(2);
-
+		
 		driveMecanumDrive = new MecanumDrive(driveLeftFrontMotor, driveLeftRearMotor, driveRightFrontMotor,
 				driveRightRearMotor);
 		driveMecanumDrive.setSafetyEnabled(false);
@@ -70,17 +76,27 @@ public class RobotMap {
 		cubeLifterMotor = new Victor(4);
 		
 		acquirerLeftMotor = new Victor(5);
+		acquirerLeftMotor.setInverted(true);
 		acquirerRightMotor = new Victor(6);
+		cubeTitlerMotor = new Victor(7);
 		
 		climberMotor = new Victor(8);
 
 		xEncoder = new Encoder(2, 3, true); // positive is right
 		yEncoder = new Encoder(0, 1, false); // positive is forward
+		cubeLiftEncoder = new Encoder(6, 7, true);
+		cubeTiltEncoder = new Encoder(8, 9, true);
+		
 		xEncoder.setDistancePerPulse(0.0478); // inches per pulse, encoder is slipping
 		yEncoder.setDistancePerPulse(0.0506);
+		cubeLiftEncoder.setDistancePerPulse(1);
+		cubeTiltEncoder.setDistancePerPulse(1);
 
 		navx = new AHRS(SPI.Port.kMXP);
 		gyro = new ContinuousGyro(navx);
+		
+		lifterLowerLimitSwitch = new DigitalInput(4);
+		lifterUpperLimitSwitch = new DigitalInput(5);
 
 		pixyLink = new SPIwrapper(SPI.Port.kOnboardCS0);
 		pixy = new PixyCam(pixyLink);

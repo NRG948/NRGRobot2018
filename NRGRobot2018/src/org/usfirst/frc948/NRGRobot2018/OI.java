@@ -29,14 +29,15 @@ import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * This class is the glue that binds the controls on the physical operator interface to the commands
- * and command groups that allow control of the robot.
+ * This class is the glue that binds the controls on the physical operator
+ * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
 	public static Joystick leftJoystick;
@@ -47,9 +48,9 @@ public class OI {
 	public JoystickButton driveStraight;
 	public JoystickButton strafeStraight;
 	public JoystickButton rightShiftGears;
-	
+
 	public static SendableChooser<Command> chooser;
-	
+
 	public enum Side {
 		LEFT, RIGHT;
 	}
@@ -64,7 +65,7 @@ public class OI {
 		leftShiftGears = new JoystickButton(leftJoystick, 1);
 		driveStraight = new JoystickButton(leftJoystick, 2);
 		strafeStraight = new JoystickButton(leftJoystick, 3);
-		rightShiftGears = new JoystickButton(rightJoystick, 1); //drive team needed it for both joysticks
+		rightShiftGears = new JoystickButton(rightJoystick, 1); // drive team needed it for both joysticks
 
 		// Initialize commands after initializing buttons
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
@@ -90,8 +91,10 @@ public class OI {
 		SmartDashboard.putData("DriveSquareWithTurning", new DriveSquareWithTurning());
 		SmartDashboard.putData("TestPixyData", new TestPixyData());
 		SmartDashboard.putData("driveStraightDistance 4 feet", new DriveStraightDistance(0.5, 48, Direction.FORWARD));
+		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
+		SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
 	}
-	
+
 	public Joystick getRightJoystick() {
 		return rightJoystick;
 	}
@@ -107,7 +110,7 @@ public class OI {
 	public static double getRightJoystickX() {
 		return rightJoystick.getX();
 	}
-	
+
 	public static double getRightJoystickY() {
 		return -rightJoystick.getY();
 	}
@@ -115,7 +118,7 @@ public class OI {
 	public static double getLeftJoystickX() {
 		return leftJoystick.getX();
 	}
-	
+
 	public static double getLeftJoystickY() {
 		return -leftJoystick.getY();
 	}
@@ -131,6 +134,16 @@ public class OI {
 
 	public static double getXBoxTriggerR() {
 		return xboxController.getRawAxis(3);
+	}
+
+	public static boolean isXBoxDPadUp() {
+		int pov = xboxController.getPOV();
+		return pov >= 315 || pov <= 45;
+	}
+
+	public static boolean isXBoxDPadDown() {
+		int pov = xboxController.getPOV();
+		return pov >= 135 && pov <= 225;
 	}
 
 	public static Side getAllianceSwitchSide() {
