@@ -40,8 +40,8 @@ public class DriveToCubeNoPID extends Command {
     		distanceToCube = CubeCalculations.getDistanceFromWidth(currBlock);
     		
     		double cubeNormalized = CubeCalculations.getDistanceToCenterNormalized(currBlock);
-    		double turnPower = Math.copySign(MathUtil.clamp(Math.abs(cubeNormalized), 0.15, 1), cubeNormalized);
     		double drivePower = Math.min(1.0, (distanceToCube - DISTANCE_TO_STOP) / (DISTANCE_TO_SLOW - DISTANCE_TO_STOP));
+    		double turnPower = Math.copySign(MathUtil.clamp(Math.abs(cubeNormalized), 0.15, 1), cubeNormalized);
 
 			Robot.drive.rawDriveCartesian(0, drivePower, turnPower);
     	}
