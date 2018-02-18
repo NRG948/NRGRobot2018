@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class DriveToCubeNoPID extends Command {
-	ArrayList<Block> currFrame;
 	private final double DISTANCE_TO_SLOW = 25;
 	private final int DISTANCE_TO_STOP = 21;
 
+	ArrayList<Block> currFrame;
 	double distanceToCube; // in inches
 	
     public DriveToCubeNoPID() {
