@@ -21,7 +21,7 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 
 	private static final double LIFT_POWER_SCALE_UP = 0.5;
 	private static final double LIFT_POWER_SCALE_DOWN = 0.3;
-	
+
 	public final static double DEFAULT_LIFT_P = 0.02;
 	public final static double DEFAULT_LIFT_I = 0.0;
 	public final static double DEFAULT_LIFT_D = 0.0;
@@ -54,13 +54,17 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 
 		SmartDashboard.putNumber("Lift To Height PID Error", lifterPIDController.getError());
 		SmartDashboard.putNumber("Lift To Height PID Output", currentPIDOutput);
-		
+
 		rawLift(currentPIDOutput);
 	}
 
 	public void liftToHeightPIDEnd() {
 		lifterPIDController = null;
 		stop();
+	}
+	
+	public boolean lifterPIDControllerOnTarget() {
+		return lifterPIDController.onTarget();
 	}
 
 	public void manualLift(double power) {
@@ -84,7 +88,7 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 	public void stop() {
 		RobotMap.cubeLifterMotor.stopMotor();
 	}
-
+	
 	public boolean hasReachedUpperLimit() {
 		return !RobotMap.lifterUpperLimitSwitch.get();
 	}
@@ -92,11 +96,7 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 	public boolean hasReachedLowerLimit() {
 		return !RobotMap.lifterLowerLimitSwitch.get();
 	}
-
-	public void periodic() {
-
-	}
-
+	
 	@Override
 	public void pidWrite(double output) {
 		lifterPIDOutput = output;

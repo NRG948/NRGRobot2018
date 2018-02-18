@@ -39,8 +39,4 @@ public class CubeAcquirer extends Subsystem {
 		RobotMap.acquirerLeftMotor.stopMotor();
 		RobotMap.acquirerRightMotor.stopMotor();
 	}
-
-	public void periodic() {
-		
-	}
 }
