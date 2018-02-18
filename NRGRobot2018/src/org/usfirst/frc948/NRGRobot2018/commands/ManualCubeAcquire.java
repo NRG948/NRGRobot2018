@@ -23,10 +23,9 @@ public class ManualCubeAcquire extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double leftPower = -OI.xboxController.getY(Hand.kLeft);
+    	double leftPower = OI.xboxController.getY(Hand.kLeft);
     	double rightPower = OI.xboxController.getY(Hand.kRight);
     	Robot.cubeAcquirer.rawAcquire(leftPower, rightPower);
-    	// TODO: Left acq motor needs to be calibrated (subtracting power is bad fix). This has happened in the past
     }
     
     // Make this return true when this Command no longer needs to run execute()
@@ -36,10 +35,12 @@ public class ManualCubeAcquire extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.cubeAcquirer.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

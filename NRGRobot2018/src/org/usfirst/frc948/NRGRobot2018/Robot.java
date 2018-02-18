@@ -18,6 +18,7 @@ import org.usfirst.frc948.NRGRobot2018.commandGroups.AutonomousRoutine;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Climber;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeAcquirer;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
+import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.utilities.PositionTracker;
 import org.usfirst.frc948.NRGRobot2018.utilities.CubeCalculations;
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot {
 	}
 	public static CubeAcquirer cubeAcquirer;
 	public static CubeLifter cubeLifter;
+	public static CubeTilter cubeTilter;
 	public static Climber climber;
 	public static PositionTracker positionTracker;
 	/**
@@ -70,6 +72,7 @@ public class Robot extends TimedRobot {
 		drive = new Drive();
 		cubeAcquirer = new CubeAcquirer();
 		cubeLifter = new CubeLifter();
+		cubeTilter  = new CubeTilter();
 		climber = new Climber();
 		oi = new OI();
 		positionTracker = new PositionTracker(0,0);

@@ -15,6 +15,8 @@ import org.usfirst.frc948.NRGRobot2018.vision.IPixyLink;
 import org.usfirst.frc948.NRGRobot2018.vision.PixyCam;
 import org.usfirst.frc948.NRGRobot2018.vision.SPIwrapper;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -38,10 +40,11 @@ public class RobotMap {
 	public static MecanumDrive driveMecanumDrive;
 
 	public static Victor cubeLifterMotor;
-
+	
+	public static TalonSRX talon = new TalonSRX(2);
 	public static Victor acquirerRightMotor;
 	public static Victor acquirerLeftMotor;
-	public static Servo acquirerLifterServo;
+	public static Victor cubeTitlerMotor;
 
 	public static Victor climberMotor;
 
@@ -60,7 +63,7 @@ public class RobotMap {
 		driveLeftRearMotor = new Victor(3);
 		driveRightFrontMotor = new Victor(0);
 		driveRightRearMotor = new Victor(2);
-
+		
 		driveMecanumDrive = new MecanumDrive(driveLeftFrontMotor, driveLeftRearMotor, driveRightFrontMotor,
 				driveRightRearMotor);
 		driveMecanumDrive.setSafetyEnabled(false);
@@ -70,9 +73,11 @@ public class RobotMap {
 		cubeLifterMotor = new Victor(4);
 		
 		acquirerLeftMotor = new Victor(5);
+		acquirerLeftMotor.setInverted(true);
 		acquirerRightMotor = new Victor(6);
+		cubeTitlerMotor = new Victor(7);
 		
-		climberMotor = new Victor(7);
+		climberMotor = new Victor(8);
 
 		xEncoder = new Encoder(2, 3, true); // positive is right
 		yEncoder = new Encoder(0, 1, false); // positive is forward
