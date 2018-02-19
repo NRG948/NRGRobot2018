@@ -30,12 +30,13 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new ManualCubeLift());
 	}
-
+	
 	public void lifterPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
-		lifterPIDController = new SimplePIDController(p, i, d, false, RobotMap.cubeLiftEncoder, this);
-
-		lifterPIDController.setInputRange(-1, 1);
-		lifterPIDController.setOutputRange(-1, 1);
+		double maxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, 0.5);
+		
+		lifterPIDController = new SimplePIDController(p, i, d);
+		//lifterPIDController.setInputRange(0, 999999); TODO: determine range of encoder
+		lifterPIDController.setOutputRange(-maxPower/2, maxPower);
 		lifterPIDController.setAbsoluteTolerance(tolerance);
 		lifterPIDController.setSetpoint(setpoint);
 
@@ -43,14 +44,14 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 	}
 
 	public void liftToHeightPIDInit(double setpoint, double tolerance) {
-		lifterPIDControllerInit(Robot.preferences.getDouble(PreferenceKeys.LIFT_P_TERM, DEFAULT_LIFT_P),
-				Robot.preferences.getDouble(PreferenceKeys.LIFT_I_TERM, DEFAULT_LIFT_I),
-				Robot.preferences.getDouble(PreferenceKeys.LIFT_D_TERM, DEFAULT_LIFT_D), setpoint, tolerance);
+		double p = Robot.preferences.getDouble(PreferenceKeys.LIFT_P_TERM, DEFAULT_LIFT_P);
+		double i = Robot.preferences.getDouble(PreferenceKeys.LIFT_I_TERM, DEFAULT_LIFT_I);
+		double d = Robot.preferences.getDouble(PreferenceKeys.LIFT_D_TERM, DEFAULT_LIFT_D);
+		lifterPIDControllerInit(p, i, d, setpoint, tolerance);
 	}
 
 	public void liftToHeightPIDExecute() {
-		lifterPIDController.update();
-		double currentPIDOutput = lifterPIDOutput;
+		double currentPIDOutput = lifterPIDController.update(RobotMap.cubeLiftEncoder.get());
 
 		SmartDashboard.putNumber("Lift To Height PID Error", lifterPIDController.getError());
 		SmartDashboard.putNumber("Lift To Height PID Output", currentPIDOutput);
