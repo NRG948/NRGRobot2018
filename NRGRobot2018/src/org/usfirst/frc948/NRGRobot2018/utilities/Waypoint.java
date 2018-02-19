@@ -14,11 +14,18 @@ public class Waypoint {
         LESS_THAN_X,
         LESS_THAN_Y
     }
+    
+    public enum CoordinateType{
+        ABSOLUTE,
+        RELATIVE
+    }
 
+    public final CoordinateType coordinateType;
     public final double x, y, heading;
     public final PredicateType predicateType;
 
-    public Waypoint(double x, double y, double heading, PredicateType predicateType) {
+    public Waypoint(CoordinateType coordinateType, double x, double y, double heading, PredicateType predicateType) {
+        this.coordinateType = coordinateType;
         this.x = x;
         this.y = y;
         this.heading = heading;
@@ -28,12 +35,7 @@ public class Waypoint {
     public Predicate getPredicate() {
         switch (predicateType) {
         case NONE:
-            return new Predicate() {
-                @Override
-                public boolean isAtWaypoint() {
-                    return false;
-                }
-            };
+            return new DefaultPredicate();
 
         case GREATER_THAN_X:
             return new Predicate() {
@@ -71,5 +73,14 @@ public class Waypoint {
             throw new IllegalStateException("Invalid PredicateType");
 
         }
+    }
+    
+    public static class DefaultPredicate implements Predicate {
+
+        @Override
+        public boolean isAtWaypoint() {
+            return false;
+        }
+        
     }
 }
