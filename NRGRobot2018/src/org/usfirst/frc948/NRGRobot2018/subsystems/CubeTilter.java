@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * CubeTilter: subsystem for controlling cube acquirer tilt motor.
  * Positive power is for tilting up, negative power is for tilting down
- */
+ */ 
 public class CubeTilter extends Subsystem {
 	public static final double TILT_UP_POWER = 0.5;
 	public static final double TILT_DOWN_POWER = 0.1;

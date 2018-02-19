@@ -16,7 +16,7 @@ public class DriveToXYHeadingNoPIDTest extends Command {
 	final double Y_DISTANCE_TO_SLOW_DOWN = 15.0;
 	final double DISTANCE_TOLERANCE = 5.0;
 	
-	final double ANGLE_TO_SLOW_DOWN = 20.0; // in degrees
+	final double ANGLE_TO_SLOW_DOWN = 12.0; // in degrees
 	final double ANGLE_TOLERANCE = 5.0;
 	
 	double desiredX; // desired x
@@ -33,17 +33,17 @@ public class DriveToXYHeadingNoPIDTest extends Command {
 	
 	public DriveToXYHeadingNoPIDTest() {
 		requires(Robot.drive);
+	}
 
+	// Called just before this Command runs the first time
+	protected void initialize() {
 		desiredX = Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_X, 48.0);
 		desiredY = Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_Y, 48.0);
 		desiredHeading = Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_H, 0);
 		this.xMaxPower = Math.abs(Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_X_POWER, 0.9));
 		this.yMaxPower = Math.abs(Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_Y_POWER, 0.5));
 		this.turnMaxPower = Math.abs(Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_TURN_POWER, 0.9));
-	}
-
-	// Called just before this Command runs the first time
-	protected void initialize() {
+		
 		dXFieldFrame = Double.MAX_VALUE;
 		dYFieldFrame = Double.MAX_VALUE;
 	}
@@ -59,9 +59,9 @@ public class DriveToXYHeadingNoPIDTest extends Command {
 		dYFieldFrame = desiredY - currY;
 		double distanceToTarget = Math.sqrt(dXFieldFrame * dXFieldFrame + dYFieldFrame * dYFieldFrame);
 		
-		double dHeadingToXY = Math.toDegrees(Math.atan2(dXFieldFrame, dYFieldFrame)) - currHeading;
-		double dXRobotFrame = distanceToTarget * Math.sin(Math.toRadians(dHeadingToXY)); // desired x in robot coordinate frame
-		double dYRobotFrame = distanceToTarget * Math.cos(Math.toRadians(dHeadingToXY)); // desired y in robot coordinate frame
+		double dHeadingToXY = Math.atan2(dXFieldFrame, dYFieldFrame) - Math.toRadians(currHeading);
+		double dXRobotFrame = distanceToTarget * Math.sin(dHeadingToXY); // desired x in robot coordinate frame
+		double dYRobotFrame = distanceToTarget * Math.cos(dHeadingToXY); // desired y in robot coordinate frame
 		
 		// used for calculating turning power
 		dHeadingToTargetHeading = desiredHeading - currHeading;
@@ -76,7 +76,10 @@ public class DriveToXYHeadingNoPIDTest extends Command {
 
 		SmartDashboard.putNumber("driveToXYHeading/dXFieldFrame", dXFieldFrame);
 		SmartDashboard.putNumber("driveToXYHeading/dYFieldFrame", dYFieldFrame);
-		SmartDashboard.putNumber("driveToXYHeading/dHeadingToTargetHeading", dHeadingToTargetHeading);
+		SmartDashboard.putNumber("driveToXYHeading/dHeadingToTarget", dHeadingToTargetHeading);
+		SmartDashboard.putNumber("driveToXYHeading/dXRobotFrame", dXRobotFrame);
+		SmartDashboard.putNumber("driveToXYHeading/dYRobotFrame", dYRobotFrame);
+		SmartDashboard.putNumber("driveToXYHeading/dHeadingToXY", dHeadingToXY);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
