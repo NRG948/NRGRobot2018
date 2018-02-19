@@ -17,6 +17,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.AutonomousCommand;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingNoPIDTest;
+import org.usfirst.frc948.NRGRobot2018.commands.ManualClimb;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDrive;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualStrafeStraight;
@@ -43,11 +44,13 @@ public class OI {
 	public static Joystick leftJoystick;
 	public static Joystick rightJoystick;
 	public static Joystick xboxController;
+	public static Joystick arduinoJoystick;
 
 	public JoystickButton leftShiftGears;
 	public JoystickButton driveStraight;
 	public JoystickButton strafeStraight;
 	public JoystickButton rightShiftGears;
+	public JoystickButton climberButton;
 
 	public static SendableChooser<Command> chooser;
 
@@ -60,12 +63,17 @@ public class OI {
 		leftJoystick = new Joystick(0);
 		rightJoystick = new Joystick(1);
 		xboxController = new Joystick(2);
+		arduinoJoystick = new Joystick(3);
 
 		// Initializing buttons AFTER the Joysticks
 		leftShiftGears = new JoystickButton(leftJoystick, 1);
 		driveStraight = new JoystickButton(leftJoystick, 2);
 		strafeStraight = new JoystickButton(leftJoystick, 3);
 		rightShiftGears = new JoystickButton(rightJoystick, 1); // drive team needed it for both joysticks
+		
+		//arduino buttons
+		climberButton = new JoystickButton(arduinoJoystick, 10);
+		
 
 		// Initialize commands after initializing buttons
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
@@ -74,6 +82,8 @@ public class OI {
 		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
 		driveStraight.whileHeld(new ManualDriveStraight());
 		strafeStraight.whileHeld(new ManualStrafeStraight());
+		climberButton.whileHeld(new ManualClimb(0.5));
+		
 
 		// SmartDashboard Buttons
 		chooser = new SendableChooser<>();
