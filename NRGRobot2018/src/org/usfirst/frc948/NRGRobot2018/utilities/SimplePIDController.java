@@ -16,8 +16,8 @@ public class SimplePIDController {
 
 	private double minimumOutput = -1.0; // minimum output
 	private double maximumOutput = 1.0; // maximum output
-	private double minimumInput = -1.0; // minimum input - limit setpoint to this
-	private double maximumInput = 1.0; // maximum input - limit setpoint to this
+	private double minimumInput = -Double.MAX_VALUE; // minimum input - limit setpoint to this
+	private double maximumInput = Double.MAX_VALUE; // maximum input - limit setpoint to this
 	
 	private PIDSource source;
 	private PIDOutput output;
@@ -53,6 +53,20 @@ public class SimplePIDController {
 		this.source = source;
 		this.output = output;
 	}
+	
+	public SimplePIDController(double p, double i, double d, boolean isIntegralNeededToHoldPosition) {
+		kP = p;
+		kD = d;
+		kI = i;
+		this.tolerance = new Tolerance() {
+			
+			@Override
+			public boolean onTarget() {
+				throw new RuntimeException("tolerance needs to be specified explicitly");
+			}
+		};
+		this.isIntegralNeededToHoldPosition = isIntegralNeededToHoldPosition;
+	}
 
 	public void start() {
 		prevTime = System.nanoTime() / 1.0e9;
@@ -73,7 +87,7 @@ public class SimplePIDController {
 		}
 
 		// integral is reset if sensor value overshoots the setpoint
-		if (Math.signum(error) != Math.signum(prevError)) {
+		if (!isIntegralNeededToHoldPosition && Math.signum(error) != Math.signum(prevError)) {
 			integral = 0;
 		}
 
