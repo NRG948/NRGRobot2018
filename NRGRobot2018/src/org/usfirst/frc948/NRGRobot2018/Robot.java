@@ -179,6 +179,9 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("PositionTracker current y", positionTracker.getY());
 		SmartDashboard.putNumber("xEncoder", RobotMap.xEncoder.getDistance());
 		SmartDashboard.putNumber("yEncoder", RobotMap.yEncoder.getDistance());
+		SmartDashboard.putNumber("cubeLiftEncoder", RobotMap.cubeLiftEncoder.getDistance());
+		SmartDashboard.putNumber("cubeTilttEncoder", RobotMap.cubeTiltEncoder.getDistance());
+		SmartDashboard.putData("Limit5", RobotMap.lifterUpperLimitSwitch);
 	}
 
 	public void initPreferences() {
@@ -187,6 +190,22 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
 			preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
 			preferences.putDouble(PreferenceKeys.MAX_VEL_CHANGE, Drive.DEF_MAX_VEL_CHANGE);
+			
+			preferences.putDouble(PreferenceKeys.DRIVE_X_P, 1.0/6.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_I, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_D, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_MAX_POWER, 0.9);
+			
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_P, 1.0/15.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_I, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_D, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, 0.5);
+			
+
+			preferences.putDouble(PreferenceKeys.DRIVE_TURN_P, 1.0/12.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_TURN_I, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_TURN_D, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_TURN_MAX_POWER, 0.4);
 			
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_X, 48.0);
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_Y, 48.0);
@@ -197,12 +216,7 @@ public class Robot extends TimedRobot {
 			
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 
-			preferences.putDouble(PreferenceKeys.DRIVE_XYH_X, 48.0);
-			preferences.putDouble(PreferenceKeys.DRIVE_XYH_Y, 48.0);
-			preferences.putDouble(PreferenceKeys.DRIVE_XYH_H, 0.0);
-			preferences.putDouble(PreferenceKeys.DRIVE_XYH_X_POWER, 0.9);
-			preferences.putDouble(PreferenceKeys.DRIVE_XYH_Y_POWER, 0.5);
-			preferences.putDouble(PreferenceKeys.DRIVE_XYH_TURN_POWER, 0.3);
+			
 		}
 	}
 }
