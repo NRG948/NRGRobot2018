@@ -3,6 +3,7 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
+import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * DriveToXYHeadingNoPID: Drives/strafes to target x and y (inches), and heading (degrees)
  */
-public class DriveToXYHeadingNoPID extends Command {
+public class DriveToXYHeadingNoPIDTest extends Command {
 	final double X_DISTANCE_TO_SLOW_DOWN = 6.0; // in inches
 	final double Y_DISTANCE_TO_SLOW_DOWN = 15.0;
 	final double DISTANCE_TOLERANCE = 5.0;
@@ -30,16 +31,15 @@ public class DriveToXYHeadingNoPID extends Command {
 	
 	private double dHeadingToTargetHeading; // (desired heading) - (current robot heading)
 	
-	public DriveToXYHeadingNoPID(double x, double y, double heading, 
-			double xMaxPower, double yMaxPower, double turnMaxPower) {
+	public DriveToXYHeadingNoPIDTest() {
 		requires(Robot.drive);
 
-		desiredX = x;
-		desiredY = y;
-		desiredHeading = heading;
-		this.xMaxPower = Math.abs(xMaxPower);
-		this.yMaxPower = Math.abs(yMaxPower);
-		this.turnMaxPower = Math.abs(turnMaxPower);
+		desiredX = Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_X, 48.0);
+		desiredY = Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_Y, 48.0);
+		desiredHeading = Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_H, 0);
+		this.xMaxPower = Math.abs(Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_X_POWER, 0.9));
+		this.yMaxPower = Math.abs(Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_Y_POWER, 0.5));
+		this.turnMaxPower = Math.abs(Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_TURN_POWER, 0.9));
 	}
 
 	// Called just before this Command runs the first time
@@ -74,9 +74,9 @@ public class DriveToXYHeadingNoPID extends Command {
 		// sending calculated powers
 		Robot.drive.rawDriveCartesian(xPower, yPower, turnPower);
 
-		SmartDashboard.putNumber("driveToXYHeading/dX", dXFieldFrame);
-		SmartDashboard.putNumber("driveToXYHeading/dY", dYFieldFrame);
-		SmartDashboard.putNumber("driveToXYHeading/dHeading", dHeadingToXY);
+		SmartDashboard.putNumber("driveToXYHeading/dXFieldFrame", dXFieldFrame);
+		SmartDashboard.putNumber("driveToXYHeading/dYFieldFrame", dYFieldFrame);
+		SmartDashboard.putNumber("driveToXYHeading/dHeadingToTargetHeading", dHeadingToTargetHeading);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

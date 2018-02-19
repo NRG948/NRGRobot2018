@@ -15,4 +15,11 @@ public class PreferenceKeys {
 	public static final String LIFT_P_TERM = "Lift_P";
 	public static final String LIFT_I_TERM = "Lift_I";
 	public static final String LIFT_D_TERM = "Lift_D";
+	
+	public static final String DRIVE_XYH_X = "DRIVE_XYH_X";
+	public static final String DRIVE_XYH_Y = "DRIVE_XYH_Y";
+	public static final String DRIVE_XYH_H = "DRIVE_XYH_H";
+	public static final String DRIVE_XYH_X_POWER = "DRIVE_XYH_X_POWER";
+	public static final String DRIVE_XYH_Y_POWER = "DRIVE_XYH_X";
+	public static final String DRIVE_XYH_TURN_POWER = "DRIVE_XYH_X";
 }

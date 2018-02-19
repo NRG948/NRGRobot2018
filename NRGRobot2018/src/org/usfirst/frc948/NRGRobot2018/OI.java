@@ -16,7 +16,7 @@ import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
 import org.usfirst.frc948.NRGRobot2018.commands.AutonomousCommand;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
-import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingNoPID;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingNoPIDTest;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDrive;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualStrafeStraight;
@@ -30,7 +30,6 @@ import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -94,7 +93,7 @@ public class OI {
 		SmartDashboard.putData("driveStraightDistance 4 feet", new DriveStraightDistance(0.5, 48, Direction.FORWARD));
 		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
 		SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
-		SmartDashboard.putData("drive to xy heading with p", new DriveToXYHeadingNoPID(48.0, 48.0, -90));
+		SmartDashboard.putData("drive to xy heading with p", new DriveToXYHeadingNoPIDTest());
 	}
 
 	public Joystick getRightJoystick() {
