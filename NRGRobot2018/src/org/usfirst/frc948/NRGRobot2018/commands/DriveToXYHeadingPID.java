@@ -2,9 +2,6 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
-import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
-import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
-import org.usfirst.frc948.NRGRobot2018.utilities.SimplePIDController;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,38 +10,31 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * DriveToXYHeadingNoPID: Drives/strafes to target x and y (inches), and heading (degrees)
  */
 public class DriveToXYHeadingPID extends Command {
-	final double X_DISTANCE_TO_SLOW_DOWN = 6.0; // in inches
-	final double Y_DISTANCE_TO_SLOW_DOWN = 15.0;
 	final double DISTANCE_TOLERANCE = 5.0;
-	
-	final double ANGLE_TO_SLOW_DOWN = 12.0; // in degrees
 	final double ANGLE_TOLERANCE = 5.0;
 	
 	double desiredX; // desired x
 	double desiredY; // desired y
 	double desiredHeading; // desired heading
-	double xMaxPower;
-	double yMaxPower;
-	double turnMaxPower;
-
-	SimplePIDController xPIDController;
-	SimplePIDController yPIDController;
-	SimplePIDController turnPIDController;
 	
 	private double dXFieldFrame; // (desired x) - (current robot x position)
 	private double dYFieldFrame; // (desired y) - (current robot y position)
 	
-	private double dHeadingToTargetHeading; // (desired heading) - (current robot heading)
+	private double dHeadingToTarget; // (desired heading) - (current robot heading)
 	
-	public DriveToXYHeadingPID() {
+	public DriveToXYHeadingPID(double x, double y, double heading) {
 		requires(Robot.drive);
+		desiredX = x; 
+		desiredY = y;
+		desiredHeading = heading;  
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		desiredX = Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_X, 48.0);
-		desiredY = Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_Y, 48.0);
-		desiredHeading = Robot.preferences.getDouble(PreferenceKeys.DRIVE_XYH_H, 0);
+		//The goal is to drive dx and dy to zero and point toward the desired heading
+		Robot.drive.xPIDControllerInit(0, DISTANCE_TOLERANCE);
+		Robot.drive.yPIDControllerInit(0, DISTANCE_TOLERANCE);
+		Robot.drive.turnPIDControllerInit(desiredHeading, ANGLE_TOLERANCE);
 		
 		dXFieldFrame = Double.MAX_VALUE;
 		dYFieldFrame = Double.MAX_VALUE;
@@ -61,34 +51,31 @@ public class DriveToXYHeadingPID extends Command {
 		dYFieldFrame = desiredY - currY;
 		double distanceToTarget = Math.sqrt(dXFieldFrame * dXFieldFrame + dYFieldFrame * dYFieldFrame);
 		
-		double dHeadingToXY = Math.atan2(dXFieldFrame, dYFieldFrame) - Math.toRadians(currHeading);
-		double dXRobotFrame = distanceToTarget * Math.sin(dHeadingToXY); // desired x in robot coordinate frame
-		double dYRobotFrame = distanceToTarget * Math.cos(dHeadingToXY); // desired y in robot coordinate frame
-		
-		// used for calculating turning power
-		dHeadingToTargetHeading = desiredHeading - currHeading;
+		double headingRobotFrame = Math.atan2(dXFieldFrame, dYFieldFrame) - Math.toRadians(currHeading);
+		double dXRobotFrame = distanceToTarget * Math.sin(headingRobotFrame); // desired x in robot coordinate frame
+		double dYRobotFrame = distanceToTarget * Math.cos(headingRobotFrame); // desired y in robot coordinate frame
 		
 		// calculating powers
-		double xPower = MathUtil.clamp(dXRobotFrame / X_DISTANCE_TO_SLOW_DOWN, -xMaxPower, xMaxPower);
-		double yPower = MathUtil.clamp(dYRobotFrame / Y_DISTANCE_TO_SLOW_DOWN, -yMaxPower, yMaxPower);
-		double turnPower = MathUtil.clamp(dHeadingToTargetHeading / ANGLE_TO_SLOW_DOWN, -turnMaxPower, turnMaxPower);
-
+		double xPower = Robot.drive.xPIDControllerExecute(dXRobotFrame);
+		double yPower = Robot.drive.yPIDControllerExecute(dYRobotFrame);
+		double turnPower = Robot.drive.turnPIDControllerExecute(currHeading);
+		
 		// sending calculated powers
 		Robot.drive.rawDriveCartesian(xPower, yPower, turnPower);
 
 		SmartDashboard.putNumber("driveToXYHeading/dXFieldFrame", dXFieldFrame);
 		SmartDashboard.putNumber("driveToXYHeading/dYFieldFrame", dYFieldFrame);
-		SmartDashboard.putNumber("driveToXYHeading/dHeadingToTarget", dHeadingToTargetHeading);
+		SmartDashboard.putNumber("driveToXYHeading/dHeadingToTarget", desiredHeading - currHeading);
 		SmartDashboard.putNumber("driveToXYHeading/dXRobotFrame", dXRobotFrame);
 		SmartDashboard.putNumber("driveToXYHeading/dYRobotFrame", dYRobotFrame);
-		SmartDashboard.putNumber("driveToXYHeading/dHeadingToXY", dHeadingToXY);
+		SmartDashboard.putNumber("driveToXYHeading/dHeadingToXY", headingRobotFrame);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (Math.abs(dXFieldFrame) <= DISTANCE_TOLERANCE && 
-				Math.abs(dYFieldFrame) <= DISTANCE_TOLERANCE && 
-				Math.abs(dHeadingToTargetHeading) <= ANGLE_TOLERANCE);
+		return (Robot.drive.xPIDControllerOnTarget() && 
+				Robot.drive.yPIDControllerOnTarget() && 
+				Robot.drive.turnPIDControllerOnTarget());
 	}
 
 	// Called once after isFinished returns true

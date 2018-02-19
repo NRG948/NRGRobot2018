@@ -38,17 +38,7 @@ public class SimplePIDController {
 
 	public SimplePIDController(double p, double i, double d, boolean isIntegralNeededToHoldPosition, 
 			PIDSource source, PIDOutput output) {
-		kP = p;
-		kD = d;
-		kI = i;
-		this.tolerance = new Tolerance() {
-			
-			@Override
-			public boolean onTarget() {
-				throw new RuntimeException("tolerance needs to be specified explicitly");
-			}
-		};
-		this.isIntegralNeededToHoldPosition = isIntegralNeededToHoldPosition;
+		this(p, i, d, isIntegralNeededToHoldPosition);
 
 		this.source = source;
 		this.output = output;
@@ -67,11 +57,21 @@ public class SimplePIDController {
 		};
 		this.isIntegralNeededToHoldPosition = isIntegralNeededToHoldPosition;
 	}
-
-	public void start() {
+	
+	public SimplePIDController(double p, double i, double d) {
+		this(p, i, d, false);
+	}
+	
+	public SimplePIDController start() {
 		prevTime = System.nanoTime() / 1.0e9;
 		this.wasPIDReset = true;
 		integral = 0.0;
+		return this;
+	}
+	
+	public double update(double input, double setpoint) {
+		this.setpoint=setpoint;
+		return update(input);
 	}
 
 	public double update(double input) {
@@ -111,22 +111,25 @@ public class SimplePIDController {
 		output.pidWrite(result);
 	}
 
-	public void setSetpoint(double setpoint) {
+	public SimplePIDController setSetpoint(double setpoint) {
 		this.setpoint = setpoint;
 		wasPIDReset = true;
+		return this;
 	}
 	
-	public void setInputRange(double minimumInput, double maximumInput) {
+	public SimplePIDController setInputRange(double minimumInput, double maximumInput) {
 		this.minimumInput = minimumInput;
 		this.maximumInput = maximumInput;
+		return this;
 	}
 	
-	public void setOutputRange(double minimumOutput, double maximumOutput) {
+	public SimplePIDController setOutputRange(double minimumOutput, double maximumOutput) {
 		this.minimumOutput = minimumOutput;
 		this.maximumOutput = maximumOutput;
+		return this;
 	}
 
-	public void setAbsoluteTolerance(final double absoluteTolerance) {
+	public SimplePIDController setAbsoluteTolerance(final double absoluteTolerance) {
 		tolerance = new Tolerance() {
 			private double tolerance = Math.abs(absoluteTolerance);
 			
@@ -135,6 +138,7 @@ public class SimplePIDController {
 				return Math.abs(setpoint - prevInput) <= tolerance;
 			}
 		};
+		return this;
 	}
 
 	public double getError() {
