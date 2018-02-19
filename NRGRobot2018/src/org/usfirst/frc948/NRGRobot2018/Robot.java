@@ -177,6 +177,8 @@ public class Robot extends TimedRobot {
 		positionTracker.updatePosition();
 		SmartDashboard.putNumber("PositionTracker current x", positionTracker.getX());
 		SmartDashboard.putNumber("PositionTracker current y", positionTracker.getY());
+		SmartDashboard.putNumber("xEncoder", RobotMap.xEncoder.getDistance());
+		SmartDashboard.putNumber("yEncoder", RobotMap.yEncoder.getDistance());
 	}
 
 	public void initPreferences() {

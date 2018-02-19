@@ -82,8 +82,8 @@ public class RobotMap {
 		
 		climberMotor = new Victor(8);
 
-		xEncoder = new Encoder(2, 3, true); // positive is right
-		yEncoder = new Encoder(0, 1, false); // positive is forward
+		xEncoder = new Encoder(2, 3, false); // positive is right
+		yEncoder = new Encoder(0, 1, true); // positive is forward
 		cubeLiftEncoder = new Encoder(6, 7, true);
 		cubeTiltEncoder = new Encoder(8, 9, true);
 		

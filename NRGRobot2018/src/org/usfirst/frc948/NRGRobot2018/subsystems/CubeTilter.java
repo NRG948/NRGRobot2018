@@ -17,7 +17,7 @@ public class CubeTilter extends Subsystem {
     // here. Call these from Commands.
 
     public void initDefaultCommand() {
-        setDefaultCommand(new ManualCubeTilt());
+//        setDefaultCommand(new ManualCubeTilt());
     }
     
     public void rawTilt(double power) {
