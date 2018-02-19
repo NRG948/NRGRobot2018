@@ -90,11 +90,11 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 	}
 	
 	public boolean hasReachedUpperLimit() {
-		return !RobotMap.lifterUpperLimitSwitch.get();
+		return RobotMap.lifterUpperLimitSwitch.get();
 	}
 
 	public boolean hasReachedLowerLimit() {
-		return !RobotMap.lifterLowerLimitSwitch.get();
+		return RobotMap.lifterLowerLimitSwitch.get();
 	}
 	
 	@Override
