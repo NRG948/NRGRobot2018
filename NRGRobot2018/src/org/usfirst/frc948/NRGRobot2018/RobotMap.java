@@ -81,6 +81,7 @@ public class RobotMap {
 		cubeTitlerMotor = new Victor(7);
 		
 		climberMotor = new Victor(8);
+		climberMotor.setInverted(true);
 
 		xEncoder = new Encoder(2, 3, false); // positive is right
 		yEncoder = new Encoder(0, 1, true); // positive is forward
