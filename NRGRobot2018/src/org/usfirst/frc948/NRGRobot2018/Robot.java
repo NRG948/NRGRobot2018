@@ -188,6 +188,13 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
 			preferences.putDouble(PreferenceKeys.MAX_VEL_CHANGE, Drive.DEF_MAX_VEL_CHANGE);
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
+
+			preferences.putDouble(PreferenceKeys.DRIVE_XYH_X, 48.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_XYH_Y, 48.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_XYH_H, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_XYH_X_POWER, 0.9);
+			preferences.putDouble(PreferenceKeys.DRIVE_XYH_Y_POWER, 0.5);
+			preferences.putDouble(PreferenceKeys.DRIVE_XYH_TURN_POWER, 0.3);
 		}
 	}
 }

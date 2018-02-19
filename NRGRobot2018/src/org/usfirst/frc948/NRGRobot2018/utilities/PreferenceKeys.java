@@ -20,6 +20,6 @@ public class PreferenceKeys {
 	public static final String DRIVE_XYH_Y = "DRIVE_XYH_Y";
 	public static final String DRIVE_XYH_H = "DRIVE_XYH_H";
 	public static final String DRIVE_XYH_X_POWER = "DRIVE_XYH_X_POWER";
-	public static final String DRIVE_XYH_Y_POWER = "DRIVE_XYH_X";
-	public static final String DRIVE_XYH_TURN_POWER = "DRIVE_XYH_X";
+	public static final String DRIVE_XYH_Y_POWER = "DRIVE_XYH_Y_POWER";
+	public static final String DRIVE_XYH_TURN_POWER = "DRIVE_XYH_TURN_POWER";
 }
