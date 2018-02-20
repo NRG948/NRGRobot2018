@@ -15,7 +15,7 @@ public class Climber extends Subsystem {
 
     public void initDefaultCommand() {
     	// Set the default command for a subsystem here.
-    	setDefaultCommand(new ManualClimb(0.5));//the power is set to 0.5 for now
+    	setDefaultCommand(new ManualClimb(0));
     }
     public void rawClimb(double power){
     	RobotMap.climberMotor.set(power);

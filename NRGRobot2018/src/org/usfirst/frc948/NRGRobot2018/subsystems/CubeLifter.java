@@ -15,14 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * Positive power is for raising lifter, negative power is for lowering lifter.
  */
-public class CubeLifter extends Subsystem implements PIDOutput {
+public class CubeLifter extends Subsystem {
 	private SimplePIDController lifterPIDController;
-	private volatile double lifterPIDOutput;
 
-	private static final double LIFT_POWER_SCALE_UP = 0.5;
-	private static final double LIFT_POWER_SCALE_DOWN = 0.3;
+	public static final double LIFT_POWER_SCALE_UP = 0.5;
+	public static final double LIFT_POWER_SCALE_DOWN = 0.3;
 
-	public final static double DEFAULT_LIFT_P = 0.02;
+	public final static double DEFAULT_LIFT_P = 0.46;
 	public final static double DEFAULT_LIFT_I = 0.0;
 	public final static double DEFAULT_LIFT_D = 0.0;
 
@@ -32,11 +31,11 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 	}
 	
 	public void lifterPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
-		double maxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, 0.5);
-		
+		double maxPowerUp = Robot.preferences.getDouble(PreferenceKeys.LIFT_UP_MAX_POWER, LIFT_POWER_SCALE_UP);
+		double maxPowerDown = Robot.preferences.getDouble(PreferenceKeys.LIFT_DOWN_MAX_POWER, LIFT_POWER_SCALE_DOWN);
 		lifterPIDController = new SimplePIDController(p, i, d);
-		//lifterPIDController.setInputRange(0, 999999); TODO: determine range of encoder
-		lifterPIDController.setOutputRange(-maxPower/2, maxPower);
+		lifterPIDController.setInputRange(0, 75.5);
+		lifterPIDController.setOutputRange(-maxPowerDown, maxPowerUp);
 		lifterPIDController.setAbsoluteTolerance(tolerance);
 		lifterPIDController.setSetpoint(setpoint);
 
@@ -51,7 +50,7 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 	}
 
 	public void liftToHeightPIDExecute() {
-		double currentPIDOutput = lifterPIDController.update(RobotMap.cubeLiftEncoder.get());
+		double currentPIDOutput = lifterPIDController.update(RobotMap.cubeLiftEncoder.getDistance());
 
 		SmartDashboard.putNumber("Lift To Height PID Error", lifterPIDController.getError());
 		SmartDashboard.putNumber("Lift To Height PID Output", currentPIDOutput);
@@ -94,12 +93,8 @@ public class CubeLifter extends Subsystem implements PIDOutput {
 		return RobotMap.lifterUpperLimitSwitch.get();
 	}
 
+	//Reads the Hall Effect sensor which is true when open and false when closed
 	public boolean hasReachedLowerLimit() {
-		return RobotMap.lifterLowerLimitSwitch.get();
-	}
-	
-	@Override
-	public void pidWrite(double output) {
-		lifterPIDOutput = output;
+		return !RobotMap.lifterLowerLimitSwitch.get();
 	}
 }

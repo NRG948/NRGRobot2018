@@ -15,6 +15,8 @@ public class PreferenceKeys {
 	public static final String LIFT_P_TERM = "Lift_P";
 	public static final String LIFT_I_TERM = "Lift_I";
 	public static final String LIFT_D_TERM = "Lift_D";
+	public static final String LIFT_UP_MAX_POWER = "Lift_Up_Max_Power"; 
+	public static final String LIFT_DOWN_MAX_POWER = "Lift_Down_Max_Power";
 	
 	public static final String DRIVE_XYH_X = "DRIVE_XYH_X";
 	public static final String DRIVE_XYH_Y = "DRIVE_XYH_Y";
@@ -36,5 +38,6 @@ public class PreferenceKeys {
 	public static final String DRIVE_TURN_P = "DRIVE_TURN_P";
 	public static final String DRIVE_TURN_I = "DRIVE_TURN_I";
 	public static final String DRIVE_TURN_D = "DRIVE_TURN_D";
-	public static final String DRIVE_TURN_MAX_POWER = "DRIVE_TURN_MAX_POWER"; 
+	public static final String DRIVE_TURN_MAX_POWER = "DRIVE_TURN_MAX_POWER";
+
 }

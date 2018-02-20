@@ -10,14 +10,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Positive power is for tilting up, negative power is for tilting down
  */ 
 public class CubeTilter extends Subsystem {
-	public static final double TILT_UP_POWER = 0.5;
-	public static final double TILT_DOWN_POWER = 0.1;
+	public static final double TILT_UP_POWER = 0.3;
+	public static final double TILT_DOWN_POWER = -0.1;
 	
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
     public void initDefaultCommand() {
-//        setDefaultCommand(new ManualCubeTilt());
+        setDefaultCommand(new ManualCubeTilt());
     }
     
     public void rawTilt(double power) {

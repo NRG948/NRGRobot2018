@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ManualCubeTilt extends Command {
 
 	public ManualCubeTilt() {
+		requires(Robot.cubeTilter);
 	}
 
 	// Called just before this Command runs the first time
@@ -25,6 +26,8 @@ public class ManualCubeTilt extends Command {
 			Robot.cubeTilter.tiltUp();
 		} else if (OI.isXBoxDPadDown()) {
 			Robot.cubeTilter.tiltDown();
+		}else{
+			Robot.cubeTilter.stop();
 		}
 	}
 

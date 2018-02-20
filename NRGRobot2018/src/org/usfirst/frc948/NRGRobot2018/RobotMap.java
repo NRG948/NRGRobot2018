@@ -53,6 +53,7 @@ public class RobotMap {
 	
 	public static DigitalInput lifterLowerLimitSwitch;
 	public static DigitalInput lifterUpperLimitSwitch;
+	public static DigitalInput cubeDetectSwitch;
 
 	public static AHRS navx;
 	public static ContinuousGyro gyro;
@@ -79,18 +80,18 @@ public class RobotMap {
 		acquirerLeftMotor.setInverted(true);
 		acquirerRightMotor = new Victor(6);
 		cubeTitlerMotor = new Victor(7);
+		cubeTitlerMotor.setInverted(false);
 		
 		climberMotor = new Victor(8);
-		climberMotor.setInverted(true);
 
 		xEncoder = new Encoder(2, 3, false); // positive is right
 		yEncoder = new Encoder(0, 1, true); // positive is forward
-		cubeLiftEncoder = new Encoder(6, 7, true);
+		cubeLiftEncoder = new Encoder(6, 7, false);
 		cubeTiltEncoder = new Encoder(8, 9, true);
 		
 		xEncoder.setDistancePerPulse(0.0478); // inches per pulse, encoder is slipping
 		yEncoder.setDistancePerPulse(0.0506);
-		cubeLiftEncoder.setDistancePerPulse(1);
+		cubeLiftEncoder.setDistancePerPulse(75.5/6994); // inches/ticks
 		cubeTiltEncoder.setDistancePerPulse(1);
 
 		navx = new AHRS(SPI.Port.kMXP);
@@ -98,7 +99,8 @@ public class RobotMap {
 		
 		lifterLowerLimitSwitch = new DigitalInput(4);
 		lifterUpperLimitSwitch = new DigitalInput(5);
-
+		cubeDetectSwitch = new DigitalInput(10);
+		
 		pixyLink = new SPIwrapper(SPI.Port.kOnboardCS0);
 		pixy = new PixyCam(pixyLink);
 		pixy.startVisionThread();

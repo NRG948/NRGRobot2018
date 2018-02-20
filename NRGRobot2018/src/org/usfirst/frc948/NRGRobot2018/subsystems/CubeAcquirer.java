@@ -35,6 +35,10 @@ public class CubeAcquirer extends Subsystem {
 		RobotMap.acquirerRightMotor.set(rightPower);
 	}
 	
+	public static boolean isCubeIn(){
+		return !RobotMap.cubeDetectSwitch.get();
+	}
+	
 	public void stop() {
 		RobotMap.acquirerLeftMotor.stopMotor();
 		RobotMap.acquirerRightMotor.stopMotor();

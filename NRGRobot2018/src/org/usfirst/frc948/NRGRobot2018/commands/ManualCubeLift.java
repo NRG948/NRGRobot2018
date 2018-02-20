@@ -22,7 +22,7 @@ public class ManualCubeLift extends Command {
     	double upSpeed = OI.getXBoxTriggerL();
     	double downSpeed = OI.getXBoxTriggerR();
     	
-    	Robot.cubeLifter.rawLift(upSpeed - downSpeed);
+    	Robot.cubeLifter.manualLift(upSpeed - downSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

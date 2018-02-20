@@ -24,6 +24,8 @@ public class ResetSensors extends Command {
     	RobotMap.navx.reset();
     	RobotMap.xEncoder.reset();
     	RobotMap.yEncoder.reset();
+    	RobotMap.cubeLiftEncoder.reset();
+    	RobotMap.cubeTiltEncoder.reset();
     	Robot.positionTracker.reset();
     }
 

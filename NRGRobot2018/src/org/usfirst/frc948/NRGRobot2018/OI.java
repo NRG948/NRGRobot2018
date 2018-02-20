@@ -13,10 +13,11 @@ package org.usfirst.frc948.NRGRobot2018;
 
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquare;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
-import org.usfirst.frc948.NRGRobot2018.commands.AutonomousCommand;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingNoPIDTest;
+import org.usfirst.frc948.NRGRobot2018.commands.InterruptCommands;
+import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualClimb;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDrive;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
@@ -31,19 +32,20 @@ import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * This class is the glue that binds the controls on the physical operator interface to the commands
+ * and command groups that allow control of the robot.
  */
 public class OI {
 	public static Joystick leftJoystick;
 	public static Joystick rightJoystick;
-	public static Joystick xboxController;
+	public static XboxController xboxController;
 	public static Joystick arduinoJoystick;
 
 	public JoystickButton leftShiftGears;
@@ -51,6 +53,7 @@ public class OI {
 	public JoystickButton strafeStraight;
 	public JoystickButton rightShiftGears;
 	public JoystickButton climberButton;
+	public JoystickButton interruptButton;
 
 	public static SendableChooser<Command> chooser;
 
@@ -62,18 +65,20 @@ public class OI {
 		// Initializing Joysticks
 		leftJoystick = new Joystick(0);
 		rightJoystick = new Joystick(1);
-		xboxController = new Joystick(2);
+		xboxController = new XboxController(2);
 		arduinoJoystick = new Joystick(3);
 
 		// Initializing buttons AFTER the Joysticks
 		leftShiftGears = new JoystickButton(leftJoystick, 1);
 		driveStraight = new JoystickButton(leftJoystick, 2);
 		strafeStraight = new JoystickButton(leftJoystick, 3);
-		rightShiftGears = new JoystickButton(rightJoystick, 1); // drive team needed it for both joysticks
-		
-		//arduino buttons
-		climberButton = new JoystickButton(arduinoJoystick, 10);
-		
+		interruptButton = new JoystickButton(leftJoystick, 6);
+		rightShiftGears = new JoystickButton(rightJoystick, 1);// drive team needed it for both
+																// joysticks
+
+		// arduino buttons
+		// climberButton = new JoystickButton(arduinoJoystick, 10);
+		climberButton = new JoystickButton(xboxController, 8);
 
 		// Initialize commands after initializing buttons
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
@@ -82,40 +87,22 @@ public class OI {
 		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
 		driveStraight.whileHeld(new ManualDriveStraight());
 		strafeStraight.whileHeld(new ManualStrafeStraight());
-		climberButton.whileHeld(new ManualClimb(0.5));
-		
+		climberButton.whileHeld(new ManualClimb(0.7));
+		interruptButton.whenPressed(new InterruptCommands());
 
 		// SmartDashboard Buttons
-		chooser = new SendableChooser<>();
-		chooser.addDefault("Autonomous Command", new AutonomousCommand());
-		SmartDashboard.putData("Auto mode", chooser);
 
-		SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
 		SmartDashboard.putData("ManualDrive", new ManualDrive());
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
 		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
-		SmartDashboard.putData("Drive Straight 2 seconds", new DriveStraightTimed(0.5, 2.0));
-		SmartDashboard.putData("Strafe Straight 2 seconds", new StrafeStraightTimed(1, 2.0));
-		SmartDashboard.putData("DriveSquareAuto", new DriveSquare());
-		SmartDashboard.putData("DriveSquareWithTurning", new DriveSquareWithTurning());
-		SmartDashboard.putData("TestPixyData", new TestPixyData());
 		SmartDashboard.putData("driveStraightDistance 4 feet", new DriveStraightDistance(0.5, 48, Direction.FORWARD));
 		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
-		SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
+		SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
+				new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
 		SmartDashboard.putData("drive to xy heading with p", new DriveToXYHeadingNoPIDTest());
-	}
-
-	public Joystick getRightJoystick() {
-		return rightJoystick;
-	}
-
-	public Joystick getLeftJoystick() {
-		return leftJoystick;
-	}
-
-	public Joystick getXboxController() {
-		return xboxController;
+		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(66));
+		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(22));
 	}
 
 	public static double getRightJoystickX() {
@@ -149,7 +136,7 @@ public class OI {
 
 	public static boolean isXBoxDPadUp() {
 		int pov = xboxController.getPOV();
-		return pov >= 315 || pov <= 45;
+		return pov == 0 || pov == 45 || pov == 315;
 	}
 
 	public static boolean isXBoxDPadDown() {

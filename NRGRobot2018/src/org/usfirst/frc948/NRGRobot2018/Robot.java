@@ -27,6 +27,7 @@ import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -181,7 +182,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("yEncoder", RobotMap.yEncoder.getDistance());
 		SmartDashboard.putNumber("cubeLiftEncoder", RobotMap.cubeLiftEncoder.getDistance());
 		SmartDashboard.putNumber("cubeTilttEncoder", RobotMap.cubeTiltEncoder.getDistance());
-		SmartDashboard.putData("Limit5", RobotMap.lifterUpperLimitSwitch);
+		SmartDashboard.putData("LimitUpper", RobotMap.lifterUpperLimitSwitch);
+		SmartDashboard.putNumber("POV", OI.xboxController.getPOV());
 	}
 
 	public void initPreferences() {
@@ -201,6 +203,11 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.DRIVE_Y_D, 0.0);
 			preferences.putDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, 0.5);
 			
+			preferences.putDouble(PreferenceKeys.LIFT_P_TERM, CubeLifter.DEFAULT_LIFT_P);
+			preferences.putDouble(PreferenceKeys.LIFT_I_TERM, CubeLifter.DEFAULT_LIFT_I);
+			preferences.putDouble(PreferenceKeys.LIFT_D_TERM, CubeLifter.DEFAULT_LIFT_D);
+			preferences.putDouble(PreferenceKeys.LIFT_UP_MAX_POWER, CubeLifter.LIFT_POWER_SCALE_UP);
+			preferences.putDouble(PreferenceKeys.LIFT_DOWN_MAX_POWER, CubeLifter.LIFT_POWER_SCALE_DOWN);
 
 			preferences.putDouble(PreferenceKeys.DRIVE_TURN_P, 1.0/12.0);
 			preferences.putDouble(PreferenceKeys.DRIVE_TURN_I, 0.0);
