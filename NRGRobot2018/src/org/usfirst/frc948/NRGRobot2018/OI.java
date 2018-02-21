@@ -16,6 +16,8 @@ import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingNoPIDTest;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPID;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPIDTest;
 import org.usfirst.frc948.NRGRobot2018.commands.InterruptCommands;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualClimb;
@@ -90,19 +92,19 @@ public class OI {
 		climberButton.whileHeld(new ManualClimb(0.7));
 		interruptButton.whenPressed(new InterruptCommands());
 
-		// SmartDashboard Buttons
+		// SmartDashboard Button\
 
 		SmartDashboard.putData("ManualDrive", new ManualDrive());
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
-		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
-		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
-		SmartDashboard.putData("driveStraightDistance 4 feet", new DriveStraightDistance(0.5, 48, Direction.FORWARD));
-		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
-		SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
-				new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
-		SmartDashboard.putData("drive to xy heading with p", new DriveToXYHeadingNoPIDTest());
+//		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
+//		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
+//		SmartDashboard.putData("driveStraightDistance 4 feet", new DriveStraightDistance(0.5, 48, Direction.FORWARD));
+//		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
+//		SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
+//				new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
 		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(66));
 		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(22));
+		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
 	}
 
 	public static double getRightJoystickX() {
