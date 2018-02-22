@@ -3,22 +3,24 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
+import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //Units are in inches
 public class DriveStraightDistance extends Command {
-	private final boolean powerInY;
+	private final double desiredDistance; // in inches
 	private final double maxPower;
-	private final double distance;
+	private final boolean powerInY;
+	
 	private double startX;
 	private double startY;
 	private double distanceTravelled;
 
 	public DriveStraightDistance(double power, double distance, Drive.Direction direction) {
 		requires(Robot.drive);
-		this.distance = Math.abs(distance);
+		this.desiredDistance = Math.abs(distance);
 
 		switch (direction) {
 		case FORWARD:
@@ -49,41 +51,29 @@ public class DriveStraightDistance extends Command {
 		distanceTravelled = 0.0;
 
 		Robot.drive.driveHeadingPIDInit(RobotMap.gyro.getAngle(), 2.0);
-		SmartDashboard.putNumber("startX", startX);
-		SmartDashboard.putNumber("startY", startY);
+		
+		SmartDashboard.putNumber("DriveStraightDistance/startX", startX);
+		SmartDashboard.putNumber("DriveStraightDistance/startY", startY);
 	}
 
 	protected void execute() {
 		distanceTravelled = calculateDistanceTravelled();
 		if (powerInY) {
-			double power = maxPower * Math.min(1.0, (distance - Math.min(distance, distanceTravelled)) / 9.0);
-			SmartDashboard.putNumber("dsdYpower", power);
-			Robot.drive.driveHeadingPIDExecute(0, power);
+			double remainingDistance = desiredDistance - distanceTravelled;
+			// start slowing down at 9in. away from target
+			double calculatedPower = maxPower * MathUtil.clamp(remainingDistance / 9.0, 0, 1);
+			Robot.drive.driveHeadingPIDExecute(0, calculatedPower);
+			
+			SmartDashboard.putNumber("DriveStraightDistance/power", calculatedPower);
 		} else {
 			Robot.drive.driveHeadingPIDExecute(maxPower, 0);
+			
+			SmartDashboard.putNumber("DriveStraightDistance/power", maxPower);
 		}
 	}
 
-	private double calculateDistanceTravelled() {
-		double currentX = Robot.positionTracker.getX();
-		double currentY = Robot.positionTracker.getY();
-
-		double deltaX = currentX - startX;
-		double deltaY = currentY - startY;
-
-		double travel = Math.sqrt((deltaY * deltaY) + (deltaX * deltaX));
-
-		SmartDashboard.putNumber("distance travelled", travel);
-		SmartDashboard.putNumber("deltaX", deltaX);
-		SmartDashboard.putNumber("deltaY", deltaY);
-		SmartDashboard.putNumber("currentX", currentX);
-		SmartDashboard.putNumber("currentY", currentY);
-
-		return travel;
-	}
-
 	protected boolean isFinished() {
-		return (distanceTravelled >= distance);
+		return (distanceTravelled >= desiredDistance);
 	}
 
 	// Called once after isFinished returns true
@@ -95,5 +85,23 @@ public class DriveStraightDistance extends Command {
 	// subsystems is scheduled to run
 	protected void interrupted() {
 		end();
+	}
+	
+	private double calculateDistanceTravelled() {
+		double currX = Robot.positionTracker.getX();
+		double currY = Robot.positionTracker.getY();
+		
+		double dX = currX - startX;
+		double dY = currY - startY;
+		
+		double distanceTravelled = Math.sqrt((dY * dY) + (dX * dX));
+		
+		SmartDashboard.putNumber("DriveStraightDistance/distance travelled", distanceTravelled);
+		SmartDashboard.putNumber("DriveStraightDistance/deltaX", dX);
+		SmartDashboard.putNumber("DriveStraightDistance/deltaY", dY);
+		SmartDashboard.putNumber("DriveStraightDistance/currentX", currX);
+		SmartDashboard.putNumber("DriveStraightDistance/currentY", currY);
+		
+		return distanceTravelled;
 	}
 }

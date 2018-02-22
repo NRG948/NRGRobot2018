@@ -143,7 +143,13 @@ public class OI {
 		int pov = xboxController.getPOV();
 		return pov >= 135 && pov <= 225;
 	}
+	
+	public static DriverStation.Alliance getAllianceColor() {
+		return DriverStation.getInstance().getAlliance();
+	}
 
+	// These methods return the location of the alliance's switch/scale plates,
+	// relative to the alliance facing the field from behind the alliance wall
 	public static Side getAllianceSwitchSide() {
 		return DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L' ? Side.LEFT : Side.RIGHT;
 	}
@@ -154,9 +160,5 @@ public class OI {
 
 	public static Side getOpposingSwitchSide() {
 		return DriverStation.getInstance().getGameSpecificMessage().charAt(2) == 'L' ? Side.LEFT : Side.RIGHT;
-	}
-
-	public static DriverStation.Alliance getAllianceColor() {
-		return DriverStation.getInstance().getAlliance();
 	}
 }
