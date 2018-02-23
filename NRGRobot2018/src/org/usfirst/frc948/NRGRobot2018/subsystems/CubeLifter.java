@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CubeLifter extends Subsystem {
 	private SimplePIDController lifterPIDController;
 
-	public static final double LIFT_POWER_SCALE_UP = 0.5;
-	public static final double LIFT_POWER_SCALE_DOWN = 0.3;
+	public static final double LIFT_POWER_SCALE_UP = 0.6;
+	public static final double LIFT_POWER_SCALE_DOWN = 0.35;
 
 	public final static double DEFAULT_LIFT_P = 0.46;
 	public final static double DEFAULT_LIFT_I = 0.0;
