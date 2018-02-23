@@ -15,7 +15,6 @@ import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquare;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
-import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingNoPIDTest;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPID;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPIDTest;
 import org.usfirst.frc948.NRGRobot2018.commands.InterruptCommands;
