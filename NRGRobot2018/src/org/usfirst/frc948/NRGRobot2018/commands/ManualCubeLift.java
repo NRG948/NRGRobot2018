@@ -19,8 +19,8 @@ public class ManualCubeLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double upSpeed = OI.getXBoxTriggerL();
-    	double downSpeed = OI.getXBoxTriggerR();
+    	double upSpeed = OI.getXBoxTriggerR();
+    	double downSpeed = OI.getXBoxTriggerL();
     	
     	Robot.cubeLifter.manualLift(upSpeed - downSpeed);
     }

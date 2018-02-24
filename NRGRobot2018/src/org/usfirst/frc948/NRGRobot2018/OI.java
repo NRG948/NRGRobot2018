@@ -77,8 +77,8 @@ public class OI {
 																// joysticks
 
 		// arduino buttons
-		// climberButton = new JoystickButton(arduinoJoystick, 10);
-		climberButton = new JoystickButton(xboxController, 8);
+		 climberButton = new JoystickButton(arduinoJoystick, 10);
+		// climberButton = new JoystickButton(xboxController, 8);
 
 		// Initialize commands after initializing buttons
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
