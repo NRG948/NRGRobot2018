@@ -1,7 +1,6 @@
 package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.Robot;
-import org.usfirst.frc948.NRGRobot2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -28,7 +27,7 @@ public class SetDriveScale extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
