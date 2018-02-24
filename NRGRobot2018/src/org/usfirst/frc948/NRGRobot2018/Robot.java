@@ -12,22 +12,19 @@ package org.usfirst.frc948.NRGRobot2018;
 
 import java.util.ArrayList;
 
-import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
-import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.AutonomousRoutine;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Climber;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeAcquirer;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
-import org.usfirst.frc948.NRGRobot2018.utilities.PositionTracker;
 import org.usfirst.frc948.NRGRobot2018.utilities.CubeCalculations;
+import org.usfirst.frc948.NRGRobot2018.utilities.PositionTracker;
 import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -59,6 +56,7 @@ public class Robot extends TimedRobot {
 	public static CubeTilter cubeTilter;
 	public static Climber climber;
 	public static PositionTracker positionTracker;
+
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -222,8 +220,6 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_TURN_POWER, 0.3);
 			
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
-
-			
 		}
 	}
 }
