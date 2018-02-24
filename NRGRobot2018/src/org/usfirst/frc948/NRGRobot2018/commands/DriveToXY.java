@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * DriveToXY command is preferred
+ * Backup command in case x-encoder doesn't work
  */
 public class DriveToXY extends Command {
 

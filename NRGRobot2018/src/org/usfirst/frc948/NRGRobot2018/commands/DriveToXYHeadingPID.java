@@ -60,9 +60,9 @@ public class DriveToXYHeadingPID extends Command {
         dYFieldFrame = desiredY - currY;
         double distanceToTarget = Math.sqrt(dXFieldFrame * dXFieldFrame + dYFieldFrame * dYFieldFrame);
 
-        double headingRobotFrame = Math.atan2(dXFieldFrame, dYFieldFrame) - Math.toRadians(currHeading);
-        double dXRobotFrame = distanceToTarget * Math.sin(headingRobotFrame); // desired x in robot coordinate frame
-        double dYRobotFrame = distanceToTarget * Math.cos(headingRobotFrame); // desired y in robot coordinate frame
+        double headingRobotFrame = Math.atan2(dXFieldFrame, dYFieldFrame) - Math.toRadians(currHeading); // all in radians
+        double dXRobotFrame = -distanceToTarget * Math.sin(headingRobotFrame); // x-displacement from (0, 0) in robot coordinate frame
+        double dYRobotFrame = -distanceToTarget * Math.cos(headingRobotFrame); // y-displacement from (0, 0) in robot coordinate frame
 
         // calculating powers
         double xPower = Robot.drive.xPIDControllerExecute(dXRobotFrame);
