@@ -16,6 +16,12 @@ public class CubeAcquirer extends Subsystem {
 		ACQUIRE, EJECT;
 	}
 	
+	public boolean lastCubeSwitchState;
+	
+	public CubeAcquirer() {
+		lastCubeSwitchState = isCubeIn();
+	}
+	
 	public void initDefaultCommand() {
 		setDefaultCommand(new ManualCubeAcquire());
 	}
@@ -38,6 +44,7 @@ public class CubeAcquirer extends Subsystem {
 	public boolean isCubeIn(){
 		return !RobotMap.cubeDetectSwitch.get();
 	}
+	
 	
 	public void stop() {
 		RobotMap.acquirerLeftMotor.stopMotor();

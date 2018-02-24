@@ -83,6 +83,7 @@ public class Robot extends TimedRobot {
 
 		initPreferences();
 		RobotMap.pixy.startVisionThread();
+		RobotMap.arduino.startArduinoThread();
 		System.out.println("robotInit() done");
 		
 		autoPositionChooser = new SendableChooser<AutoPosition>();
@@ -101,6 +102,7 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
 		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
+		
 	}
 
 	/**
