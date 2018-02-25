@@ -20,34 +20,24 @@ public class Arduino {
 	void updateLights() {
 		byte[] outBuf = new byte[1];
 		boolean currentCubeSwitchState = Robot.cubeAcquirer.isCubeIn();
-		
-		if(currentCubeSwitchState != Robot.cubeAcquirer.lastCubeSwitchState) {
+
+		if (currentCubeSwitchState != Robot.cubeAcquirer.lastCubeSwitchState) {
 			// cube is fully acquired if switch state is true
-			outBuf[0] = (byte) (currentCubeSwitchState ? 
-					ArduinoLightConstants.CUBE_SENSOR_PRESSED : ArduinoLightConstants.CUBE_SENSOR_RELEASED);		
+			outBuf[0] = (byte) (currentCubeSwitchState ? ArduinoLightConstants.CUBE_SENSOR_PRESSED
+					: ArduinoLightConstants.CUBE_SENSOR_RELEASED);
 			Robot.cubeAcquirer.lastCubeSwitchState = currentCubeSwitchState;
+		} else {
+			
 		}
-		
+
 		link.send(outBuf);
 	}
-
-//	public boolean isVisionEnabled() {
-//		return isEnabled;
-//	}
-//
-//	public void enableVision() {
-//		isEnabled = true;
-//	}
-//
-//	public void disableVision() {
-//		isEnabled = false;
-//	}
 
 	private class ArduinoTask extends TimerTask {
 		private Arduino arduino;
 
-		public ArduinoTask(Arduino pixyCam) {
-			this.arduino = pixyCam;
+		public ArduinoTask(Arduino arduino) {
+			this.arduino = arduino;
 		}
 
 		@Override

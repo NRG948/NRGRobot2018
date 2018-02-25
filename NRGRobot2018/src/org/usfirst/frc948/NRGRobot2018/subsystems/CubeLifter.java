@@ -25,6 +25,20 @@ public class CubeLifter extends Subsystem {
 	public final static double DEFAULT_LIFT_I = 0.0;
 	public final static double DEFAULT_LIFT_D = 0.0;
 
+	public enum LifterLevel {
+		SWITCH(20.0),
+		
+		SCALE_LOW(56.5),
+		SCALE_MEDIUM(64.5),
+		SCALE_HIGH(76.5);
+		
+		double height;
+
+		private LifterLevel(double height) {
+			this.height = height;
+		}
+	}
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new ManualCubeLift());
