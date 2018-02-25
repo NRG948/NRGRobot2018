@@ -170,9 +170,9 @@ public class Robot extends TimedRobot {
 		if (currFrame.size() > 0) {
 			Block cube = currFrame.get(0);
 			
-			SmartDashboard.putString("Cube", cube.toString());
-			SmartDashboard.putNumber("Angle to turn", CubeCalculations.getAngleToTurn(cube));
-			SmartDashboard.putNumber("Inches to cube from width", CubeCalculations.getDistanceFromWidth(cube));
+			SmartDashboard.putString("Cube/Cube", cube.toString());
+			SmartDashboard.putNumber("Cube/Angle to turn", CubeCalculations.getAngleToTurn(cube));
+			SmartDashboard.putNumber("Cube/Inches to cube from width", CubeCalculations.getDistanceFromWidth(cube));
 		}
 
 		positionTracker.updatePosition();
