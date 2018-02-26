@@ -33,7 +33,9 @@ public class Drive extends Subsystem implements PIDOutput {
 	private SimplePIDController yPIDController;
 	private SimplePIDController turnPIDController;
 	private SimplePIDController drivePIDController;
+	private int cyclesOnTarget;
 	private volatile double drivePIDOutput = 0;
+	private static final int REQUIRED_CYCLES_ON_TARGET = 3;
 
 	public final static double DEFAULT_TURN_P = 0.18;
 	public final static double DEFAULT_TURN_I = 0.6;
@@ -69,6 +71,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		drivePIDController.setSetpoint(setpoint);
 
 		drivePIDController.start();
+		cyclesOnTarget = 0;
 	}
 
 	public void xPIDControllerInit(double setpoint, double tolerance) {
@@ -78,6 +81,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		double xMaxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_X_MAX_POWER, 0.9);
 
 		xPIDController = createPIDController(setpoint, tolerance, xP, xI, xD, xMaxPower);
+		
+		cyclesOnTarget = 0;
 	}
 
 
@@ -90,10 +95,10 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void turnPIDControllerInit(double setpoint, double tolerance) {
-		double turnP = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TURN_P, 1/12.0);
-		double turnI = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TURN_I, 0.0);
-		double turnD = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TURN_D, 0.0);
-		double turnMaxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TURN_MAX_POWER, 0.4);
+		double turnP = Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P);
+		double turnI = Robot.preferences.getDouble(PreferenceKeys.TURN_I_TERM, DEFAULT_TURN_I);
+		double turnD = Robot.preferences.getDouble(PreferenceKeys.TURN_D_TERM, DEFAULT_TURN_D);
+		double turnMaxPower = 1;
 		turnPIDController = createPIDController(setpoint, tolerance, turnP, turnI, turnD, turnMaxPower);
 	}
 
@@ -128,10 +133,16 @@ public class Drive extends Subsystem implements PIDOutput {
 	public void driveHeadingPIDEnd() {
 		drivePIDController = null;
 		stop();
+		SmartDashboard.putNumber("DriveOnHeadingEnd gyro", RobotMap.gyro.getAngle());
 	}
 
 	public boolean drivePIDControllerOnTarget() {
-		return drivePIDController.onTarget();
+		if (drivePIDController.onTarget()) {
+			cyclesOnTarget++;
+		} else {
+			cyclesOnTarget = 0;
+		}
+		return cyclesOnTarget >= REQUIRED_CYCLES_ON_TARGET;
 	}
 	
 	public boolean xPIDControllerOnTarget() {
@@ -145,6 +156,15 @@ public class Drive extends Subsystem implements PIDOutput {
 	public boolean turnPIDControllerOnTarget() {
 		return turnPIDController.onTarget();
 	}
+	
+    public boolean allControllersOnTarget(boolean isFinalWaypoint) {
+		if (xPIDControllerOnTarget() && yPIDControllerOnTarget() && turnPIDControllerOnTarget()) {
+			cyclesOnTarget++;
+		} else {
+			cyclesOnTarget = 0;
+		}
+		return cyclesOnTarget >= (isFinalWaypoint ? REQUIRED_CYCLES_ON_TARGET : 1);
+    }
 
 	public void driveCartesian(double currVelX, double currVelY, double currRot) {
 		double maxVelDifference = Robot.preferences.getDouble(PreferenceKeys.MAX_VEL_CHANGE, DEF_MAX_VEL_CHANGE);
