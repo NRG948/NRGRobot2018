@@ -9,12 +9,13 @@ import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class DriveToCubeNoPID extends Command {
-	private final double DISTANCE_TO_SLOW = 25;
+	private final double DISTANCE_TO_SLOW = 33;
 	private final int DISTANCE_TO_STOP = 21;
 
 	ArrayList<Block> currFrame;
@@ -35,6 +36,7 @@ public class DriveToCubeNoPID extends Command {
     	currFrame = RobotMap.pixy.getPixyFrameData();
     	Block currBlock;
     	
+    	SmartDashboard.putNumber("DriveToCube/current frame size", currFrame.size());
     	if (currFrame.size() > 0) {
     		currBlock = currFrame.get(0);
     		distanceToCube = CubeCalculations.getDistanceFromWidth(currBlock);
@@ -44,12 +46,13 @@ public class DriveToCubeNoPID extends Command {
     		double turnPower = Math.copySign(MathUtil.clamp(Math.abs(cubeNormalized), 0.15, 1), cubeNormalized);
 
 			Robot.drive.rawDriveCartesian(0, drivePower, turnPower);
+			SmartDashboard.putNumber("DriveToCube/distance", distanceToCube);
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return distanceToCube <= DISTANCE_TO_STOP;
+        return distanceToCube <= DISTANCE_TO_STOP;	
     }
 
     // Called once after isFinished returns true

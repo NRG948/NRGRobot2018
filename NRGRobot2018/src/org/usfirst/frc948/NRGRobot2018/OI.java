@@ -13,6 +13,7 @@ package org.usfirst.frc948.NRGRobot2018;
 
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquare;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
+import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveToCubeAndGrab;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
@@ -106,6 +107,7 @@ public class OI {
 		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(22));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
 		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID());
+		SmartDashboard.putData("Drive to Cube and Grab", new DriveToCubeAndGrab());
 	}
 
 	public static double getRightJoystickX() {

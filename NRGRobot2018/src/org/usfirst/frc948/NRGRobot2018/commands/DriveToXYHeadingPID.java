@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * (degrees)
  */
 public class DriveToXYHeadingPID extends Command {
-    final double DISTANCE_TOLERANCE = 0.0;
+    final double DISTANCE_TOLERANCE = 1.0;
     final double ANGLE_TOLERANCE = 1.0;
     
     final double desiredX; // desired x
@@ -88,7 +88,7 @@ public class DriveToXYHeadingPID extends Command {
     protected void end() {
         if (isFinalWaypoint) {
             Robot.drive.stop();
-            SmartDashboard.putNumber("DriveToXYHeading gyro", RobotMap.gyro.getAngle());
+            SmartDashboard.putNumber("DriveToXYHeading/gyro", RobotMap.gyro.getAngle());
         }
     }
 

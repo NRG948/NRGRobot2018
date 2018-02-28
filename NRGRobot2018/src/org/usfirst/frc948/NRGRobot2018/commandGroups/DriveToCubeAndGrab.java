@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class DriveToCubeAndGrab extends CommandGroup {
 
     public DriveToCubeAndGrab() {
-    	addSequential(new DriveToCubeNoPID());
-    	addSequential(new AcquireUntilCubeDetected(0.5));
+    	addParallel(new DriveToCubeNoPID());
+    	addSequential(new AcquireUntilCubeDetected(-0.5));
     }
 }
