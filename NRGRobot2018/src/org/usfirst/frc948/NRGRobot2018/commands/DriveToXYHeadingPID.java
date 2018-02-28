@@ -12,30 +12,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * (degrees)
  */
 public class DriveToXYHeadingPID extends Command {
-    final double DISTANCE_TOLERANCE = 5.0;
-    final double ANGLE_TOLERANCE = 5.0;
+    final double DISTANCE_TOLERANCE = 0.0;
+    final double ANGLE_TOLERANCE = 1.0;
     
     final double desiredX; // desired x
     final double desiredY; // desired y
     final double desiredHeading; // desired heading
     final private Waypoint.Predicate predicate;
-    final private boolean stopAtEnd;
+    final private boolean isFinalWaypoint;
     
     private double dXFieldFrame; // (desired x) - (current robot x position)
     private double dYFieldFrame; // (desired y) - (current robot y position)
-
 
     public DriveToXYHeadingPID(double x, double y, double heading) {
         this(x, y, heading, new Waypoint.DefaultPredicate(), true);
     }
 
-    public DriveToXYHeadingPID(double x, double y, double heading, Waypoint.Predicate predicate, boolean stopAtEnd) {
+    public DriveToXYHeadingPID(double x, double y, double heading, Waypoint.Predicate predicate, boolean isFinalWaypoint) {
         requires(Robot.drive);
         desiredX = x;
         desiredY = y;
         desiredHeading = heading;
         this.predicate = predicate;
-        this.stopAtEnd = stopAtEnd;
+        this.isFinalWaypoint = isFinalWaypoint;
     }
 
     // Called just before this Command runs the first time
@@ -82,14 +81,14 @@ public class DriveToXYHeadingPID extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return predicate.isAtWaypoint() || (Robot.drive.xPIDControllerOnTarget() && Robot.drive.yPIDControllerOnTarget()
-                && Robot.drive.turnPIDControllerOnTarget());
+        return predicate.isAtWaypoint() || Robot.drive.allControllersOnTarget(isFinalWaypoint);
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        if (stopAtEnd) {
+        if (isFinalWaypoint) {
             Robot.drive.stop();
+            SmartDashboard.putNumber("DriveToXYHeading gyro", RobotMap.gyro.getAngle());
         }
     }
 
