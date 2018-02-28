@@ -82,8 +82,9 @@ public class RobotMap {
 		cubeLifterMotor = new Victor(4);
 		
 		acquirerLeftMotor = new Victor(5);
-		acquirerLeftMotor.setInverted(true);
 		acquirerRightMotor = new Victor(6);
+		acquirerRightMotor.setInverted(true);
+		
 		cubeTitlerMotor = new Victor(7);
 		cubeTitlerMotor.setInverted(false);
 		

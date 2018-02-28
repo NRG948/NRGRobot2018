@@ -24,8 +24,9 @@ public class ManualCubeAcquire extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double leftPower = MathUtil.deadband(OI.xboxController.getY(Hand.kLeft), 0.1);
-    	double rightPower = MathUtil.deadband(OI.xboxController.getY(Hand.kRight), 0.1);
+    	// xbox joystick y values need to be inverted
+    	double leftPower = MathUtil.deadband(-OI.xboxController.getY(Hand.kLeft), 0.1);
+    	double rightPower = MathUtil.deadband(-OI.xboxController.getY(Hand.kRight), 0.1);
     	Robot.cubeAcquirer.rawAcquire(leftPower, rightPower);
     }
 

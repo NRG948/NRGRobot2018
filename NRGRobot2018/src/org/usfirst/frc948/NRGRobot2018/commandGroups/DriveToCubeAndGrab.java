@@ -9,9 +9,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class DriveToCubeAndGrab extends CommandGroup {
-
     public DriveToCubeAndGrab() {
     	addParallel(new DriveToCubeNoPID());
-    	addSequential(new AcquireUntilCubeDetected(-0.5));
+    	addSequential(new AcquireUntilCubeDetected(0.5));
     }
 }

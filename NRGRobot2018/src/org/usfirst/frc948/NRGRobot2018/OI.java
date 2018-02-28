@@ -93,13 +93,16 @@ public class OI {
 		climberButton.whileHeld(new ManualClimb(0.7));
 		interruptButton.whenPressed(new InterruptCommands());
 
-		// SmartDashboard Button\
+		// SmartDashboard Buttons
+		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 
 		SmartDashboard.putData("ManualDrive", new ManualDrive());
-		SmartDashboard.putData("Reset Sensors", new ResetSensors());
-		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
-		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
+		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(66));
+		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(22));
+		
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
+		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
+		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID());
 //		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
 //		SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
 //				new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
