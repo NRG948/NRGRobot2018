@@ -40,7 +40,11 @@ public class Drive extends Subsystem implements PIDOutput {
 	public final static double DEFAULT_TURN_P = 0.18;
 	public final static double DEFAULT_TURN_I = 0.6;
 	public final static double DEFAULT_TURN_D = 0.0135;
-
+	
+	public final static double DEFAULT_DRIVE_Y_P = 0.24;
+	public final static double DEFAULT_DRIVE_Y_I = 0.6;
+	public final static double DEFAULT_DRIVE_Y_D = 0.055;
+	
 	public final static double SCALE_HIGH = 1.0;
 	public final static double SCALE_LOW = 0.5;
 	public double scale = SCALE_LOW;
@@ -87,9 +91,9 @@ public class Drive extends Subsystem implements PIDOutput {
 
 
 	public void yPIDControllerInit(double setpoint, double tolerance) {
-		double yP = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_P, 1 / 15.0);
-		double yI = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_I, 0.0);
-		double yD = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_D, 0.0);
+		double yP = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_P, DEFAULT_DRIVE_Y_P);
+		double yI = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_I, DEFAULT_DRIVE_Y_I);
+		double yD = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_D, DEFAULT_DRIVE_Y_D);
 		double yMaxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, 0.5);
 		yPIDController = createPIDController(setpoint, tolerance, yP, yI, yD, yMaxPower);
 	}

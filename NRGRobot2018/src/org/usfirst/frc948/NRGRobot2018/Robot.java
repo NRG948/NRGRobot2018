@@ -205,9 +205,9 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.DRIVE_X_D, 0.0);
 			preferences.putDouble(PreferenceKeys.DRIVE_X_MAX_POWER, 0.9);
 			
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_P, 1.0/15.0);
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_I, 0.0);
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_D, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_P, Drive.DEFAULT_DRIVE_Y_P);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_I, Drive.DEFAULT_DRIVE_Y_I);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_D, Drive.DEFAULT_DRIVE_Y_D);
 			preferences.putDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, 0.5);
 			
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_X, 48.0);
