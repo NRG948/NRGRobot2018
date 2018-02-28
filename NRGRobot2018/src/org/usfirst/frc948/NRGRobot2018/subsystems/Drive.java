@@ -45,6 +45,14 @@ public class Drive extends Subsystem implements PIDOutput {
 	public final static double DEFAULT_DRIVE_Y_I = 0.6;
 	public final static double DEFAULT_DRIVE_Y_D = 0.055;
 	
+	public final static double DEFAULT_DRIVE_X_P = 0.5;
+	public final static double DEFAULT_DRIVE_X_I = 0;
+	public final static double DEFAULT_DRIVE_X_D = 0;
+	
+	public final static double DEFAULT_DRIVE_X_POWER = 1.0;
+	public final static double DEFAULT_DRIVE_Y_POWER = 1.0;
+	public final static double DEFAULT_DRIVE_TURN_POWER = 0.7;
+	
 	public final static double SCALE_HIGH = 1.0;
 	public final static double SCALE_LOW = 0.5;
 	public double scale = SCALE_LOW;
@@ -79,10 +87,10 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void xPIDControllerInit(double setpoint, double tolerance) {
-		double xP = Robot.preferences.getDouble(PreferenceKeys.DRIVE_X_P, 1 / 6.0);
-		double xI = Robot.preferences.getDouble(PreferenceKeys.DRIVE_X_I, 0.0);
-		double xD = Robot.preferences.getDouble(PreferenceKeys.DRIVE_X_D, 0.0);
-		double xMaxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_X_MAX_POWER, 0.9);
+		double xP = Robot.preferences.getDouble(PreferenceKeys.DRIVE_X_P, DEFAULT_DRIVE_X_P);
+		double xI = Robot.preferences.getDouble(PreferenceKeys.DRIVE_X_I, DEFAULT_DRIVE_X_I);
+		double xD = Robot.preferences.getDouble(PreferenceKeys.DRIVE_X_D, DEFAULT_DRIVE_X_D);
+		double xMaxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_X_MAX_POWER, DEFAULT_DRIVE_X_POWER);
 
 		xPIDController = createPIDController(setpoint, tolerance, xP, xI, xD, xMaxPower);
 		
@@ -94,7 +102,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		double yP = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_P, DEFAULT_DRIVE_Y_P);
 		double yI = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_I, DEFAULT_DRIVE_Y_I);
 		double yD = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_D, DEFAULT_DRIVE_Y_D);
-		double yMaxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, 0.5);
+		double yMaxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, DEFAULT_DRIVE_Y_POWER);
 		yPIDController = createPIDController(setpoint, tolerance, yP, yI, yD, yMaxPower);
 	}
 
@@ -102,7 +110,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		double turnP = Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P);
 		double turnI = Robot.preferences.getDouble(PreferenceKeys.TURN_I_TERM, DEFAULT_TURN_I);
 		double turnD = Robot.preferences.getDouble(PreferenceKeys.TURN_D_TERM, DEFAULT_TURN_D);
-		double turnMaxPower = 1;
+		double turnMaxPower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TURN_MAX_POWER, DEFAULT_DRIVE_TURN_POWER);
+		
 		turnPIDController = createPIDController(setpoint, tolerance, turnP, turnI, turnD, turnMaxPower);
 	}
 

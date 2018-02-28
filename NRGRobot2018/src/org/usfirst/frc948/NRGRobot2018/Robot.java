@@ -199,16 +199,17 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
 			preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
 			preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
+			preferences.putDouble(PreferenceKeys.DRIVE_TURN_MAX_POWER, Drive.DEFAULT_DRIVE_TURN_POWER);
 			
-			preferences.putDouble(PreferenceKeys.DRIVE_X_P, 1.0/6.0);
-			preferences.putDouble(PreferenceKeys.DRIVE_X_I, 0.0);
-			preferences.putDouble(PreferenceKeys.DRIVE_X_D, 0.0);
-			preferences.putDouble(PreferenceKeys.DRIVE_X_MAX_POWER, 0.9);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_P, Drive.DEFAULT_DRIVE_X_P);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_I, Drive.DEFAULT_DRIVE_X_I);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_D, Drive.DEFAULT_DRIVE_X_D);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_MAX_POWER, Drive.DEFAULT_DRIVE_X_POWER);
 			
 			preferences.putDouble(PreferenceKeys.DRIVE_Y_P, Drive.DEFAULT_DRIVE_Y_P);
 			preferences.putDouble(PreferenceKeys.DRIVE_Y_I, Drive.DEFAULT_DRIVE_Y_I);
 			preferences.putDouble(PreferenceKeys.DRIVE_Y_D, Drive.DEFAULT_DRIVE_Y_D);
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, 0.5);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, Drive.DEFAULT_DRIVE_Y_POWER);
 			
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_X, 48.0);
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_Y, 48.0);
