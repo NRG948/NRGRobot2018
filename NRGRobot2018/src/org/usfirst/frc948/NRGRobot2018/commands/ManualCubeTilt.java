@@ -2,6 +2,7 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.Robot;
+import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,7 +27,10 @@ public class ManualCubeTilt extends Command {
 			Robot.cubeTilter.tiltUp();
 		} else if (OI.isXBoxDPadDown()) {
 			Robot.cubeTilter.tiltDown();
-		}else{
+		} else {
+//			Robot.cubeTilter.tiltToAnglePIDIntialize(RobotMap.cubeTiltEncoder.getDistance(), 1.0);
+//			Robot.cubeTilter.tiltToAnglePIDExecute();
+			
 			Robot.cubeTilter.stop();
 		}
 	}
