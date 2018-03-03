@@ -39,5 +39,11 @@ public class PreferenceKeys {
 	public static final String DRIVE_TURN_I = "DRIVE_TURN_I";
 	public static final String DRIVE_TURN_D = "DRIVE_TURN_D";
 	public static final String DRIVE_TURN_MAX_POWER = "DRIVE_TURN_MAX_POWER";
+	
+	public static final String SWITCH_TICKS = "SWITCH_TICKS";
+	public static final String SCALE_LOW_TICKS = "SCALE_LOW_TICKS";
+	public static final String SCALE_HIGH_TICKS = "SCALE_HIGH_TICKS";
+	public static final String SCALE_MEDIUM_TICKS = "SCALE_MEDIUM_TICKS";
+	public static final String STOWED_TICKS = "STOWED_TICKS";
 
 }

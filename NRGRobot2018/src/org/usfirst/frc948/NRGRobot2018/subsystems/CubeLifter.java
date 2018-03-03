@@ -3,6 +3,7 @@ package org.usfirst.frc948.NRGRobot2018.subsystems;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
+import org.usfirst.frc948.NRGRobot2018.utilities.LifterLevel;
 import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 import org.usfirst.frc948.NRGRobot2018.utilities.SimplePIDController;
 
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Positive power is for raising lifter, negative power is for lowering lifter.
  */
 public class CubeLifter extends Subsystem {
+	
 	private SimplePIDController lifterPIDController;
 
 	public static final double LIFT_POWER_SCALE_UP = 0.95;
@@ -24,21 +26,18 @@ public class CubeLifter extends Subsystem {
 	public final static double DEFAULT_LIFT_P = 0.46;
 	public final static double DEFAULT_LIFT_I = 0.0;
 	public final static double DEFAULT_LIFT_D = 0.0;
-
-	public enum LifterLevel {
-		SWITCH(20.0),
-		
-		SCALE_LOW(56.5),
-		SCALE_MEDIUM(64.5),
-		SCALE_HIGH(76.5);
-		
-		double height;
-
-		private LifterLevel(double height) {
-			this.height = height;
-		}
-	}
 	
+	public final static int DEFAULT_SWITCH_TICKS = 2048;
+	public final static int DEFAULT_SCALE_LOW_TICKS = 5500;
+	public final static int DEFAULT_SCALE_MEDIUM_TICKS = 6000;
+	public final static int DEFAULT_SCALE_HIGH_TICKS = 6400;
+	public static final int DEFAULT_STOWED_TICKS = 0;
+	
+	public static final LifterLevel SWITCH_LEVEL = new LifterLevel(PreferenceKeys.SWITCH_TICKS, DEFAULT_SWITCH_TICKS);
+	public static final LifterLevel SCALE_LOW = new LifterLevel(PreferenceKeys.SCALE_LOW_TICKS, DEFAULT_SCALE_LOW_TICKS);
+	public static final LifterLevel SCALE_MEDIUM = new LifterLevel(PreferenceKeys.SCALE_MEDIUM_TICKS, DEFAULT_SCALE_MEDIUM_TICKS);
+	public static final LifterLevel SCALE_HIGH = new LifterLevel(PreferenceKeys.SCALE_HIGH_TICKS, DEFAULT_SCALE_HIGH_TICKS);
+	public static final LifterLevel STOWED = new LifterLevel(PreferenceKeys.STOWED_TICKS,DEFAULT_STOWED_TICKS);
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new ManualCubeLift());

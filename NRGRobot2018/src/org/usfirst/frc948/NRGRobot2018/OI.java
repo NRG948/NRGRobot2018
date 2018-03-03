@@ -30,6 +30,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.StrafeStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.TestPixyData;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
+import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 
@@ -104,8 +105,9 @@ public class OI {
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 
 		SmartDashboard.putData("ManualDrive", new ManualDrive());
-		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(66));
-		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(22));
+		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(CubeLifter.SCALE_MEDIUM));
+		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(CubeLifter.SWITCH_LEVEL));
+		SmartDashboard.putData("Set Lift height to zero?", new LiftToHeight(CubeLifter.STOWED));
 		
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());

@@ -218,7 +218,14 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_Y_POWER, 0.5);
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_TURN_POWER, 0.3);
 			
+			preferences.putInt(PreferenceKeys.SWITCH_TICKS, CubeLifter.DEFAULT_SWITCH_TICKS);
+			preferences.putInt(PreferenceKeys.SCALE_HIGH_TICKS, CubeLifter.DEFAULT_SCALE_HIGH_TICKS);
+			preferences.putInt(PreferenceKeys.SCALE_MEDIUM_TICKS, CubeLifter.DEFAULT_SCALE_MEDIUM_TICKS);
+			preferences.putInt(PreferenceKeys.SCALE_LOW_TICKS, CubeLifter.DEFAULT_SCALE_LOW_TICKS);
+			preferences.putInt(PreferenceKeys.STOWED_TICKS, CubeLifter.DEFAULT_STOWED_TICKS);
+			
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
+			
 		}
 	}
 }
