@@ -13,7 +13,6 @@ package org.usfirst.frc948.NRGRobot2018;
 
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquare;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
-import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveToCubeAndGrab;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
@@ -29,6 +28,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
 import org.usfirst.frc948.NRGRobot2018.commands.StrafeStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.TestPixyData;
+import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
@@ -57,7 +57,9 @@ public class OI {
 	public JoystickButton rightShiftGears;
 	public JoystickButton climberButton;
 	public JoystickButton interruptButton;
-
+	public JoystickButton driveToCube;
+//	public JoystickButton tiltAcquirerAndEjectCube;
+	
 	public static SendableChooser<Command> chooser;
 
 	public enum Side {
@@ -77,11 +79,14 @@ public class OI {
 		strafeStraight = new JoystickButton(leftJoystick, 3);
 		interruptButton = new JoystickButton(leftJoystick, 6);
 		rightShiftGears = new JoystickButton(rightJoystick, 1);// drive team needed it for both
-																// joysticks
+		driveToCube = new JoystickButton(rightJoystick, 2);// joysticks
 
 		// arduino buttons
 		 climberButton = new JoystickButton(arduinoJoystick, 10);
+		 
+		// xbox buttons
 		// climberButton = new JoystickButton(xboxController, 8);
+//		 tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1);
 
 		// Initialize commands after initializing buttons
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
@@ -92,7 +97,9 @@ public class OI {
 		strafeStraight.whileHeld(new ManualStrafeStraight());
 		climberButton.whileHeld(new ManualClimb(0.7));
 		interruptButton.whenPressed(new InterruptCommands());
-
+		driveToCube.whenPressed(new DriveToCubeNoPID(false));
+//		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(45, 1, 0.5));
+		
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 
@@ -102,15 +109,17 @@ public class OI {
 		
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
-		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID());
+		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID(false));
 //		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
 //		SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
 //				new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
-		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(66));
-		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(22));
-		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
-		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID());
-		SmartDashboard.putData("Drive to Cube and Grab", new DriveToCubeAndGrab());
+		
+		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
+		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
+
+		SmartDashboard.putData("Set to high gear", new SetDriveScale(Drive.SCALE_HIGH));
+		SmartDashboard.putData("Set to low gear", new SetDriveScale(Drive.SCALE_LOW));
+		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
 	}
 
 	public static double getRightJoystickX() {
