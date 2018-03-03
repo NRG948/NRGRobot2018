@@ -18,13 +18,13 @@ public class TiltAcquirerAndEject extends Command {
 	private final Timer timer;
 	private boolean timerStarted;
 
-	public TiltAcquirerAndEject(double angle, double delay, double power) {
+	public TiltAcquirerAndEject(double tilterAngle, double delayToEject, double acquirerPower) {
 		requires(Robot.cubeTilter);
 		requires(Robot.cubeAcquirer);
 		
-		desiredTilterAngle = angle;
-		acquirerDelay = delay;
-		acquirerPower = power;
+		desiredTilterAngle = tilterAngle;
+		acquirerDelay = delayToEject;
+		this.acquirerPower = acquirerPower;
 		
 		timer = new Timer();
 		timerStarted = false;
@@ -33,6 +33,7 @@ public class TiltAcquirerAndEject extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.cubeTilter.tiltToAnglePIDIntialize(desiredTilterAngle, 1.0);
+		timerStarted = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
