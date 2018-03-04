@@ -34,7 +34,7 @@ public class LiftToHeight extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return level.needsPID()  || Robot.cubeLifter.lifterPIDControllerOnTarget();
+		return level.needsPID() ? false :  Robot.cubeLifter.lifterPIDControllerOnTarget();
 	}
 
 	// Called once after isFinished returns true

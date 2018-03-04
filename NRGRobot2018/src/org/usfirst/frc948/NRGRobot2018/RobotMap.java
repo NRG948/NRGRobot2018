@@ -97,7 +97,7 @@ public class RobotMap {
 		
 		xEncoder.setDistancePerPulse(0.0478); // inches per pulse, encoder is slipping
 		yEncoder.setDistancePerPulse(0.0506);
-		cubeLiftEncoder.setDistancePerPulse(76.25/6444); // inches/ticks
+		cubeLiftEncoder.setDistancePerPulse(1.0); 
 		cubeTiltEncoder.setDistancePerPulse(1);
 
 		navx = new AHRS(SPI.Port.kMXP);

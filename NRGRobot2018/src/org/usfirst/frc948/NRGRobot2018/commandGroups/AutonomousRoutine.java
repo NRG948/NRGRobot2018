@@ -2,6 +2,10 @@ package org.usfirst.frc948.NRGRobot2018.commandGroups;
 
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_LEFT;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_RIGHT;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_CENTER;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_LEFT;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_RIGHT;
@@ -15,10 +19,17 @@ import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
 import org.usfirst.frc948.NRGRobot2018.OI.Side;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
+import org.usfirst.frc948.NRGRobot2018.commands.EjectUntilCubeOut;
+import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
+import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
+import org.usfirst.frc948.NRGRobot2018.utilities.LifterLevel;
+import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
+import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
+import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.PredicateType;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -34,6 +45,7 @@ public class AutonomousRoutine extends CommandGroup {
     	addSequential(new ResetSensors());
     	autoMovement = Robot.autoMovementChooser.getSelected();
     	autoPosition = Robot.autoPositionChooser.getSelected();
+    	
 		System.out.println("Auto Movement is : " + autoMovement);
 		System.out.println("Auto Position is : " + autoPosition);
         
@@ -156,11 +168,19 @@ public class AutonomousRoutine extends CommandGroup {
 		}
 	}
 
+	private static final Waypoint RRRS_PATH[] = {
+		new Waypoint(CoordinateType.RELATIVE, 0.0, 120, 0, PredicateType.GREATER_THAN_Y),
+		new Waypoint(CoordinateType.RELATIVE, -21, 29, -90, PredicateType.NONE)
+		};
+	
 	public class RedRightToRightSwitch extends CommandGroup {
 		public RedRightToRightSwitch() {
-			addSequential(new DriveStraightDistance(1.0,116.5,Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
+//			addSequential(new DriveStraightDistance(1.0,116.5,Drive.Direction.FORWARD));
+//			addSequential(new TurnToHeading(-90));
+//			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
+			addParallel(new FollowWaypoints(RRRS_PATH));
+			addSequential(new LiftToHeight(CubeLifter.SWITCH_LEVEL));
+			addSequential(new EjectUntilCubeOut(0.5, 1.0));
 		}
 	}
 
