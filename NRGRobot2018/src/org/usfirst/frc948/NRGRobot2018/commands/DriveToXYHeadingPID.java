@@ -3,6 +3,8 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
+import org.usfirst.frc948.NRGRobot2018.utilities.WaypointPredicate;
+import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,26 +17,32 @@ public class DriveToXYHeadingPID extends Command {
     final double DISTANCE_TOLERANCE = 1.0;
     final double ANGLE_TOLERANCE = 1.0;
     
+    final private Waypoint waypoint;
+    final private WaypointPredicate predicate;
+    final private boolean isFinalWaypoint;
+
     final double desiredX; // desired x
     final double desiredY; // desired y
     final double desiredHeading; // desired heading
-    final private Waypoint.Predicate predicate;
-    final private boolean isFinalWaypoint;
+    
     
     private double dXFieldFrame; // (desired x) - (current robot x position)
     private double dYFieldFrame; // (desired y) - (current robot y position)
 
     public DriveToXYHeadingPID(double x, double y, double heading) {
-        this(x, y, heading, new Waypoint.DefaultPredicate(), true);
+        this(new Waypoint(CoordinateType.ABSOLUTE, x, y, heading, Waypoint.USE_PID), true);
     }
 
-    public DriveToXYHeadingPID(double x, double y, double heading, Waypoint.Predicate predicate, boolean isFinalWaypoint) {
+    public DriveToXYHeadingPID(Waypoint waypoint, boolean isFinalWaypoint) {
         requires(Robot.drive);
-        desiredX = x;
-        desiredY = y;
-        desiredHeading = heading;
-        this.predicate = predicate;
+        
+        this.waypoint = waypoint;
+        this.predicate = waypoint.waypointPredicate;
         this.isFinalWaypoint = isFinalWaypoint;
+        
+        desiredX = waypoint.x;
+        desiredY = waypoint.y;
+        desiredHeading = waypoint.heading;
     }
 
     // Called just before this Command runs the first time
@@ -81,7 +89,7 @@ public class DriveToXYHeadingPID extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return predicate.isAtWaypoint() || Robot.drive.allControllersOnTarget(isFinalWaypoint);
+        return predicate.isFinished(waypoint) || Robot.drive.allControllersOnTarget(isFinalWaypoint);
     }
 
     // Called once after isFinished returns true

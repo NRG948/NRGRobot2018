@@ -1,23 +1,16 @@
 package org.usfirst.frc948.NRGRobot2018.commandGroups;
 
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_LEFT;
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_RIGHT;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_CENTER;
+import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_CENTER;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_LEFT;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_RIGHT;
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_CENTER;
+import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_CENTER;
+import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_LEFT;
+import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_RIGHT;
+import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
 
-
-
-import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
-import org.usfirst.frc948.NRGRobot2018.OI.Side;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.EjectUntilCubeOut;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
@@ -26,10 +19,8 @@ import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
-import org.usfirst.frc948.NRGRobot2018.utilities.LifterLevel;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
-import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.PredicateType;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -169,8 +160,8 @@ public class AutonomousRoutine extends CommandGroup {
 	}
 
 	private static final Waypoint RRRS_PATH[] = {
-		new Waypoint(CoordinateType.RELATIVE, 0.0, 120, 0, PredicateType.GREATER_THAN_Y),
-		new Waypoint(CoordinateType.RELATIVE, -21, 29, -90, PredicateType.NONE)
+		new Waypoint(CoordinateType.RELATIVE, 0.0, 149, 0, new Waypoint.GreaterThanY(120)),
+		new Waypoint(CoordinateType.RELATIVE, -21, 0, -90, USE_PID)
 		};
 	
 	public class RedRightToRightSwitch extends CommandGroup {

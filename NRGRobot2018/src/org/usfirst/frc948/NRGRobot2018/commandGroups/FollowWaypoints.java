@@ -21,8 +21,7 @@ public class FollowWaypoints extends CommandGroup {
 			double x = isAbsolute ? waypoint.x : previousX + waypoint.x;
 			double y = isAbsolute ? waypoint.y : previousY + waypoint.y;
 
-			addSequential(new DriveToXYHeadingPID(x, y, waypoint.heading, waypoint.getPredicate(),
-					i == (waypoints.length) - 1));
+			addSequential(new DriveToXYHeadingPID(waypoint, i == (waypoints.length) - 1));
 
 			previousX = x;
 			previousY = y;
