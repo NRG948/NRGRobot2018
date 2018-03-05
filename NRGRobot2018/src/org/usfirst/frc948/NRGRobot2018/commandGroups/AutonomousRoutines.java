@@ -29,37 +29,54 @@ import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Selects the auto routine to run based on the SmartDashboard chooser. 
+ * Selects the auto routine to run based on the SmartDashboard chooser.
  */
-public class AutonomousRoutine extends CommandGroup {
+public class AutonomousRoutines extends CommandGroup {
+
+	// Add Commands here:
+	// e.g. addSequential(new Command1());
+	// addSequential(new Command2());
+	// these will run in order.
+
+	// To run multiple commands at the same time,
+	// use addParallel()
+	// e.g. addParallel(new Command1());
+	// addSequential(new Command2());
+	// Command1 and Command2 will run in parallel.
+
+	// A command group will require all of the subsystems that each member
+	// would require.
+	// e.g. if Command1 requires chassis, and Command2 requires arm,
+	// a CommandGroup containing them would require both the chassis and the
+	// arm.
+
 	private AutoMovement autoMovement;
 	private AutoPosition autoPosition;
-	
 
-    public AutonomousRoutine() {
-    	addSequential(new ResetSensors());
-    	autoMovement = Robot.autoMovementChooser.getSelected();
-    	autoPosition = Robot.autoPositionChooser.getSelected();
-    	
+	public AutonomousRoutines() {
+		addSequential(new ResetSensors());
+		autoMovement = Robot.autoMovementChooser.getSelected();
+		autoPosition = Robot.autoPositionChooser.getSelected();
+
 		System.out.println("Auto Movement is : " + autoMovement);
 		System.out.println("Auto Position is : " + autoPosition);
-        
+
 		switch (autoMovement) {
 		case LEFT_SWITCH:
-		if (autoPosition == AutoPosition.RED_LEFT) {
-			addSequential(new RedLeftToLeftSwitch());
-		}	else if (autoPosition == BLUE_LEFT) {
-			addSequential(new BlueLeftToLeftSwitch());
-		} else if (autoPosition == RED_CENTER) {
-			addSequential(new RedMiddleToLeftSwitch());
-		} else if (autoPosition == BLUE_CENTER) {
-			addSequential(new BlueMiddleToLeftSwitch());
-		} else if (autoPosition == RED_RIGHT) {
-			addSequential(new RedRightToLeftSwitch());
-		} else if (autoPosition == BLUE_RIGHT) {
-			addSequential(new BlueRightToLeftSwitch());
-		}
-		break;
+			if (autoPosition == AutoPosition.RED_LEFT) {
+				addSequential(new RedLeftToLeftSwitch());
+			} else if (autoPosition == BLUE_LEFT) {
+				addSequential(new BlueLeftToLeftSwitch());
+			} else if (autoPosition == RED_CENTER) {
+				addSequential(new RedMiddleToLeftSwitch());
+			} else if (autoPosition == BLUE_CENTER) {
+				addSequential(new BlueMiddleToLeftSwitch());
+			} else if (autoPosition == RED_RIGHT) {
+				addSequential(new RedRightToLeftSwitch());
+			} else if (autoPosition == BLUE_RIGHT) {
+				addSequential(new BlueRightToLeftSwitch());
+			}
+			break;
 		case RIGHT_SWITCH:
 			if (autoPosition == RED_RIGHT) {
 				addSequential(new RedRightToRightSwitch());
@@ -75,6 +92,17 @@ public class AutonomousRoutine extends CommandGroup {
 				addSequential(new BlueLeftToRightSwitch());
 			}
 			break;
+		case LEFT_SCALE:
+			if (autoPosition == AutoPosition.BLUE_LEFT) {
+				addSequential(new BlueLeftToLeftScale());
+			} else if (autoPosition == RED_CENTER) {
+				addSequential(new RedMiddleToLeftScale());
+			} else if (autoPosition == BLUE_CENTER) {
+				addSequential(new BlueMiddleToLeftScale());
+			} else if (autoPosition == RED_LEFT) {
+				addSequential(new RedLeftToLeftScale());
+			}
+			break;
 		case RIGHT_SCALE:
 			if (autoPosition == RED_RIGHT) {
 				addSequential(new RedRightToRightScale());
@@ -86,26 +114,15 @@ public class AutonomousRoutine extends CommandGroup {
 				addSequential(new BlueMiddleToRightScale());
 			}
 			break;
-		case LEFT_SCALE:
-			if (autoPosition==AutoPosition.BLUE_LEFT) {
-				addSequential(new BlueLeftToLeftScale());
-			} else if (autoPosition == RED_CENTER) {
-				addSequential(new RedMiddleToLeftScale());
-			} else if (autoPosition == BLUE_CENTER) {
-				addSequential(new BlueMiddleToLeftScale());
-			} else if (autoPosition == RED_LEFT) {
-				addSequential(new RedLeftToLeftScale());
-			}
-			break;
 		}
-		}
-    
-    public class RedLeftToLeftSwitch extends CommandGroup {
-    	public RedLeftToLeftSwitch() {
-    		addSequential(new SetDriveScale(1));
-    		addSequential(new DriveStraightDistance(1.0,149.5,Drive.Direction.FORWARD));
-    		addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
+	}
+
+	public class RedLeftToLeftSwitch extends CommandGroup {
+		public RedLeftToLeftSwitch() {
+			addSequential(new SetDriveScale(1));
+			addSequential(new DriveStraightDistance(1.0, 149.5, Drive.Direction.FORWARD));
+			addSequential(new TurnToHeading(90));
+			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
 			// drop the cube
 		}
 	}
@@ -113,41 +130,41 @@ public class AutonomousRoutine extends CommandGroup {
 	public class RedLeftToLeftScale extends CommandGroup {
 		public RedLeftToLeftScale() {
 			addSequential(new SetDriveScale(0.6));
-			addSequential(new DriveStraightDistance(1.0,305.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 305.5, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
 		}
 	}
 
 	public class RedLeftToRightSwitch extends CommandGroup {
 		public RedLeftToRightSwitch() {
-			addSequential(new DriveStraightDistance(1.0,207,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 207, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,212.75,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 212.75, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,45,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 45, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,20.0,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20.0, Drive.Direction.FORWARD));
 		}
 	}
 
 	public class RedMiddleToRightSwitch extends CommandGroup {
 		public RedMiddleToRightSwitch() {
-			addSequential(new DriveStraightDistance(1.0,108.75,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 108.75, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,149.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 149.5, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,20,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
 		}
 	}
 
 	public class RedMiddleToLeftSwitch extends CommandGroup {
 		public RedMiddleToLeftSwitch() {
-			addSequential(new DriveStraightDistance(1.0,84.75,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 84.75, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,148.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 148.5, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,20,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
 		}
 	}
 
@@ -164,21 +181,19 @@ public class AutonomousRoutine extends CommandGroup {
 	}
 
 	private static final Waypoint RRRS_PATH[] = {
-		new Waypoint(CoordinateType.ABSOLUTE, 0.0, 149, 0, new Waypoint.GreaterThanY(120)),
-		new Waypoint(CoordinateType.ABSOLUTE, -21, 149, -90, USE_PID)
-		};
-
+			new Waypoint(CoordinateType.ABSOLUTE, 0.0, 149, 0, new Waypoint.WithinInches(29)),
+			new Waypoint(CoordinateType.ABSOLUTE, -21, 149, -90, USE_PID) };
 
 	public class RedRightToRightSwitch extends CommandGroup {
 		public RedRightToRightSwitch() {
-//			addSequential(new DriveStraightDistance(1.0,116.5,Drive.Direction.FORWARD));
-//			addSequential(new TurnToHeading(-90));
-//			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
+			// addSequential(new DriveStraightDistance(1.0,116.5,Drive.Direction.FORWARD));
+			// addSequential(new TurnToHeading(-90));
+			// addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
 			addParallel(new DriveAndEject(0, 0, RRRS_PATH));
 			addSequential(new LiftToHeight(SWITCH_LEVEL));
 		}
 	}
-	
+
 	public class DriveAndEject extends CommandGroup {
 		public DriveAndEject(double startX, double startY, Waypoint[] path) {
 			addSequential(new FollowWaypoints(startX, startY, path));
@@ -190,9 +205,8 @@ public class AutonomousRoutine extends CommandGroup {
 
 	private static final Waypoint RRRSCALE_PATH[] = {
 			new Waypoint(CoordinateType.ABSOLUTE, 0.0, 309, 0, new Waypoint.GreaterThanY(280)),
-			new Waypoint(CoordinateType.ABSOLUTE, -21, 309, -90, USE_PID)
-	};
-	
+			new Waypoint(CoordinateType.ABSOLUTE, -21, 309, -90, USE_PID) };
+
 	public class RedRightToRightScale extends CommandGroup {
 		public RedRightToRightScale() {
 			addParallel(new DriveAndEject(0, 0, RRRSCALE_PATH));
@@ -202,62 +216,62 @@ public class AutonomousRoutine extends CommandGroup {
 
 	public class RedRightToLeftSwitch extends CommandGroup {
 		public RedRightToLeftSwitch() {
-			addSequential(new DriveStraightDistance(1.0,207,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 207, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,212.7,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 212.7, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,45,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 45, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,20,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
 		}
 	}
 
 	public class BlueLeftToLeftSwitch extends CommandGroup {
 		public BlueLeftToLeftSwitch() {
-			addSequential(new DriveStraightDistance(1.0,149.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 149.5, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
 			// drop the cube
 		}
 	}
 
 	public class BlueLeftToLeftScale extends CommandGroup {
 		public BlueLeftToLeftScale() {
-			addSequential(new DriveStraightDistance(1.0,305.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 305.5, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
 		}
 	}
 
 	public class BlueLeftToRightSwitch extends CommandGroup {
 		public BlueLeftToRightSwitch() {
-			addSequential(new DriveStraightDistance(1.0,207,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 207, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,212.75,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 212.75, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,45,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 45, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,20,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
 		}
 	}
 
 	public class BlueMiddleToRightSwitch extends CommandGroup {
 		public BlueMiddleToRightSwitch() {
-			addSequential(new DriveStraightDistance(1.0,108.75,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 108.75, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,149.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 149.5, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,20,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
 		}
 	}
 
 	public class BlueMiddleToLeftSwitch extends CommandGroup {
 		public BlueMiddleToLeftSwitch() {
-			addSequential(new DriveStraightDistance(1.0,84.75,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 84.75, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,148.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 148.5, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,20,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
 		}
 	}
 
@@ -275,47 +289,29 @@ public class AutonomousRoutine extends CommandGroup {
 
 	public class BlueRightToRightSwitch extends CommandGroup {
 		public BlueRightToRightSwitch() {
-			addSequential(new DriveStraightDistance(1.0,149.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 149.5, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
 		}
 	}
 
 	public class BlueRightToRightScale extends CommandGroup {
 		public BlueRightToRightScale() {
-			addSequential(new DriveStraightDistance(1.0,305.5,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 305.5, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0,7.68,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 7.68, Drive.Direction.FORWARD));
 		}
 	}
 
 	public class BlueRightToLeftSwitch extends CommandGroup {
 		public BlueRightToLeftSwitch() {
-			addSequential(new DriveStraightDistance(1.0,207,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 207, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,212.7,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 212.7, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,45,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 45, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,20,Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
 		}
 	}
-    
-		// Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
-    }
-
+}
