@@ -11,6 +11,7 @@
 
 package org.usfirst.frc948.NRGRobot2018;
 
+import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPIDTest;
@@ -97,11 +98,13 @@ public class OI {
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 
-		SmartDashboard.putData("ManualDrive", new ManualDrive());
 		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(CubeLifter.SCALE_MEDIUM));
 		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(CubeLifter.SWITCH_LEVEL));
 		SmartDashboard.putData("Set Lift height to zero?", new LiftToHeight(CubeLifter.STOWED));
 		
+		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
+
+		SmartDashboard.putData("ManualDrive", new ManualDrive());
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
 		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID(false));
@@ -114,7 +117,6 @@ public class OI {
 
 		SmartDashboard.putData("Set to high gear", new SetDriveScale(Drive.SCALE_HIGH));
 		SmartDashboard.putData("Set to low gear", new SetDriveScale(Drive.SCALE_LOW));
-		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject2(45, 1, 0.5));
 	}
 
 	public static double getRightJoystickX() {
