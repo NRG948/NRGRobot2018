@@ -11,12 +11,8 @@
 
 package org.usfirst.frc948.NRGRobot2018;
 
-import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquare;
-import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
-import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
-import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPID;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPIDTest;
 import org.usfirst.frc948.NRGRobot2018.commands.InterruptCommands;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
@@ -26,9 +22,6 @@ import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualStrafeStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
-import org.usfirst.frc948.NRGRobot2018.commands.StrafeStraightTimed;
-import org.usfirst.frc948.NRGRobot2018.commands.TestPixyData;
-import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
@@ -121,7 +114,7 @@ public class OI {
 
 		SmartDashboard.putData("Set to high gear", new SetDriveScale(Drive.SCALE_HIGH));
 		SmartDashboard.putData("Set to low gear", new SetDriveScale(Drive.SCALE_LOW));
-		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
+		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject2(45, 1, 0.5));
 	}
 
 	public static double getRightJoystickX() {

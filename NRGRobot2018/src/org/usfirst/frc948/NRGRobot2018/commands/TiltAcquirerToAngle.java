@@ -11,6 +11,8 @@ public class TiltAcquirerToAngle extends Command {
 	private final double angle;
 	
     public TiltAcquirerToAngle(double angle) {
+    	requires(Robot.cubeTilter);
+    	
     	this.angle = angle;
     }
 
