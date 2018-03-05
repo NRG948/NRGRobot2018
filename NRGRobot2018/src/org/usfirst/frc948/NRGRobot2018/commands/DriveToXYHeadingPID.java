@@ -42,6 +42,7 @@ public class DriveToXYHeadingPID extends Command {
         
         desiredX = waypoint.x;
         desiredY = waypoint.y;
+        Robot.positionTracker.setXYGoal(desiredX, desiredY);
         desiredHeading = waypoint.heading;
     }
 

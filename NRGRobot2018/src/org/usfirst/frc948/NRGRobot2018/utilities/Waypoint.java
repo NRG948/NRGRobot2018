@@ -7,8 +7,8 @@ public class Waypoint {
 		ABSOLUTE, RELATIVE
 	}
 
-	public final CoordinateType coordinateType;
-	public final double x, y, heading;
+	public CoordinateType coordinateType;
+	public double x, y, heading;
 	public final WaypointPredicate waypointPredicate;
 
 	public Waypoint(CoordinateType coordinateType, double x, double y, double heading, WaypointPredicate waypointPredicate) {

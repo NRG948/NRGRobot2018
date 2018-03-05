@@ -6,6 +6,9 @@ import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_RIGHT;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_CENTER;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_LEFT;
 import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_RIGHT;
+import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_HIGH;
+import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_LOW;
+import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SWITCH_LEVEL;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
 
 import org.usfirst.frc948.NRGRobot2018.Robot;
@@ -19,6 +22,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
+import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
 
@@ -160,26 +164,39 @@ public class AutonomousRoutine extends CommandGroup {
 	}
 
 	private static final Waypoint RRRS_PATH[] = {
-		new Waypoint(CoordinateType.RELATIVE, 0.0, 149, 0, new Waypoint.GreaterThanY(120)),
-		new Waypoint(CoordinateType.RELATIVE, -21, 0, -90, USE_PID)
+		new Waypoint(CoordinateType.ABSOLUTE, 0.0, 149, 0, new Waypoint.GreaterThanY(120)),
+		new Waypoint(CoordinateType.ABSOLUTE, -21, 149, -90, USE_PID)
 		};
-	
+
+
 	public class RedRightToRightSwitch extends CommandGroup {
 		public RedRightToRightSwitch() {
 //			addSequential(new DriveStraightDistance(1.0,116.5,Drive.Direction.FORWARD));
 //			addSequential(new TurnToHeading(-90));
 //			addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
-			addParallel(new FollowWaypoints(RRRS_PATH));
-			addSequential(new LiftToHeight(CubeLifter.SWITCH_LEVEL));
+			addParallel(new DriveAndEject(0, 0, RRRS_PATH));
+			addSequential(new LiftToHeight(SWITCH_LEVEL));
+		}
+	}
+	
+	public class DriveAndEject extends CommandGroup {
+		public DriveAndEject(double startX, double startY, Waypoint[] path) {
+			addSequential(new FollowWaypoints(startX, startY, path));
 			addSequential(new EjectUntilCubeOut(0.5, 1.0));
+			// so the acquirer doesnt hit the scale/switch when disabled
+			addSequential(new DriveStraightDistance(0.3, 24, Direction.BACKWARD));
 		}
 	}
 
+	private static final Waypoint RRRSCALE_PATH[] = {
+			new Waypoint(CoordinateType.ABSOLUTE, 0.0, 309, 0, new Waypoint.GreaterThanY(280)),
+			new Waypoint(CoordinateType.ABSOLUTE, -21, 309, -90, USE_PID)
+	};
+	
 	public class RedRightToRightScale extends CommandGroup {
 		public RedRightToRightScale() {
-			addSequential(new DriveStraightDistance(1.0,305.5,Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0,7.68,Drive.Direction.FORWARD));
+			addParallel(new DriveAndEject(0, 0, RRRSCALE_PATH));
+			addSequential(new LiftToHeight(SCALE_LOW));
 		}
 	}
 
