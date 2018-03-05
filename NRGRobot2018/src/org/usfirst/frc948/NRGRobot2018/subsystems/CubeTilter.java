@@ -44,7 +44,7 @@ public class CubeTilter extends Subsystem {
     	rawTilt(computedPower);
     }
     
-    public boolean tiltToPIDOnTarget(){
+    public boolean tiltToAnglePIDOnTarget(){
     	return tiltPIDController.onTarget();
     }
     

@@ -40,7 +40,7 @@ public class TiltAcquirerAndEject extends Command {
 	protected void execute() {
 		Robot.cubeTilter.tiltToAnglePIDExecute();
 		
-		if (Robot.cubeTilter.tiltToPIDOnTarget() && !timerStarted) {
+		if (Robot.cubeTilter.tiltToAnglePIDOnTarget() && !timerStarted) {
 			timer.start();
 			timerStarted = true;
 		}
