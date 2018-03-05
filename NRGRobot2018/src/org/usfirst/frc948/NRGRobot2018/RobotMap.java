@@ -98,7 +98,7 @@ public class RobotMap {
 		xEncoder.setDistancePerPulse(0.0478); // inches per pulse, encoder is slipping
 		yEncoder.setDistancePerPulse(0.0506);
 		cubeLiftEncoder.setDistancePerPulse(1.0); 
-		cubeTiltEncoder.setDistancePerPulse(1);
+		cubeTiltEncoder.setDistancePerPulse(86.0 / 216); // degrees per pulse
 
 		navx = new AHRS(SPI.Port.kMXP);
 		gyro = new ContinuousGyro(navx);
