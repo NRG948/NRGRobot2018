@@ -27,8 +27,8 @@ public class CubeLifter extends Subsystem {
 	public final static double DEFAULT_LIFT_I = 0.0;
 	public final static double DEFAULT_LIFT_D = 0.0;
 	
+	public final static int DEFAULT_SCALE_HIGH_TICKS = 6400; // Needs to be tested
 	public final static int DEFAULT_SCALE_MEDIUM_TICKS = 6400;
-	public final static int DEFAULT_SCALE_HIGH_TICKS = 6400;
 	public final static int DEFAULT_SCALE_LOW_TICKS = 5500;
 	public final static int DEFAULT_SWITCH_TICKS = 2500;
 	public static final int DEFAULT_STOWED_TICKS = 0;
@@ -38,6 +38,7 @@ public class CubeLifter extends Subsystem {
 	public static final LifterLevel SCALE_MEDIUM = new LifterLevel(PreferenceKeys.SCALE_MEDIUM_TICKS, DEFAULT_SCALE_MEDIUM_TICKS);
 	public static final LifterLevel SCALE_HIGH = new LifterLevel(PreferenceKeys.SCALE_HIGH_TICKS, DEFAULT_SCALE_HIGH_TICKS);
 	public static final LifterLevel STOWED = new LifterLevel(PreferenceKeys.STOWED_TICKS,DEFAULT_STOWED_TICKS);
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new ManualCubeLift());
