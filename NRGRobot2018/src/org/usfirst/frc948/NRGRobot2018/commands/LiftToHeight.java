@@ -14,7 +14,6 @@ import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
  *
  */
 public class LiftToHeight extends Command {
-	
 	private final LifterLevel level;
 
 	public LiftToHeight(LifterLevel level) {
@@ -34,7 +33,7 @@ public class LiftToHeight extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return level.needsPID() ? false :  Robot.cubeLifter.lifterPIDControllerOnTarget();
+		return Robot.cubeLifter.lifterPIDControllerOnTarget();
 	}
 
 	// Called once after isFinished returns true
