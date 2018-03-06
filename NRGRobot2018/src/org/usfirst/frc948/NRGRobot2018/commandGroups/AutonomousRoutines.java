@@ -242,11 +242,15 @@ public class AutonomousRoutines extends CommandGroup {
 		}
 	}
 
+	private static final Waypoint BLLSCALE_PATH[] = {
+	        new Waypoint(CoordinateType.RELATIVE, 0, 305.5, 0, WITHIN_TWO_FEET),
+	        new Waypoint(CoordinateType.RELATIVE, -20.875, 0, -90, USE_PID)
+	};
+	
 	public class BlueLeftToLeftScale extends CommandGroup {
 		public BlueLeftToLeftScale() {
-			addSequential(new DriveStraightDistance(1.0, 305.5, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
+			addParallel(new DriveAndEject(0, 0, BLLSCALE_PATH));
+	        addSequential(new LiftToHeight(SCALE_LOW));
 		}
 	}
 
