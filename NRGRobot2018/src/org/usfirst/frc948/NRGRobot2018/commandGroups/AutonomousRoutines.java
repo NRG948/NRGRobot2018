@@ -181,8 +181,8 @@ public class AutonomousRoutines extends CommandGroup {
 	}
 
 	private static final Waypoint RRRS_PATH[] = {
-			new Waypoint(CoordinateType.ABSOLUTE, 0.0, 149, 0, new Waypoint.WithinInches(29)),
-			new Waypoint(CoordinateType.ABSOLUTE, -21, 149, -90, USE_PID) };
+			new Waypoint(CoordinateType.RELATIVE, 0.0, 149, 0, new Waypoint.WithinInches(29)),
+			new Waypoint(CoordinateType.RELATIVE, -21, 0, -90, USE_PID) };
 
 	public class RedRightToRightSwitch extends CommandGroup {
 		public RedRightToRightSwitch() {
@@ -204,8 +204,8 @@ public class AutonomousRoutines extends CommandGroup {
 	}
 
 	private static final Waypoint RRRSCALE_PATH[] = {
-			new Waypoint(CoordinateType.ABSOLUTE, 0.0, 309, 0, new Waypoint.GreaterThanY(280)),
-			new Waypoint(CoordinateType.ABSOLUTE, -21, 309, -90, USE_PID) };
+			new Waypoint(CoordinateType.RELATIVE, 0.0, 309, 0, new Waypoint.GreaterThanY(280)),
+			new Waypoint(CoordinateType.RELATIVE, -21, 0, -90, USE_PID) };
 
 	public class RedRightToRightScale extends CommandGroup {
 		public RedRightToRightScale() {
