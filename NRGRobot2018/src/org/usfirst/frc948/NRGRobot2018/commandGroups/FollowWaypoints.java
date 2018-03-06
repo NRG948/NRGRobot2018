@@ -17,14 +17,8 @@ public class FollowWaypoints extends CommandGroup {
 		double previousY = startY;
 
 		for (int i = 0; i < waypoints.length; ++i) {
-			Waypoint waypoint = waypoints[i];
-			
 			// Making sure all waypoints are absolute coordinates
-			if (waypoint.coordinateType != CoordinateType.ABSOLUTE) {
-				waypoint.coordinateType = CoordinateType.ABSOLUTE;
-				waypoint.x = previousX + waypoint.x;
-				waypoint.y = previousY + waypoint.y;
-			}
+			Waypoint waypoint = waypoints[i].toAbsolute(previousX, previousY);
 			
 			// Robot will stop if it's the last waypoint in the path
 			addSequential(new DriveToXYHeadingPID(waypoint, i == (waypoints.length) - 1));

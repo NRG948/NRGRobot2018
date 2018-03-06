@@ -7,11 +7,12 @@ public class Waypoint {
 		ABSOLUTE, RELATIVE
 	}
 
-	public CoordinateType coordinateType;
-	public double x, y, heading;
+	public final CoordinateType coordinateType;
+	public final double x, y, heading;
 	public final WaypointPredicate waypointPredicate;
 
-	public Waypoint(CoordinateType coordinateType, double x, double y, double heading, WaypointPredicate waypointPredicate) {
+	public Waypoint(CoordinateType coordinateType, double x, double y, double heading,
+			WaypointPredicate waypointPredicate) {
 		this.coordinateType = coordinateType;
 		this.x = x;
 		this.y = y;
@@ -23,7 +24,16 @@ public class Waypoint {
 		return waypointPredicate;
 	}
 
+	public Waypoint toAbsolute(double previousX, double previousY) {
+		if (this.coordinateType == CoordinateType.RELATIVE) {
+			return new Waypoint(CoordinateType.ABSOLUTE, previousX + this.x, previousY + this.y, this.heading,
+					this.waypointPredicate);
+		}
+		return this;
+	}
+
 	public static DefaultPredicate USE_PID = new DefaultPredicate();
+
 	public static class DefaultPredicate implements WaypointPredicate {
 		@Override
 		public boolean isFinished(Waypoint w) {
@@ -33,11 +43,11 @@ public class Waypoint {
 
 	public static class GreaterThanY implements WaypointPredicate {
 		double y;
-		
+
 		public GreaterThanY(double y) {
 			this.y = y;
 		}
-		
+
 		@Override
 		public boolean isFinished(Waypoint w) {
 			return Robot.positionTracker.getY() > y;
@@ -46,11 +56,11 @@ public class Waypoint {
 
 	public static class GreaterThanX implements WaypointPredicate {
 		double x;
-		
+
 		public GreaterThanX(double x) {
 			this.x = x;
 		}
-		
+
 		@Override
 		public boolean isFinished(Waypoint w) {
 			return Robot.positionTracker.getX() > x;
@@ -59,11 +69,11 @@ public class Waypoint {
 
 	public static class LessThanX implements WaypointPredicate {
 		double x;
-		
+
 		public LessThanX(double x) {
 			this.x = x;
 		}
-		
+
 		@Override
 		public boolean isFinished(Waypoint w) {
 			return Robot.positionTracker.getX() < x;
