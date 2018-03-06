@@ -229,13 +229,16 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new LiftToHeight(SWITCH_LEVEL));
 		}
 	}
-
+	
+	private static final Waypoint BLLSWITCH_PATH[] = {
+	        new Waypoint(CoordinateType.RELATIVE, 0, 149.5, 0, WITHIN_TWO_FEET),
+	        new Waypoint(CoordinateType.RELATIVE, -20.875, 0, -90, USE_PID)
+	};
+	
 	public class BlueLeftToLeftSwitch extends CommandGroup {
 		public BlueLeftToLeftSwitch() {
-			addSequential(new DriveStraightDistance(1.0, 149.5, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
-			// drop the cube
+			addParallel(new DriveAndEject(0, 0, BLLSWITCH_PATH));
+			addSequential(new LiftToHeight(SWITCH_LEVEL));
 		}
 	}
 
