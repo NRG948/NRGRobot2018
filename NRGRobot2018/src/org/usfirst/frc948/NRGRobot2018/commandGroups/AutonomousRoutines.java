@@ -280,14 +280,17 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new LiftToHeight(SWITCH_LEVEL));
 		}
 	}
-
+	
+	private static final Waypoint BMLSWITCH_PATH[] = {
+            new Waypoint(CoordinateType.RELATIVE, 0, 84.75, 0, WITHIN_TWO_FEET),
+            new Waypoint(CoordinateType.RELATIVE, -148.5, 0, -90, WITHIN_TWO_FEET),
+            new Waypoint(CoordinateType.RELATIVE, 0, 20, 0, USE_PID)
+    };
+	
 	public class BlueMiddleToLeftSwitch extends CommandGroup {
 		public BlueMiddleToLeftSwitch() {
-			addSequential(new DriveStraightDistance(1.0, 84.75, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0, 148.5, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
+			addParallel(new DriveAndEject(0, 0, BMLSWITCH_PATH));
+			addSequential(new LiftToHeight(SWITCH_LEVEL));
 		}
 	}
 
