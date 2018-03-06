@@ -10,6 +10,8 @@ import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_HIGH;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_LOW;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SWITCH_LEVEL;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
+import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.WITHIN_EIGHTEEN_INCHES;
+import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.WITHIN_TWO_FEET;
 
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
@@ -213,16 +215,18 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new LiftToHeight(SCALE_LOW));
 		}
 	}
-
+	
+	private static final Waypoint RRLSWITCH_PATH[] = {
+			new Waypoint(CoordinateType.RELATIVE, 0.0, 207, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, -212.7, 0.0, -90, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
+			new Waypoint(CoordinateType.RELATIVE, 20, 0, -270, USE_PID)
+	};
+	
 	public class RedRightToLeftSwitch extends CommandGroup {
 		public RedRightToLeftSwitch() {
-			addSequential(new DriveStraightDistance(1.0, 207, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0, 212.7, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0, 45, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
+			addParallel(new DriveAndEject(0, 0, RRLSWITCH_PATH));
+			addSequential(new LiftToHeight(SWITCH_LEVEL));
 		}
 	}
 

@@ -79,7 +79,10 @@ public class Waypoint {
 			return Robot.positionTracker.getX() < x;
 		}
 	}
-
+	
+	public static final WithinInches WITHIN_TWO_FEET = new WithinInches(24);
+	public static final WithinInches WITHIN_EIGHTEEN_INCHES = new WithinInches(18);
+	
 	public static class WithinInches implements WaypointPredicate {
 		private double tolerance;
 
