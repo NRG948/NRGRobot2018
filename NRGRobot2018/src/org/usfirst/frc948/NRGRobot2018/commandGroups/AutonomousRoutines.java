@@ -293,35 +293,53 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new LiftToHeight(SWITCH_LEVEL));
 		}
 	}
-
+	private static final Waypoint BMRSCALE_PATH[] = {
+	        
+	};
+	
 	public class BlueMiddleToRightScale extends CommandGroup {
 		public BlueMiddleToRightScale() {
-
+		    addParallel(new DriveAndEject(0, 0, BMRSCALE_PATH));
+            addSequential(new LiftToHeight(SCALE_LOW));
 		}
 	}
-
+	
+	private static final Waypoint BMLSCALE_PATH[] = {
+            
+    };
+	
 	public class BlueMiddleToLeftScale extends CommandGroup {
 		public BlueMiddleToLeftScale() {
-
+		    addParallel(new DriveAndEject(0, 0, BMLSCALE_PATH));
+            addSequential(new LiftToHeight(SCALE_LOW));
 		}
 	}
-
+	
+	private static final Waypoint BRRSWITCH_PATH[] = {
+            new Waypoint(CoordinateType.RELATIVE, 0, 149.5, 0, WITHIN_TWO_FEET),
+            new Waypoint(CoordinateType.RELATIVE, -20.875, 0, -90, USE_PID)
+    };
+	
 	public class BlueRightToRightSwitch extends CommandGroup {
 		public BlueRightToRightSwitch() {
-			addSequential(new DriveStraightDistance(1.0, 149.5, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
+		    addParallel(new DriveAndEject(0, 0, BRRSWITCH_PATH));
+            addSequential(new LiftToHeight(SWITCH_LEVEL));
 		}
 	}
-
+	
+	private static final Waypoint BRRSCALE_PATH[] = {
+            new Waypoint(CoordinateType.RELATIVE, 0, 305.5, 0, WITHIN_TWO_FEET),
+            new Waypoint(CoordinateType.RELATIVE, 7.68, 0, 90, USE_PID)
+    };
+	
 	public class BlueRightToRightScale extends CommandGroup {
 		public BlueRightToRightScale() {
-			addSequential(new DriveStraightDistance(1.0, 305.5, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0, 7.68, Drive.Direction.FORWARD));
+		    addParallel(new DriveAndEject(0, 0, BRRSCALE_PATH));
+            addSequential(new LiftToHeight(SCALE_LOW));
 		}
 	}
-
+	
+	
 	public class BlueRightToLeftSwitch extends CommandGroup {
 		public BlueRightToLeftSwitch() {
 			addSequential(new DriveStraightDistance(1.0, 207, Drive.Direction.FORWARD));
