@@ -30,7 +30,7 @@ public class CubeLifter extends Subsystem {
 	public final static int DEFAULT_SCALE_HIGH_TICKS = 6400; // Needs to be tested
 	public final static int DEFAULT_SCALE_MEDIUM_TICKS = 6400;
 	public final static int DEFAULT_SCALE_LOW_TICKS = 5500;
-	public final static int DEFAULT_SWITCH_TICKS = 2500;
+	public final static int DEFAULT_SWITCH_TICKS = 3000;
 	public static final int DEFAULT_STOWED_TICKS = 0;
 	
 	public static final LifterLevel SWITCH_LEVEL = new LifterLevel(PreferenceKeys.SWITCH_TICKS, DEFAULT_SWITCH_TICKS);

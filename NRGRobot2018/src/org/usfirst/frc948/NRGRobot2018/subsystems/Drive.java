@@ -51,7 +51,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	
 	public final static double DEFAULT_DRIVE_X_POWER = 1.0;
 	public final static double DEFAULT_DRIVE_Y_POWER = 1.0;
-	public final static double DEFAULT_DRIVE_TURN_POWER = 0.7;
+	public final static double DEFAULT_DRIVE_TURN_POWER = 1.0;
 	
 	public final static double SCALE_HIGH = 1.0;
 	public final static double SCALE_LOW = 0.5;

@@ -44,6 +44,7 @@ public class DriveToXYHeadingPID extends Command {
         desiredY = waypoint.y;
         Robot.positionTracker.setXYGoal(desiredX, desiredY);
         desiredHeading = waypoint.heading;
+        
     }
 
     // Called just before this Command runs the first time
@@ -55,6 +56,10 @@ public class DriveToXYHeadingPID extends Command {
 
         dXFieldFrame = Double.MAX_VALUE;
         dYFieldFrame = Double.MAX_VALUE;
+        
+        SmartDashboard.putNumber("currentWaypointX:", waypoint.x);
+        SmartDashboard.putNumber("currentWaypointY:", waypoint.y);
+        SmartDashboard.putNumber("currentWaypointH:", waypoint.heading);
     }
 
     // Called repeatedly when this Command is scheduled to run

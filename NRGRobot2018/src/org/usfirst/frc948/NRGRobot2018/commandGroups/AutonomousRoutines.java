@@ -19,12 +19,14 @@ import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.EjectUntilCubeOut;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
+import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
+import org.usfirst.frc948.NRGRobot2018.utilities.LifterLevel;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
 
@@ -192,7 +194,7 @@ public class AutonomousRoutines extends CommandGroup {
 			// addSequential(new TurnToHeading(-90));
 			// addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
 			addParallel(new DriveAndEject(0, 0, RRRS_PATH));
-			addSequential(new LiftToHeight(SWITCH_LEVEL));
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
 
@@ -204,6 +206,13 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new DriveStraightDistance(0.3, 24, Direction.BACKWARD));
 		}
 	}
+	
+	public class LiftToHeightAndHold extends CommandGroup {
+		public LiftToHeightAndHold(LifterLevel level){
+			addSequential(new LiftToHeight(level));
+			addSequential(new ManualCubeLift());
+		}
+	}
 
 	private static final Waypoint RRRSCALE_PATH[] = {
 			new Waypoint(CoordinateType.RELATIVE, 0.0, 309, 0, new Waypoint.GreaterThanY(280)),
@@ -212,21 +221,21 @@ public class AutonomousRoutines extends CommandGroup {
 	public class RedRightToRightScale extends CommandGroup {
 		public RedRightToRightScale() {
 			addParallel(new DriveAndEject(0, 0, RRRSCALE_PATH));
-			addSequential(new LiftToHeight(SCALE_LOW));
+			addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
 	
 	private static final Waypoint RRLSWITCH_PATH[] = {
 			new Waypoint(CoordinateType.RELATIVE, 0.0, 207, 0, WITHIN_TWO_FEET),
-			new Waypoint(CoordinateType.RELATIVE, -212.7, 0.0, -90, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, -225, 0.0, -90, WITHIN_TWO_FEET),
 			new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
-			new Waypoint(CoordinateType.RELATIVE, 20, 0, -270, USE_PID)
+			new Waypoint(CoordinateType.RELATIVE, 18, 0, -270, USE_PID)
 	};
 	
 	public class RedRightToLeftSwitch extends CommandGroup {
 		public RedRightToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, RRLSWITCH_PATH));
-			addSequential(new LiftToHeight(SWITCH_LEVEL));
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
 	
@@ -238,7 +247,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueLeftToLeftSwitch extends CommandGroup {
 		public BlueLeftToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, BLLSWITCH_PATH));
-			addSequential(new LiftToHeight(SWITCH_LEVEL));
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
 
@@ -250,7 +259,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueLeftToLeftScale extends CommandGroup {
 		public BlueLeftToLeftScale() {
 			addParallel(new DriveAndEject(0, 0, BLLSCALE_PATH));
-	        addSequential(new LiftToHeight(SCALE_LOW));
+	        addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
 	
@@ -264,7 +273,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueLeftToRightSwitch extends CommandGroup {
 		public BlueLeftToRightSwitch() {
 			addParallel(new DriveAndEject(0, 0, BLRSWITCH_PATH));
-			addSequential(new LiftToHeight(SWITCH_LEVEL));
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
 	
@@ -277,7 +286,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueMiddleToRightSwitch extends CommandGroup {
 		public BlueMiddleToRightSwitch() {
 			addParallel(new DriveAndEject(0, 0, BMRSWITCH_PATH));
-			addSequential(new LiftToHeight(SWITCH_LEVEL));
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
 	
@@ -290,7 +299,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueMiddleToLeftSwitch extends CommandGroup {
 		public BlueMiddleToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, BMLSWITCH_PATH));
-			addSequential(new LiftToHeight(SWITCH_LEVEL));
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
 	private static final Waypoint BMRSCALE_PATH[] = {
@@ -300,7 +309,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueMiddleToRightScale extends CommandGroup {
 		public BlueMiddleToRightScale() {
 		    addParallel(new DriveAndEject(0, 0, BMRSCALE_PATH));
-            addSequential(new LiftToHeight(SCALE_LOW));
+            addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
 	
@@ -311,7 +320,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueMiddleToLeftScale extends CommandGroup {
 		public BlueMiddleToLeftScale() {
 		    addParallel(new DriveAndEject(0, 0, BMLSCALE_PATH));
-            addSequential(new LiftToHeight(SCALE_LOW));
+            addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
 	
@@ -323,7 +332,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueRightToRightSwitch extends CommandGroup {
 		public BlueRightToRightSwitch() {
 		    addParallel(new DriveAndEject(0, 0, BRRSWITCH_PATH));
-            addSequential(new LiftToHeight(SWITCH_LEVEL));
+            addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
 	
@@ -335,7 +344,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueRightToRightScale extends CommandGroup {
 		public BlueRightToRightScale() {
 		    addParallel(new DriveAndEject(0, 0, BRRSCALE_PATH));
-            addSequential(new LiftToHeight(SCALE_LOW));
+            addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
 	
@@ -349,7 +358,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueRightToLeftSwitch extends CommandGroup {
 		public BlueRightToLeftSwitch() {
 		    addParallel(new DriveAndEject(0, 0, BRLSWITCH_PATH));
-            addSequential(new LiftToHeight(SWITCH_LEVEL));
+            addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
 }

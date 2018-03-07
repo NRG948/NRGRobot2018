@@ -27,6 +27,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
+import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -141,11 +142,11 @@ public class OI {
 	}
 
 	public static double getXBoxTriggerL() {
-		return xboxController.getRawAxis(2);
+		return MathUtil.deadband(xboxController.getRawAxis(2), 0.1);
 	}
 
 	public static double getXBoxTriggerR() {
-		return xboxController.getRawAxis(3);
+		return MathUtil.deadband(xboxController.getRawAxis(3), 0.1);
 	}
 
 	public static boolean isXBoxDPadUp() {
