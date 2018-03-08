@@ -22,8 +22,10 @@ import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
+import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerToAngle;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
+import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 import org.usfirst.frc948.NRGRobot2018.utilities.LifterLevel;
@@ -209,7 +211,8 @@ public class AutonomousRoutines extends CommandGroup {
 	
 	public class LiftToHeightAndHold extends CommandGroup {
 		public LiftToHeightAndHold(LifterLevel level){
-			addSequential(new LiftToHeight(level));
+			addParallel(new LiftToHeight(level));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 			addSequential(new ManualCubeLift());
 		}
 	}
@@ -226,8 +229,8 @@ public class AutonomousRoutines extends CommandGroup {
 	}
 	
 	private static final Waypoint RRLSWITCH_PATH[] = {
-			new Waypoint(CoordinateType.RELATIVE, 0.0, 207, 0, WITHIN_TWO_FEET),
-			new Waypoint(CoordinateType.RELATIVE, -225, 0.0, -90, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, 0.0, 210, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, -237, 0.0, -90, WITHIN_TWO_FEET),
 			new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
 			new Waypoint(CoordinateType.RELATIVE, 18, 0, -270, USE_PID)
 	};

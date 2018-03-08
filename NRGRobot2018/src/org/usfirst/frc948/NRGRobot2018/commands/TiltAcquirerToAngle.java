@@ -11,14 +11,13 @@ public class TiltAcquirerToAngle extends Command {
 	private final double angle;
 	
     public TiltAcquirerToAngle(double angle) {
-    	requires(Robot.cubeTilter);
-    	
+    	requires(Robot.cubeTilter);    	
     	this.angle = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.cubeTilter.tiltToAnglePIDIntialize(angle, 1);
+    	Robot.cubeTilter.tiltToAnglePIDIntialize(angle, 15);
     }
 
     // Called repeatedly when this Command is scheduled to run

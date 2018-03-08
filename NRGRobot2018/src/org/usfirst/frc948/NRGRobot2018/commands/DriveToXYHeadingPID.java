@@ -85,12 +85,12 @@ public class DriveToXYHeadingPID extends Command {
         // sending calculated powers
         Robot.drive.rawDriveCartesian(xPower, yPower, turnPower);
 
-        SmartDashboard.putNumber("driveToXYHeading/dXFieldFrame", dXFieldFrame);
-        SmartDashboard.putNumber("driveToXYHeading/dYFieldFrame", dYFieldFrame);
-        SmartDashboard.putNumber("driveToXYHeading/dHeadingToTarget", desiredHeading - currHeading);
-        SmartDashboard.putNumber("driveToXYHeading/dXRobotFrame", dXRobotFrame);
-        SmartDashboard.putNumber("driveToXYHeading/dYRobotFrame", dYRobotFrame);
-        SmartDashboard.putNumber("driveToXYHeading/dHeadingToXY", headingRobotFrame);
+        SmartDashboard.putNumber("driveToXYHeading/Xpower", xPower);
+        SmartDashboard.putNumber("driveToXYHeading/Xerror", Robot.drive.getXError());
+        SmartDashboard.putNumber("driveToXYHeading/Ypower", yPower);
+        SmartDashboard.putNumber("driveToXYHeading/Yerror", Robot.drive.getYError());
+        SmartDashboard.putNumber("driveToXYHeading/turnPower", turnPower);
+        SmartDashboard.putNumber("driveToXYHeading/turnError", Robot.drive.getTurnError());
     }
 
     // Make this return true when this Command no longer needs to run execute()

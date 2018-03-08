@@ -24,7 +24,7 @@ public class ManualCubeTilt extends Command {
 	}
 
 	protected void execute() {
-		double power;
+		double power = 0;
 
 		if (OI.isXBoxDPadUp()) {
 			power = CubeTilter.TILT_UP_POWER;
@@ -33,12 +33,11 @@ public class ManualCubeTilt extends Command {
 			power = CubeTilter.TILT_DOWN_POWER;
 			Robot.cubeTilter.rawTilt(power);
 		} else {
-			power = 0;
-
-			if (prevPower != 0) {
-				Robot.cubeTilter.tiltToAnglePIDIntialize(RobotMap.cubeTiltEncoder.getDistance(), 1);
-			}
-			Robot.cubeTilter.tiltToAnglePIDExecute();
+//
+//			if (prevPower != 0) {
+//				Robot.cubeTilter.tiltToAnglePIDIntialize(RobotMap.cubeTiltEncoder.getDistance(), 1);
+//			}
+//			Robot.cubeTilter.tiltToAnglePIDExecute();
 		}
 
 		prevPower = power;

@@ -12,6 +12,9 @@ public class ResetSensors extends Command {
 
     public ResetSensors() {
     	requires(Robot.drive);
+    	requires(Robot.climber);
+    	requires(Robot.cubeAcquirer);
+    	requires(Robot.cubeTilter);
     }
 
     // Called just before this Command runs the first time

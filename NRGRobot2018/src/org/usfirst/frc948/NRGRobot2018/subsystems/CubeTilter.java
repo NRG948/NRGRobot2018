@@ -5,6 +5,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeTilt;
 import org.usfirst.frc948.NRGRobot2018.utilities.SimplePIDController;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * CubeTilter: subsystem for controlling cube acquirer tilt motor.
@@ -21,6 +22,9 @@ public class CubeTilter extends Subsystem {
 	public static final double DEFAULT_TILT_I = 0;
 	public static final double DEFAULT_TILT_D = 0;
 	
+	public static final double TILTER_UP = 0;
+	public static final double TILTER_DOWN = -270;
+	
 	private static SimplePIDController tiltPIDController;
 
     public void initDefaultCommand() {
@@ -30,7 +34,7 @@ public class CubeTilter extends Subsystem {
     private void createTiltPIDController(double setpoint, double tolerance){
     	tiltPIDController = new SimplePIDController(DEFAULT_TILT_P, DEFAULT_TILT_I, DEFAULT_TILT_D, true)
     			.setAbsoluteTolerance(tolerance)
-    			.setInputRange(0, 90)
+//    			.setInputRange(0, 90)
     			.setOutputRange(TILT_DOWN_POWER, TILT_UP_POWER)
     			.setSetpoint(setpoint);
     }
@@ -41,6 +45,7 @@ public class CubeTilter extends Subsystem {
     
     public void tiltToAnglePIDExecute(){
     	double computedPower = tiltPIDController.update(RobotMap.cubeTiltEncoder.getDistance());
+    	SmartDashboard.putNumber("computedPower", computedPower);
     	rawTilt(computedPower);
     }
     
