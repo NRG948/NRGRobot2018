@@ -5,8 +5,11 @@ import org.usfirst.frc948.NRGRobot2018.RobotMap;
 public class PositionTracker {
 	private double x;
 	private double y;
+	private double xGoal;
+	private double yGoal;
 	private double prevXEncoder;
 	private double prevYEncoder;
+
 
 	public PositionTracker(double x, double y) {
 		// parameters are in inches
@@ -44,10 +47,22 @@ public class PositionTracker {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public double getXGoal() {
+		return xGoal;
+	}
+	public double getYGoal() {
+		return yGoal;
+	}
+	public void setXYGoal(double xGoal, double yGoal) {
+		this.xGoal = xGoal;
+		this.yGoal = yGoal;
+	}
 
 	public void reset(double x, double y) {
 		// parameters are in inches
 		setXY(x,y);
+		setXYGoal(x,y);
 		prevXEncoder = RobotMap.xEncoder.getDistance();
 		prevYEncoder = RobotMap.yEncoder.getDistance();
 	}

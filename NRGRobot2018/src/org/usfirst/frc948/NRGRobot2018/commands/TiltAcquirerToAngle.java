@@ -1,35 +1,33 @@
- package org.usfirst.frc948.NRGRobot2018.commands;
+package org.usfirst.frc948.NRGRobot2018.commands;
 
-import org.usfirst.frc.team948.robot.Robot;
-import org.usfirst.frc.team948.robot.RobotMap;
+import org.usfirst.frc948.NRGRobot2018.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class MotorAcquire extends Command {
+public class TiltAcquirerToAngle extends Command {
+	private final double angle;
 	
-	private double aqSpeed;
-
-    public MotorAcquire(double aqSpeed) {
-    	this.aqSpeed = aqSpeed;
-    	requires(Robot.acquirer);
+    public TiltAcquirerToAngle(double angle) {
+    	requires(Robot.cubeTilter);    	
+    	this.angle = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.cubeTilter.tiltToAnglePIDIntialize(angle, 15);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	RobotMap.aqVictorL.set(-aqSpeed);
-    	RobotMap.aqVictorR.set(aqSpeed);
+    	Robot.cubeTilter.tiltToAnglePIDExecute();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.cubeTilter.tiltToAnglePIDOnTarget();
     }
 
     // Called once after isFinished returns true
@@ -39,5 +37,6 @@ public class MotorAcquire extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
