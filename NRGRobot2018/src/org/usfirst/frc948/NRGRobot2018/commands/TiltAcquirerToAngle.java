@@ -3,40 +3,31 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *Interrupts the command running on every subsystem
+ *
  */
-public class InterruptCommands extends Command {
-
-    public InterruptCommands() {
-        requires(Robot.drive);
-        requires(Robot.climber);
-        requires(Robot.cubeAcquirer);
-        requires(Robot.cubeLifter);
-        requires(Robot.cubeTilter);
+public class TiltAcquirerToAngle extends Command {
+	private final double angle;
+	
+    public TiltAcquirerToAngle(double angle) {
+    	requires(Robot.cubeTilter);    	
+    	this.angle = angle;
     }
-    
-    public InterruptCommands(Subsystem... subsystems)
-	{
-		for (Subsystem subsystem : subsystems)
-		{
-			requires(subsystem);
-		}
-	}
-    
+
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.cubeTilter.tiltToAnglePIDIntialize(angle, 15);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.cubeTilter.tiltToAnglePIDExecute();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return Robot.cubeTilter.tiltToAnglePIDOnTarget();
     }
 
     // Called once after isFinished returns true
@@ -46,5 +37,6 @@ public class InterruptCommands extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

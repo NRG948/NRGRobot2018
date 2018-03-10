@@ -93,12 +93,12 @@ public class RobotMap {
 		xEncoder = new Encoder(2, 3, false); // positive is right
 		yEncoder = new Encoder(0, 1, true); // positive is forward
 		cubeLiftEncoder = new Encoder(6, 7, false);
-		cubeTiltEncoder = new Encoder(8, 9, true);
+		cubeTiltEncoder = new Encoder(8, 9, false);
 		
 		xEncoder.setDistancePerPulse(0.0478); // inches per pulse, encoder is slipping
 		yEncoder.setDistancePerPulse(0.0506);
-		cubeLiftEncoder.setDistancePerPulse(75.5/6994); // inches/ticks
-		cubeTiltEncoder.setDistancePerPulse(1);
+		cubeLiftEncoder.setDistancePerPulse(1.0); 
+		cubeTiltEncoder.setDistancePerPulse(1.0);
 
 		navx = new AHRS(SPI.Port.kMXP);
 		gyro = new ContinuousGyro(navx);

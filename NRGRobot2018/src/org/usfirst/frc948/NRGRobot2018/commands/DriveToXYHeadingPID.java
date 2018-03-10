@@ -3,6 +3,8 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
+import org.usfirst.frc948.NRGRobot2018.utilities.WaypointPredicate;
+import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,29 +14,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * (degrees)
  */
 public class DriveToXYHeadingPID extends Command {
-    final double DISTANCE_TOLERANCE = 0.0;
+    final double DISTANCE_TOLERANCE = 1.0;
     final double ANGLE_TOLERANCE = 1.0;
     
+    final private Waypoint waypoint;
+    final private WaypointPredicate predicate;
+    final private boolean isFinalWaypoint;
+
     final double desiredX; // desired x
     final double desiredY; // desired y
     final double desiredHeading; // desired heading
-    final private Waypoint.Predicate predicate;
-    final private boolean isFinalWaypoint;
+    
     
     private double dXFieldFrame; // (desired x) - (current robot x position)
     private double dYFieldFrame; // (desired y) - (current robot y position)
 
     public DriveToXYHeadingPID(double x, double y, double heading) {
-        this(x, y, heading, new Waypoint.DefaultPredicate(), true);
+        this(new Waypoint(CoordinateType.ABSOLUTE, x, y, heading, Waypoint.USE_PID), true);
     }
 
-    public DriveToXYHeadingPID(double x, double y, double heading, Waypoint.Predicate predicate, boolean isFinalWaypoint) {
+    public DriveToXYHeadingPID(Waypoint waypoint, boolean isFinalWaypoint) {
         requires(Robot.drive);
-        desiredX = x;
-        desiredY = y;
-        desiredHeading = heading;
-        this.predicate = predicate;
+        
+        this.waypoint = waypoint;
+        this.predicate = waypoint.waypointPredicate;
         this.isFinalWaypoint = isFinalWaypoint;
+        
+        desiredX = waypoint.x;
+        desiredY = waypoint.y;
+        Robot.positionTracker.setXYGoal(desiredX, desiredY);
+        desiredHeading = waypoint.heading;
+        
     }
 
     // Called just before this Command runs the first time
@@ -46,6 +56,10 @@ public class DriveToXYHeadingPID extends Command {
 
         dXFieldFrame = Double.MAX_VALUE;
         dYFieldFrame = Double.MAX_VALUE;
+        
+        SmartDashboard.putNumber("currentWaypointX:", waypoint.x);
+        SmartDashboard.putNumber("currentWaypointY:", waypoint.y);
+        SmartDashboard.putNumber("currentWaypointH:", waypoint.heading);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -71,24 +85,24 @@ public class DriveToXYHeadingPID extends Command {
         // sending calculated powers
         Robot.drive.rawDriveCartesian(xPower, yPower, turnPower);
 
-        SmartDashboard.putNumber("driveToXYHeading/dXFieldFrame", dXFieldFrame);
-        SmartDashboard.putNumber("driveToXYHeading/dYFieldFrame", dYFieldFrame);
-        SmartDashboard.putNumber("driveToXYHeading/dHeadingToTarget", desiredHeading - currHeading);
-        SmartDashboard.putNumber("driveToXYHeading/dXRobotFrame", dXRobotFrame);
-        SmartDashboard.putNumber("driveToXYHeading/dYRobotFrame", dYRobotFrame);
-        SmartDashboard.putNumber("driveToXYHeading/dHeadingToXY", headingRobotFrame);
+        SmartDashboard.putNumber("driveToXYHeading/Xpower", xPower);
+        SmartDashboard.putNumber("driveToXYHeading/Xerror", Robot.drive.getXError());
+        SmartDashboard.putNumber("driveToXYHeading/Ypower", yPower);
+        SmartDashboard.putNumber("driveToXYHeading/Yerror", Robot.drive.getYError());
+        SmartDashboard.putNumber("driveToXYHeading/turnPower", turnPower);
+        SmartDashboard.putNumber("driveToXYHeading/turnError", Robot.drive.getTurnError());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return predicate.isAtWaypoint() || Robot.drive.allControllersOnTarget(isFinalWaypoint);
+        return predicate.isFinished(waypoint) || Robot.drive.allControllersOnTarget(isFinalWaypoint);
     }
 
     // Called once after isFinished returns true
     protected void end() {
         if (isFinalWaypoint) {
             Robot.drive.stop();
-            SmartDashboard.putNumber("DriveToXYHeading gyro", RobotMap.gyro.getAngle());
+            SmartDashboard.putNumber("DriveToXYHeading/gyro", RobotMap.gyro.getAngle());
         }
     }
 
