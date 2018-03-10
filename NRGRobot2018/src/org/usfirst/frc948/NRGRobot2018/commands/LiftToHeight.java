@@ -1,29 +1,23 @@
 package org.usfirst.frc948.NRGRobot2018.commands;
 
-import java.util.EnumMap;
-
 import org.usfirst.frc948.NRGRobot2018.Robot;
-import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
-import org.usfirst.frc948.NRGRobot2018.utilities.LifterLevel;
-import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 
 /**
  *
  */
 public class LiftToHeight extends Command {
-	private final LifterLevel level;
+	double height;
 
-	public LiftToHeight(LifterLevel level) {
+	public LiftToHeight(double height) {
 		requires(Robot.cubeLifter);
-		this.level = level;
+		this.height = height;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.cubeLifter.liftToHeightPIDInit(level.getTicks(), 1);
+		Robot.cubeLifter.liftToHeightPIDInit(height, 1);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

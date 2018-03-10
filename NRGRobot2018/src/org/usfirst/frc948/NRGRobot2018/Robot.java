@@ -12,7 +12,7 @@ package org.usfirst.frc948.NRGRobot2018;
 
 import java.util.ArrayList;
 
-import org.usfirst.frc948.NRGRobot2018.commandGroups.AutonomousRoutines;
+import org.usfirst.frc948.NRGRobot2018.commandGroups.AutonomousRoutine;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Climber;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeAcquirer;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
@@ -38,27 +38,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-	Command autonomousCommand;
 	public static SendableChooser<AutoPosition> autoPositionChooser;
 	public static SendableChooser<AutoMovement> autoMovementChooser;
 
+	Command autonomousCommand;
 	public static Preferences preferences;
 	public static OI oi;
-	
 	public static Drive drive;
+	public enum AutoPosition {
+		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_LEFT, BLUE_CENTER, BLUE_RIGHT
+	}
+	public enum AutoMovement {
+		RIGHT_SWITCH, LEFT_SWITCH, LEFT_SCALE, RIGHT_SCALE
+	}
 	public static CubeAcquirer cubeAcquirer;
 	public static CubeLifter cubeLifter;
 	public static CubeTilter cubeTilter;
 	public static Climber climber;
 	public static PositionTracker positionTracker;
-
-	public enum AutoPosition {
-		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_LEFT, BLUE_CENTER, BLUE_RIGHT
-	}
-
-	public enum AutoMovement {
-		RIGHT_SWITCH, LEFT_SWITCH, LEFT_SCALE, RIGHT_SCALE
-	}
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -74,10 +71,10 @@ public class Robot extends TimedRobot {
 		drive = new Drive();
 		cubeAcquirer = new CubeAcquirer();
 		cubeLifter = new CubeLifter();
-		cubeTilter = new CubeTilter();
+		cubeTilter  = new CubeTilter();
 		climber = new Climber();
 		oi = new OI();
-		positionTracker = new PositionTracker(0, 0);
+		positionTracker = new PositionTracker(0,0);
 
 		// OI must be constructed after subsystems. If the OI creates Commands
 		// (which it very likely will), subsystems are not guaranteed to be
@@ -88,7 +85,7 @@ public class Robot extends TimedRobot {
 		RobotMap.pixy.startVisionThread();
 		RobotMap.arduino.startArduinoThread();
 		System.out.println("robotInit() done");
-
+		
 		autoPositionChooser = new SendableChooser<AutoPosition>();
 		autoPositionChooser.addDefault("Red left", AutoPosition.RED_LEFT);
 		autoPositionChooser.addObject("Red center", AutoPosition.RED_CENTER);
@@ -105,6 +102,7 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
 		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
+		
 	}
 
 	/**
@@ -126,7 +124,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
 		System.out.println("autoInit()");
-		autonomousCommand = new AutonomousRoutines();
+		autonomousCommand = new AutonomousRoutine();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -168,10 +166,10 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
 
 		ArrayList<Block> currFrame = RobotMap.pixy.getPixyFrameData();
-
+		
 		if (currFrame.size() > 0) {
 			Block cube = currFrame.get(0);
-
+			
 			SmartDashboard.putString("Cube/Cube", cube.toString());
 			SmartDashboard.putNumber("Cube/Angle to turn", CubeCalculations.getAngleToTurn(cube));
 			SmartDashboard.putNumber("Cube/Inches to cube from width", CubeCalculations.getDistanceFromWidth(cube));
@@ -197,35 +195,28 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.LIFT_DOWN_MAX_POWER, CubeLifter.LIFT_POWER_SCALE_DOWN);
 
 			preferences.putDouble(PreferenceKeys.MAX_VEL_CHANGE, Drive.DEF_MAX_VEL_CHANGE);
-
+			
 			preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
 			preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
 			preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
-			preferences.putDouble(PreferenceKeys.DRIVE_TURN_MAX_POWER, Drive.DEFAULT_DRIVE_TURN_POWER);
-
-			preferences.putDouble(PreferenceKeys.DRIVE_X_P, Drive.DEFAULT_DRIVE_X_P);
-			preferences.putDouble(PreferenceKeys.DRIVE_X_I, Drive.DEFAULT_DRIVE_X_I);
-			preferences.putDouble(PreferenceKeys.DRIVE_X_D, Drive.DEFAULT_DRIVE_X_D);
-			preferences.putDouble(PreferenceKeys.DRIVE_X_MAX_POWER, Drive.DEFAULT_DRIVE_X_POWER);
-
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_P, Drive.DEFAULT_DRIVE_Y_P);
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_I, Drive.DEFAULT_DRIVE_Y_I);
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_D, Drive.DEFAULT_DRIVE_Y_D);
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, Drive.DEFAULT_DRIVE_Y_POWER);
-
+			
+			preferences.putDouble(PreferenceKeys.DRIVE_X_P, 1.0/6.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_I, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_D, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_X_MAX_POWER, 0.9);
+			
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_P, 1.0/15.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_I, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_D, 0.0);
+			preferences.putDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, 0.5);
+			
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_X, 48.0);
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_Y, 48.0);
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_H, 0);
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_X_POWER, 0.9);
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_Y_POWER, 0.5);
 			preferences.putDouble(PreferenceKeys.DRIVE_XYH_TURN_POWER, 0.3);
-
-			preferences.putInt(PreferenceKeys.SWITCH_TICKS, CubeLifter.DEFAULT_SWITCH_TICKS);
-			preferences.putInt(PreferenceKeys.SCALE_HIGH_TICKS, CubeLifter.DEFAULT_SCALE_HIGH_TICKS);
-			preferences.putInt(PreferenceKeys.SCALE_MEDIUM_TICKS, CubeLifter.DEFAULT_SCALE_MEDIUM_TICKS);
-			preferences.putInt(PreferenceKeys.SCALE_LOW_TICKS, CubeLifter.DEFAULT_SCALE_LOW_TICKS);
-			preferences.putInt(PreferenceKeys.STOWED_TICKS, CubeLifter.DEFAULT_STOWED_TICKS);
-
+			
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 		}
 	}

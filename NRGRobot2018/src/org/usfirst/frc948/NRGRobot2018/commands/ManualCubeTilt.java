@@ -2,55 +2,47 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.Robot;
-import org.usfirst.frc948.NRGRobot2018.RobotMap;
-import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class ManualCubeTilt extends Command {
-	private double prevPower;
 
 	public ManualCubeTilt() {
 		requires(Robot.cubeTilter);
 	}
 
+	// Called just before this Command runs the first time
 	protected void initialize() {
-		prevPower = Double.MAX_VALUE;
+
 	}
 
+	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double power = 0;
-
 		if (OI.isXBoxDPadUp()) {
-			power = CubeTilter.TILT_UP_POWER;
-			Robot.cubeTilter.rawTilt(power);
+			Robot.cubeTilter.tiltUp();
 		} else if (OI.isXBoxDPadDown()) {
-			power = CubeTilter.TILT_DOWN_POWER;
-			Robot.cubeTilter.rawTilt(power);
-		} else {
-//
-//			if (prevPower != 0) {
-//				Robot.cubeTilter.tiltToAnglePIDIntialize(RobotMap.cubeTiltEncoder.getDistance(), 1);
-//			}
-//			Robot.cubeTilter.tiltToAnglePIDExecute();
+			Robot.cubeTilter.tiltDown();
+		}else{
+			Robot.cubeTilter.stop();
 		}
-
-		prevPower = power;
 	}
 
+	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		return false;
 	}
 
+	// Called once after isFinished returns true
 	protected void end() {
 		Robot.cubeTilter.stop();
 	}
 
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
 	protected void interrupted() {
 		end();
 	}

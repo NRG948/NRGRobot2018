@@ -2,7 +2,6 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.Robot;
-import org.usfirst.frc948.NRGRobot2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,36 +9,20 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ManualCubeLift extends Command {
-	private double prevFinalPower;
-	
-	public ManualCubeLift() {
+    public ManualCubeLift() {
     	requires(Robot.cubeLifter);
     }
 
+    // Called just before this Command runs the first time
     protected void initialize() {
-    	// dummy value other than 0, in case first execute cycle of ManualLift calculates final power to be 0
-    	prevFinalPower = Double.MAX_VALUE;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double upSpeed = OI.getXBoxTriggerR();
     	double downSpeed = OI.getXBoxTriggerL();
-    	double finalPower = upSpeed - downSpeed;
     	
-    	// if final power above is 0, use lift PID controller to maintain current height
-    	if (finalPower == 0) {
-    		// if prev execute cycle sent power to motor, initialize PID controller with current height
-    		if (prevFinalPower != 0) {
-    			Robot.cubeLifter.liftToHeightPIDInit(RobotMap.cubeLiftEncoder.getDistance(), 100);
-    		}
-    		// send PID-calculated power to motor
-    		Robot.cubeLifter.liftToHeightPIDExecute();
-    	} else {
-    		Robot.cubeLifter.manualLift(finalPower);
-    	}
-    	
-    	prevFinalPower = finalPower;
+    	Robot.cubeLifter.manualLift(upSpeed - downSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

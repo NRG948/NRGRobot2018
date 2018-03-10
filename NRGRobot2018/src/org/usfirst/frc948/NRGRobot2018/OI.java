@@ -11,9 +11,12 @@
 
 package org.usfirst.frc948.NRGRobot2018;
 
-import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
+import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquare;
+import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveSquareWithTurning;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightTimed;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPID;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPIDTest;
 import org.usfirst.frc948.NRGRobot2018.commands.InterruptCommands;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
@@ -23,13 +26,11 @@ import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualStrafeStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
-import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerToAngle;
+import org.usfirst.frc948.NRGRobot2018.commands.StrafeStraightTimed;
+import org.usfirst.frc948.NRGRobot2018.commands.TestPixyData;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
-import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
-import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
-import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -55,9 +56,7 @@ public class OI {
 	public JoystickButton rightShiftGears;
 	public JoystickButton climberButton;
 	public JoystickButton interruptButton;
-	public JoystickButton driveToCube;
-//	public JoystickButton tiltAcquirerAndEjectCube;
-	
+
 	public static SendableChooser<Command> chooser;
 
 	public enum Side {
@@ -77,45 +76,35 @@ public class OI {
 		strafeStraight = new JoystickButton(leftJoystick, 3);
 		interruptButton = new JoystickButton(leftJoystick, 6);
 		rightShiftGears = new JoystickButton(rightJoystick, 1);// drive team needed it for both
-		driveToCube = new JoystickButton(rightJoystick, 2);// joysticks
+																// joysticks
 
 		// arduino buttons
 		 climberButton = new JoystickButton(arduinoJoystick, 10);
-		 
-		// xbox buttons
 		// climberButton = new JoystickButton(xboxController, 8);
-//		 tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1);
 
 		// Initialize commands after initializing buttons
-		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
-		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
-		rightShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
-		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
+		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
+		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
+		rightShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
+		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
 		driveStraight.whileHeld(new ManualDriveStraight());
 		strafeStraight.whileHeld(new ManualStrafeStraight());
 		climberButton.whileHeld(new ManualClimb(0.7));
 		interruptButton.whenPressed(new InterruptCommands());
-		driveToCube.whenPressed(new DriveToCubeNoPID(false));
-//		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(45, 1, 0.5));
-		
+
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 
-		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(CubeLifter.SCALE_MEDIUM));
-		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(CubeLifter.SWITCH_LEVEL));
-		SmartDashboard.putData("Set Lift height to zero?", new LiftToHeight(CubeLifter.STOWED));
-		
-		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
-
 		SmartDashboard.putData("ManualDrive", new ManualDrive());
+		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(66));
+		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(22));
+		
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
-		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID(false));
+		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID());
 //		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
 //		SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
 //				new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
-		SmartDashboard.putData("CubeTiltDown", new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
-		SmartDashboard.putData("CubeTiltUp", new TiltAcquirerToAngle(CubeTilter.TILTER_UP));
 		
 		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
 		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
@@ -146,11 +135,11 @@ public class OI {
 	}
 
 	public static double getXBoxTriggerL() {
-		return MathUtil.deadband(xboxController.getRawAxis(2), 0.1);
+		return xboxController.getRawAxis(2);
 	}
 
 	public static double getXBoxTriggerR() {
-		return MathUtil.deadband(xboxController.getRawAxis(3), 0.1);
+		return xboxController.getRawAxis(3);
 	}
 
 	public static boolean isXBoxDPadUp() {
