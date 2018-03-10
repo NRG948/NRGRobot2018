@@ -55,7 +55,7 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public final static double SCALE_HIGH = 1.0;
 	public final static double SCALE_LOW = 0.5;
-	public double scale = SCALE_LOW;
+	public double scale = SCALE_HIGH;
 	public static final double DEF_MAX_VEL_CHANGE = 0.1;
 
 	private double lastVelX = 0.0;

@@ -87,10 +87,10 @@ public class OI {
 //		 tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1);
 
 		// Initialize commands after initializing buttons
-		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
-		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
-		rightShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_HIGH));
-		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_LOW));
+		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
+		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
+		rightShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
+		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
 		driveStraight.whileHeld(new ManualDriveStraight());
 		strafeStraight.whileHeld(new ManualStrafeStraight());
 		climberButton.whileHeld(new ManualClimb(0.7));
