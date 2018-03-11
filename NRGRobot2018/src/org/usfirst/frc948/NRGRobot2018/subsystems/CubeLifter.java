@@ -17,7 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Positive power is for raising lifter, negative power is for lowering lifter.
  */
 public class CubeLifter extends Subsystem {
-	
+	private static final int LIFTER_MAX_TICKS = 7000 - 50; // safe zone of 50 ticks
+	private static final int LIFTER_MIN_TICKS = 50;
+
 	private SimplePIDController lifterPIDController;
 
 	public static final double LIFT_POWER_SCALE_UP = 0.95;
@@ -39,6 +41,8 @@ public class CubeLifter extends Subsystem {
 	public static final LifterLevel SCALE_HIGH = new LifterLevel(PreferenceKeys.SCALE_HIGH_TICKS, DEFAULT_SCALE_HIGH_TICKS);
 	public static final LifterLevel STOWED = new LifterLevel(PreferenceKeys.STOWED_TICKS,DEFAULT_STOWED_TICKS);
 	
+	private boolean prevUpperLimitState = false;
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new ManualCubeLift());
@@ -48,6 +52,7 @@ public class CubeLifter extends Subsystem {
 		double maxPowerUp = Robot.preferences.getDouble(PreferenceKeys.LIFT_UP_MAX_POWER, LIFT_POWER_SCALE_UP);
 		double maxPowerDown = Robot.preferences.getDouble(PreferenceKeys.LIFT_DOWN_MAX_POWER, LIFT_POWER_SCALE_DOWN);
 		lifterPIDController = new SimplePIDController(p, i, d, true);
+		lifterPIDController.setInputRange(LIFTER_MIN_TICKS, LIFTER_MAX_TICKS);
 		lifterPIDController.setOutputRange(-maxPowerDown, maxPowerUp);
 		lifterPIDController.setAbsoluteTolerance(tolerance);
 		lifterPIDController.setSetpoint(setpoint);
@@ -68,7 +73,7 @@ public class CubeLifter extends Subsystem {
 		SmartDashboard.putNumber("Lift To Height PID Error", lifterPIDController.getError());
 		SmartDashboard.putNumber("Lift To Height PID Output", currentPIDOutput);
 
-		rawLift(currentPIDOutput, false);
+		rawLift(currentPIDOutput);
 	}
 
 	public void liftToHeightPIDEnd() {
@@ -82,25 +87,28 @@ public class CubeLifter extends Subsystem {
 
 	public void manualLift(double power) {
 		if (power > 0) {
-			rawLift(power * LIFT_POWER_SCALE_UP, false);
+			rawLift(power * LIFT_POWER_SCALE_UP);
 		} else {
-			rawLift(power * LIFT_POWER_SCALE_DOWN, false);
+			rawLift(power * LIFT_POWER_SCALE_DOWN);
 		}
 	}
 
 	// useLimitSwitches used to fix falling lifter problem
-	public void rawLift(double power, boolean useLimitSwitches) {
-		if (useLimitSwitches) {
-			if (!hasReachedLowerLimit() && power < 0) {
-				RobotMap.cubeLifterMotor.set(power);
-			} else if (!hasReachedUpperLimit() && power > 0) {
-				RobotMap.cubeLifterMotor.set(power);
-			} else {
-				stop();
-			}
-		} else {
+	public void rawLift(double power) {
+		boolean currentUpperLimitState = hasReachedUpperLimit();
+		
+		if (!hasReachedLowerLimit() && power < 0) {
 			RobotMap.cubeLifterMotor.set(power);
+		} else if (!currentUpperLimitState && power > 0) {
+			RobotMap.cubeLifterMotor.set(power);
+		} else {
+			if (!prevUpperLimitState && currentUpperLimitState) {
+				System.out.println("Lift encoder value at upper limit: " + RobotMap.cubeLiftEncoder.getDistance());
+			}
+			stop();
 		}
+		
+		prevUpperLimitState = currentUpperLimitState;
 	}
 
 	public void stop() {
