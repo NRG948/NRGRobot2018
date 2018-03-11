@@ -77,9 +77,9 @@ public class SimplePIDController {
 	public double update(double input) {
 		double currTime = System.nanoTime() / 1.0e9;
 		double deltaTime = currTime - prevTime;
-		double error = setpoint - input;
 
 		input = MathUtil.clamp(input, minimumInput, maximumInput);
+		double error = setpoint - input;
 
 		if (wasPIDReset) {
 			prevError = error;
