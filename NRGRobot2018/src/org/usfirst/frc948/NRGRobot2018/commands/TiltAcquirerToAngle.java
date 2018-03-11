@@ -9,34 +9,36 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TiltAcquirerToAngle extends Command {
 	private final double angle;
-	
-    public TiltAcquirerToAngle(double angle) {
-    	requires(Robot.cubeTilter);    	
-    	this.angle = angle;
-    }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	Robot.cubeTilter.tiltToAnglePIDIntialize(angle, 15);
-    }
+	public TiltAcquirerToAngle(double angle) {
+		requires(Robot.cubeTilter);
+		this.angle = angle;
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.cubeTilter.tiltToAnglePIDExecute();
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		Robot.cubeTilter.tiltToAnglePIDIntialize(angle, 15);
+		System.out.println("TiltAcquirerToAngle init: " + angle);
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return Robot.cubeTilter.tiltToAnglePIDOnTarget();
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		Robot.cubeTilter.tiltToAnglePIDExecute();
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return Robot.cubeTilter.tiltToAnglePIDOnTarget();
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	end();
-    }
+	// Called once after isFinished returns true
+	protected void end() {
+		System.out.println("TiltAcquirerToAngle end");
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+		end();
+	}
 }

@@ -31,6 +31,10 @@ public class Waypoint {
 		}
 		return this;
 	}
+	
+	public String toString() {
+		return String.format("x:%.1f y:%.1f h:%.1f", x, y, heading);
+	}
 
 	public static DefaultPredicate USE_PID = new DefaultPredicate();
 

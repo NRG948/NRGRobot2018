@@ -24,6 +24,7 @@ public class LiftToHeight extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.cubeLifter.liftToHeightPIDInit(level.getTicks(), 1);
+		System.out.println("LiftToHeight init: " + level.getTicks());
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -39,6 +40,7 @@ public class LiftToHeight extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.cubeLifter.liftToHeightPIDEnd();
+		System.out.println("LiftToHeight End");
 	}
 
 	// Called when another command which requires one or more of the same

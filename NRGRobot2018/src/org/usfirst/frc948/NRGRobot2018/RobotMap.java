@@ -96,7 +96,7 @@ public class RobotMap {
 		cubeTiltEncoder = new Encoder(8, 9, false);
 		
 		xEncoder.setDistancePerPulse(0.0478); // inches per pulse, encoder is slipping
-		yEncoder.setDistancePerPulse(0.0506);
+		yEncoder.setDistancePerPulse(0.0498);
 		cubeLiftEncoder.setDistancePerPulse(1.0); 
 		cubeTiltEncoder.setDistancePerPulse(1.0);
 

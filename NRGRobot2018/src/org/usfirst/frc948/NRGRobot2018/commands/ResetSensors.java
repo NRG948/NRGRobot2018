@@ -15,11 +15,12 @@ public class ResetSensors extends Command {
     	requires(Robot.climber);
     	requires(Robot.cubeAcquirer);
     	requires(Robot.cubeTilter);
+    	requires(Robot.cubeLifter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	System.out.println("ResetSensors init");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -40,6 +41,7 @@ public class ResetSensors extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	System.out.println("ResetSensors end");
     }
 
     // Called when another command which requires one or more of the same

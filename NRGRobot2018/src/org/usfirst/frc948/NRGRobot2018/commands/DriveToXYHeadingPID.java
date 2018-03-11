@@ -2,6 +2,7 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
+import org.usfirst.frc948.NRGRobot2018.utilities.PositionTracker;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
 import org.usfirst.frc948.NRGRobot2018.utilities.WaypointPredicate;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
@@ -60,6 +61,8 @@ public class DriveToXYHeadingPID extends Command {
         SmartDashboard.putNumber("currentWaypointX:", waypoint.x);
         SmartDashboard.putNumber("currentWaypointY:", waypoint.y);
         SmartDashboard.putNumber("currentWaypointH:", waypoint.heading);
+        
+        System.out.println(waypoint);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -104,6 +107,7 @@ public class DriveToXYHeadingPID extends Command {
             Robot.drive.stop();
             SmartDashboard.putNumber("DriveToXYHeading/gyro", RobotMap.gyro.getAngle());
         }
+        System.out.println("DriveToXYHeading " + Robot.positionTracker);
     }
 
     // Called when another command which requires one or more of the same

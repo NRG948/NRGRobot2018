@@ -31,6 +31,7 @@ import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 import org.usfirst.frc948.NRGRobot2018.utilities.LifterLevel;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
+import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.WithinInches;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -61,6 +62,7 @@ public class AutonomousRoutines extends CommandGroup {
 
 	public AutonomousRoutines() {
 		addSequential(new ResetSensors());
+//		addSequential(new SetDriveScale(Drive.SCALE_LOW));
 		autoMovement = Robot.autoMovementChooser.getSelected();
 		autoPosition = Robot.autoPositionChooser.getSelected();
 
@@ -187,8 +189,8 @@ public class AutonomousRoutines extends CommandGroup {
 	}
 
 	private static final Waypoint RRRS_PATH[] = {
-			new Waypoint(CoordinateType.RELATIVE, 0.0, 149, 0, new Waypoint.WithinInches(29)),
-			new Waypoint(CoordinateType.RELATIVE, -21, 0, -90, USE_PID) };
+			new Waypoint(CoordinateType.RELATIVE, 0.0, 146, 0, new Waypoint.WithinInches(44)),
+			new Waypoint(CoordinateType.RELATIVE, -19, 0, -90, USE_PID) };
 
 	public class RedRightToRightSwitch extends CommandGroup {
 		public RedRightToRightSwitch() {
@@ -196,7 +198,8 @@ public class AutonomousRoutines extends CommandGroup {
 			// addSequential(new TurnToHeading(-90));
 			// addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
 			addParallel(new DriveAndEject(0, 0, RRRS_PATH));
-			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -211,8 +214,7 @@ public class AutonomousRoutines extends CommandGroup {
 	
 	public class LiftToHeightAndHold extends CommandGroup {
 		public LiftToHeightAndHold(LifterLevel level){
-			addParallel(new LiftToHeight(level));
-			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+			addSequential(new LiftToHeight(level));
 			addSequential(new ManualCubeLift());
 		}
 	}
@@ -229,12 +231,15 @@ public class AutonomousRoutines extends CommandGroup {
 	}
 	
 	private static final Waypoint RRLSWITCH_PATH[] = {
-			new Waypoint(CoordinateType.RELATIVE, 0.0, 210, 0, WITHIN_TWO_FEET),
-			new Waypoint(CoordinateType.RELATIVE, -237, 0.0, -90, WITHIN_TWO_FEET),
-			new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
-			new Waypoint(CoordinateType.RELATIVE, 18, 0, -270, USE_PID)
+			new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(15)),
+			new Waypoint(CoordinateType.RELATIVE, -242, 0.0, 90, new WithinInches(2)),
+			new Waypoint(CoordinateType.RELATIVE, 0, 0.0, 129, USE_PID),
+			new Waypoint(CoordinateType.RELATIVE, 31.5, -25.5, 135, new WithinInches(2))
+//			new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(30)),
+//			new Waypoint(CoordinateType.RELATIVE, -237, 0.0, -90, WITHIN_TWO_FEET),
+//			new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
+//			new Waypoint(CoordinateType.RELATIVE, 18, 0, -270, USE_PID)
 	};
-	
 	public class RedRightToLeftSwitch extends CommandGroup {
 		public RedRightToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, RRLSWITCH_PATH));

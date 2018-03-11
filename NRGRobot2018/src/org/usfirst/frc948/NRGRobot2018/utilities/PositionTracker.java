@@ -69,4 +69,9 @@ public class PositionTracker {
 	public void reset() {
 		reset(0,0);
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Position: (%.1f, %.1f)", x, y);
+	}
 }
