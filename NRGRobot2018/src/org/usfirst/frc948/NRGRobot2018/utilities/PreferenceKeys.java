@@ -45,5 +45,6 @@ public class PreferenceKeys {
 	public static final String SCALE_HIGH_TICKS = "SCALE_HIGH_TICKS";
 	public static final String SCALE_MEDIUM_TICKS = "SCALE_MEDIUM_TICKS";
 	public static final String STOWED_TICKS = "STOWED_TICKS";
-
+	
+	public static final String USE_PHYSICAL_AUTO_CHOOSER = "USE_PHYSICAL_AUTO_CHOOSER";
 }

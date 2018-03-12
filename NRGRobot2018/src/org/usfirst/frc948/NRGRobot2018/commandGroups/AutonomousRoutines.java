@@ -1,12 +1,5 @@
 package org.usfirst.frc948.NRGRobot2018.commandGroups;
 
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_CENTER;
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_LEFT;
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.BLUE_RIGHT;
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_CENTER;
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_LEFT;
-import static org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition.RED_RIGHT;
-import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_HIGH;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_LOW;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SWITCH_LEVEL;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
@@ -24,7 +17,6 @@ import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerToAngle;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
-import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
@@ -66,63 +58,63 @@ public class AutonomousRoutines extends CommandGroup {
 		autoMovement = Robot.autoMovementChooser.getSelected();
 		autoPosition = Robot.autoPositionChooser.getSelected();
 
-		System.out.println("Auto Movement is : " + autoMovement);
-		System.out.println("Auto Position is : " + autoPosition);
-
-		switch (autoMovement) {
-		case LEFT_SWITCH:
-			if (autoPosition == AutoPosition.RED_LEFT) {
-				addSequential(new RedLeftToLeftSwitch());
-			} else if (autoPosition == BLUE_LEFT) {
-				addSequential(new BlueLeftToLeftSwitch());
-			} else if (autoPosition == RED_CENTER) {
-				addSequential(new RedMiddleToLeftSwitch());
-			} else if (autoPosition == BLUE_CENTER) {
-				addSequential(new BlueMiddleToLeftSwitch());
-			} else if (autoPosition == RED_RIGHT) {
-				addSequential(new RedRightToLeftSwitch());
-			} else if (autoPosition == BLUE_RIGHT) {
-				addSequential(new BlueRightToLeftSwitch());
-			}
-			break;
-		case RIGHT_SWITCH:
-			if (autoPosition == RED_RIGHT) {
-				addSequential(new RedRightToRightSwitch());
-			} else if (autoPosition == BLUE_RIGHT) {
-				addSequential(new BlueRightToRightSwitch());
-			} else if (autoPosition == RED_CENTER) {
-				addSequential(new RedMiddleToRightSwitch());
-			} else if (autoPosition == BLUE_CENTER) {
-				addSequential(new BlueMiddleToRightSwitch());
-			} else if (autoPosition == RED_LEFT) {
-				addSequential(new RedLeftToRightSwitch());
-			} else if (autoPosition == BLUE_LEFT) {
-				addSequential(new BlueLeftToRightSwitch());
-			}
-			break;
-		case LEFT_SCALE:
-			if (autoPosition == AutoPosition.BLUE_LEFT) {
-				addSequential(new BlueLeftToLeftScale());
-			} else if (autoPosition == RED_CENTER) {
-				addSequential(new RedMiddleToLeftScale());
-			} else if (autoPosition == BLUE_CENTER) {
-				addSequential(new BlueMiddleToLeftScale());
-			} else if (autoPosition == RED_LEFT) {
-				addSequential(new RedLeftToLeftScale());
-			}
-			break;
-		case RIGHT_SCALE:
-			if (autoPosition == RED_RIGHT) {
-				addSequential(new RedRightToRightScale());
-			} else if (autoPosition == BLUE_RIGHT) {
-				addSequential(new BlueRightToRightScale());
-			} else if (autoPosition == RED_CENTER) {
-				addSequential(new RedMiddleToRightScale());
-			} else if (autoPosition == BLUE_CENTER) {
-				addSequential(new BlueMiddleToRightScale());
-			}
-			break;
-		}
+//		System.out.println("Auto Movement is : " + autoMovement);
+//		System.out.println("Auto Position is : " + autoPosition);
+//
+//		switch (autoMovement) {
+//		case LEFT_SWITCH:
+//			if (autoPosition == AutoPosition.LEFT) {
+//				addSequential(new RedLeftToLeftSwitch());
+//			} else if (autoPosition == BLUE_LEFT) {
+//				addSequential(new BlueLeftToLeftSwitch());
+//			} else if (autoPosition == CENTER) {
+//				addSequential(new RedMiddleToLeftSwitch());
+//			} else if (autoPosition == BLUE_CENTER) {
+//				addSequential(new BlueMiddleToLeftSwitch());
+//			} else if (autoPosition == RIGHT) {
+//				addSequential(new RedRightToLeftSwitch());
+//			} else if (autoPosition == BLUE_RIGHT) {
+//				addSequential(new BlueRightToLeftSwitch());
+//			}
+//			break;
+//		case RIGHT_SWITCH:
+//			if (autoPosition == RIGHT) {
+//				addSequential(new RedRightToRightSwitch());
+//			} else if (autoPosition == BLUE_RIGHT) {
+//				addSequential(new BlueRightToRightSwitch());
+//			} else if (autoPosition == CENTER) {
+//				addSequential(new RedMiddleToRightSwitch());
+//			} else if (autoPosition == BLUE_CENTER) {
+//				addSequential(new BlueMiddleToRightSwitch());
+//			} else if (autoPosition == LEFT) {
+//				addSequential(new RedLeftToRightSwitch());
+//			} else if (autoPosition == BLUE_LEFT) {
+//				addSequential(new BlueLeftToRightSwitch());
+//			}
+//			break;
+//		case LEFT_SCALE:
+//			if (autoPosition == AutoPosition.BLUE_LEFT) {
+//				addSequential(new BlueLeftToLeftScale());
+//			} else if (autoPosition == CENTER) {
+//				addSequential(new RedMiddleToLeftScale());
+//			} else if (autoPosition == BLUE_CENTER) {
+//				addSequential(new BlueMiddleToLeftScale());
+//			} else if (autoPosition == LEFT) {
+//				addSequential(new RedLeftToLeftScale());
+//			}
+//			break;
+//		case RIGHT_SCALE:
+//			if (autoPosition == RIGHT) {
+//				addSequential(new RedRightToRightScale());
+//			} else if (autoPosition == BLUE_RIGHT) {
+//				addSequential(new BlueRightToRightScale());
+//			} else if (autoPosition == CENTER) {
+//				addSequential(new RedMiddleToRightScale());
+//			} else if (autoPosition == BLUE_CENTER) {
+//				addSequential(new BlueMiddleToRightScale());
+//			}
+//			break;
+//		}
 	}
 
 	public class RedLeftToLeftSwitch extends CommandGroup {

@@ -53,11 +53,11 @@ public class Robot extends TimedRobot {
 	public static PositionTracker positionTracker;
 
 	public enum AutoPosition {
-		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_LEFT, BLUE_CENTER, BLUE_RIGHT
+		LEFT, CENTER, RIGHT
 	}
 
 	public enum AutoMovement {
-		RIGHT_SWITCH, LEFT_SWITCH, LEFT_SCALE, RIGHT_SCALE
+		SWITCH, SCALE, BOTH, FORWARD, NONE
 	}
 
 	/**
@@ -90,18 +90,16 @@ public class Robot extends TimedRobot {
 		System.out.println("robotInit() done");
 
 		autoPositionChooser = new SendableChooser<AutoPosition>();
-		autoPositionChooser.addDefault("Red left", AutoPosition.RED_LEFT);
-		autoPositionChooser.addObject("Red center", AutoPosition.RED_CENTER);
-		autoPositionChooser.addObject("Red right", AutoPosition.RED_RIGHT);
-		autoPositionChooser.addObject("Blue left", AutoPosition.BLUE_LEFT);
-		autoPositionChooser.addObject("Blue center", AutoPosition.BLUE_CENTER);
-		autoPositionChooser.addObject("Blue right", AutoPosition.BLUE_RIGHT);
+		autoPositionChooser.addDefault("Left", AutoPosition.LEFT);
+		autoPositionChooser.addObject("Center", AutoPosition.CENTER);
+		autoPositionChooser.addObject("Right", AutoPosition.RIGHT);
 
 		autoMovementChooser = new SendableChooser<AutoMovement>();
-		autoMovementChooser.addObject("Left Scale", AutoMovement.LEFT_SCALE);
-		autoMovementChooser.addObject("Left Switch", AutoMovement.LEFT_SWITCH);
-		autoMovementChooser.addObject("Right Switch", AutoMovement.RIGHT_SWITCH);
-		autoMovementChooser.addDefault("Right Scale", AutoMovement.RIGHT_SCALE);
+		autoMovementChooser.addObject("Switch", AutoMovement.SWITCH);
+		autoMovementChooser.addObject("Scale", AutoMovement.SCALE);
+		autoMovementChooser.addDefault("Both", AutoMovement.BOTH);
+		autoMovementChooser.addDefault("Forward", AutoMovement.FORWARD);
+		autoMovementChooser.addDefault("None", AutoMovement.NONE);
 
 		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
 		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
@@ -226,6 +224,8 @@ public class Robot extends TimedRobot {
 			preferences.putInt(PreferenceKeys.SCALE_LOW_TICKS, CubeLifter.DEFAULT_SCALE_LOW_TICKS);
 			preferences.putInt(PreferenceKeys.STOWED_TICKS, CubeLifter.DEFAULT_STOWED_TICKS);
 
+			preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
+			
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 		}
 	}

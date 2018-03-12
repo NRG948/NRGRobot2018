@@ -11,6 +11,10 @@
 
 package org.usfirst.frc948.NRGRobot2018;
 
+import java.awt.dnd.Autoscroll;
+
+import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
+import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
@@ -30,6 +34,7 @@ import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
+import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -40,8 +45,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * This class is the glue that binds the controls on the physical operator interface to the commands
- * and command groups that allow control of the robot.
+ * This class is the glue that binds the controls on the physical operator
+ * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
 	public static Joystick leftJoystick;
@@ -49,15 +54,26 @@ public class OI {
 	public static XboxController xboxController;
 	public static Joystick arduinoJoystick;
 
-	public JoystickButton leftShiftGears;
-	public JoystickButton driveStraight;
-	public JoystickButton strafeStraight;
-	public JoystickButton rightShiftGears;
-	public JoystickButton climberButton;
-	public JoystickButton interruptButton;
-	public JoystickButton driveToCube;
-//	public JoystickButton tiltAcquirerAndEjectCube;
+	public static JoystickButton leftShiftGears;
+	public static JoystickButton driveStraight;
+	public static JoystickButton strafeStraight;
+	public static JoystickButton rightShiftGears;
+	public static JoystickButton interruptButton;
+	public static JoystickButton driveToCube;
+	public static JoystickButton tiltAcquirerAndEjectCube;
 	
+	public static JoystickButton climberButton;
+	
+	public static JoystickButton autoLeft;
+	public static JoystickButton autoCenter;
+	public static JoystickButton autoRight;
+	
+	public static JoystickButton autoSwitch;
+	public static JoystickButton autoScale;
+	public static JoystickButton autoBoth;
+	public static JoystickButton autoForward;
+	public static JoystickButton autoNone;
+
 	public static SendableChooser<Command> chooser;
 
 	public enum Side {
@@ -80,11 +96,22 @@ public class OI {
 		driveToCube = new JoystickButton(rightJoystick, 2);// joysticks
 
 		// arduino buttons
-		 climberButton = new JoystickButton(arduinoJoystick, 10);
-		 
+		climberButton = new JoystickButton(arduinoJoystick, 10);
+		
+		autoLeft = new JoystickButton(arduinoJoystick, 1);
+		autoCenter = new JoystickButton(arduinoJoystick, 3);
+		autoRight = new JoystickButton(arduinoJoystick, 2);
+		
+		autoSwitch = new JoystickButton(arduinoJoystick, 4);
+		autoScale = new JoystickButton(arduinoJoystick, 5);
+		autoBoth = new JoystickButton(arduinoJoystick, 6);
+		autoForward = new JoystickButton(arduinoJoystick, 7);
+		autoNone = new JoystickButton(arduinoJoystick, 8);
+		
+
 		// xbox buttons
 		// climberButton = new JoystickButton(xboxController, 8);
-//		 tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1);
+		// tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1);
 
 		// Initialize commands after initializing buttons
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
@@ -96,27 +123,28 @@ public class OI {
 		climberButton.whileHeld(new ManualClimb(0.7));
 		interruptButton.whenPressed(new InterruptCommands());
 		driveToCube.whenPressed(new DriveToCubeNoPID(false));
-//		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(45, 1, 0.5));
-		
+		// tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(45, 1, 0.5));
+
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 
 		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(CubeLifter.SCALE_MEDIUM));
 		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(CubeLifter.SWITCH_LEVEL));
 		SmartDashboard.putData("Set Lift height to zero?", new LiftToHeight(CubeLifter.STOWED));
-		
+
 		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
 
 		SmartDashboard.putData("ManualDrive", new ManualDrive());
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
 		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID(false));
-//		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
-//		SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
-//				new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
+		// SmartDashboard.putData("StrafeStraightDistance 4 feet", new
+		// DriveStraightDistance(1, 48, Direction.RIGHT));
+		// SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
+		// new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
 		SmartDashboard.putData("CubeTiltDown", new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		SmartDashboard.putData("CubeTiltUp", new TiltAcquirerToAngle(CubeTilter.TILTER_UP));
-		
+
 		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
 		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
 
@@ -162,7 +190,7 @@ public class OI {
 		int pov = xboxController.getPOV();
 		return pov >= 135 && pov <= 225;
 	}
-	
+
 	public static DriverStation.Alliance getAllianceColor() {
 		return DriverStation.getInstance().getAlliance();
 	}
@@ -180,4 +208,21 @@ public class OI {
 	public static Side getOpposingSwitchSide() {
 		return DriverStation.getInstance().getGameSpecificMessage().charAt(2) == 'L' ? Side.LEFT : Side.RIGHT;
 	}
+
+//	public static AutoPosition getAutoPosition() {
+//		AutoPosition autoPosition = null;
+//		DriverStation ds = DriverStation.getInstance();
+//		if (Robot.preferences.getBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, false)) {
+//			if (autoLeft)
+//		} else {
+//			autoPosition = Robot.autoPositionChooser.getSelected();
+//		}
+//		
+//		return autoPosition.
+//
+//	}
+//
+//	public static AutoMovement getAutoMovement() {
+//
+//	}
 }

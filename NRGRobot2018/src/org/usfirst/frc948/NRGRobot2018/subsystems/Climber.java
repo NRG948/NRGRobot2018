@@ -6,7 +6,10 @@ import org.usfirst.frc948.NRGRobot2018.commands.ManualClimb;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Climber subsystem for climber arm.
+ * 
+ * Positive power for raising climber up and negative power for down.
+ * 
  */
 public class Climber extends Subsystem {
 
