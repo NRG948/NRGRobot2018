@@ -136,19 +136,22 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new TurnToHeading(90));
 			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
 		}
-	}
+	} 
 
+	private static final Waypoint RLRSWITCH_PATH[] = {
+			new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(15)),
+			new Waypoint(CoordinateType.RELATIVE, 242, 0.0, -90, new WithinInches(2)),
+			new Waypoint(CoordinateType.RELATIVE, 0, 0.0, -129, USE_PID),
+			new Waypoint(CoordinateType.RELATIVE, -31.5, 25.5, -135, new WithinInches(2))
+	};
+	
 	public class RedLeftToRightSwitch extends CommandGroup {
 		public RedLeftToRightSwitch() {
-			addSequential(new DriveStraightDistance(1.0, 207, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0, 212.75, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0, 45, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0, 20.0, Drive.Direction.FORWARD));
+			addParallel(new DriveAndEject(0, 0, RRLSWITCH_PATH));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
-	}
+	}	
 
 	public class RedMiddleToRightSwitch extends CommandGroup {
 		public RedMiddleToRightSwitch() {
@@ -226,11 +229,8 @@ public class AutonomousRoutines extends CommandGroup {
 			new Waypoint(CoordinateType.RELATIVE, -242, 0.0, 90, new WithinInches(2)),
 			new Waypoint(CoordinateType.RELATIVE, 0, 0.0, 129, USE_PID),
 			new Waypoint(CoordinateType.RELATIVE, 31.5, -25.5, 135, new WithinInches(2))
-//			new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(30)),
-//			new Waypoint(CoordinateType.RELATIVE, -237, 0.0, -90, WITHIN_TWO_FEET),
-//			new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
-//			new Waypoint(CoordinateType.RELATIVE, 18, 0, -270, USE_PID)
 	};
+	
 	public class RedRightToLeftSwitch extends CommandGroup {
 		public RedRightToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, RRLSWITCH_PATH));
