@@ -34,6 +34,7 @@ import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -144,7 +145,15 @@ public class OI {
 	public static double getRightJoystickRot() {
 		return rightJoystick.getRawAxis(2);
 	}
-
+	
+	public static double getXBoxLeftY () {
+		return -OI.xboxController.getY(Hand.kLeft);
+	}
+	
+	public static double getXBoxRightY () {
+		return -OI.xboxController.getY(Hand.kRight);
+	}
+	
 	public static double getXBoxTriggerL() {
 		return MathUtil.deadband(xboxController.getRawAxis(2), 0.1);
 	}

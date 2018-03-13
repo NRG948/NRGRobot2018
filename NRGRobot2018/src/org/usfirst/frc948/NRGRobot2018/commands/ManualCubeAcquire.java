@@ -25,8 +25,8 @@ public class ManualCubeAcquire extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	// xbox joystick y values need to be inverted
-    	double leftY = -OI.xboxController.getY(Hand.kLeft);
-    	double rightY = -OI.xboxController.getY(Hand.kRight);
+    	double leftY = OI.getXBoxLeftY();
+    	double rightY = OI.getXBoxRightY();
     	double leftPower = Math.signum(leftY) * leftY * leftY;
     	double rightPower = Math.signum(rightY) * rightY * rightY;
     	Robot.cubeAcquirer.rawAcquire(leftPower, rightPower);
