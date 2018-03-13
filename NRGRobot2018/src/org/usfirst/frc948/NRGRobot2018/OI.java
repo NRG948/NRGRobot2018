@@ -11,8 +11,6 @@
 
 package org.usfirst.frc948.NRGRobot2018;
 
-import java.awt.dnd.Autoscroll;
-
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
@@ -39,14 +37,15 @@ import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * This class is the glue that binds the controls on the physical operator interface to the commands
+ * and command groups that allow control of the robot.
  */
 public class OI {
 	public static Joystick leftJoystick;
@@ -71,7 +70,8 @@ public class OI {
 	public static final JoystickButton autoBoth = new JoystickButton(arduinoJoystick, 6);
 	public static final JoystickButton autoForward = new JoystickButton(arduinoJoystick, 7);
 	public static final JoystickButton autoNone = new JoystickButton(arduinoJoystick, 8);
-
+//	public JoystickButton tiltAcquirerAndEjectCube;
+	
 	public static SendableChooser<Command> chooser;
 
 	public enum Side {
@@ -84,7 +84,7 @@ public class OI {
 		rightJoystick = new Joystick(1);
 		xboxController = new XboxController(2);
 		arduinoJoystick = new Joystick(3);
-
+		
 		// Initialize commands after initializing buttons
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
 		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
@@ -95,28 +95,27 @@ public class OI {
 		climberButton.whileHeld(new ManualClimb(0.7));
 		interruptButton.whenPressed(new InterruptCommands());
 		driveToCube.whenPressed(new DriveToCubeNoPID(false));
-		// tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(45, 1, 0.5));
-
+//		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(45, 1, 0.5));
+		
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 
 		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(CubeLifter.SCALE_MEDIUM));
 		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(CubeLifter.SWITCH_LEVEL));
 		SmartDashboard.putData("Set Lift height to zero?", new LiftToHeight(CubeLifter.STOWED));
-
+		
 		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
 
 		SmartDashboard.putData("ManualDrive", new ManualDrive());
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
 		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID(false));
-		// SmartDashboard.putData("StrafeStraightDistance 4 feet", new
-		// DriveStraightDistance(1, 48, Direction.RIGHT));
-		// SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
-		// new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
+//		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48, Direction.RIGHT));
+//		SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
+//				new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
 		SmartDashboard.putData("CubeTiltDown", new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		SmartDashboard.putData("CubeTiltUp", new TiltAcquirerToAngle(CubeTilter.TILTER_UP));
-
+		
 		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
 		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
 
@@ -144,7 +143,15 @@ public class OI {
 	public static double getRightJoystickRot() {
 		return rightJoystick.getRawAxis(2);
 	}
-
+	
+	public static double getXBoxLeftY () {
+		return -OI.xboxController.getY(Hand.kLeft);
+	}
+	
+	public static double getXBoxRightY () {
+		return -OI.xboxController.getY(Hand.kRight);
+	}
+	
 	public static double getXBoxTriggerL() {
 		return MathUtil.deadband(xboxController.getRawAxis(2), 0.1);
 	}
@@ -162,7 +169,7 @@ public class OI {
 		int pov = xboxController.getPOV();
 		return pov >= 135 && pov <= 225;
 	}
-
+	
 	public static DriverStation.Alliance getAllianceColor() {
 		return DriverStation.getInstance().getAlliance();
 	}
@@ -180,7 +187,6 @@ public class OI {
 	public static Side getOpposingSwitchSide() {
 		return DriverStation.getInstance().getGameSpecificMessage().charAt(2) == 'L' ? Side.LEFT : Side.RIGHT;
 	}
-
 	public static AutoPosition getAutoPosition() {
 		AutoPosition autoPosition = null;
 		DriverStation ds = DriverStation.getInstance();

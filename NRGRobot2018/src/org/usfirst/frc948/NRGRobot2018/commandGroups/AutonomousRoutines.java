@@ -104,13 +104,15 @@ public class AutonomousRoutines extends CommandGroup {
 		}
 	}
 
+	private static final Waypoint RLLS_PATH[] = {
+			new Waypoint(CoordinateType.RELATIVE, 0.0, 146, 0, new Waypoint.WithinInches(44)),
+			new Waypoint(CoordinateType.RELATIVE, 19, 0, 90, USE_PID) };
+
 	public class RedLeftToLeftSwitch extends CommandGroup {
 		public RedLeftToLeftSwitch() {
-			addSequential(new SetDriveScale(1));
-			addSequential(new DriveStraightDistance(1.0, 149.5, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(90));
-			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
-			// drop the cube
+			addParallel(new DriveAndEject(0, 0, RLLS_PATH));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -173,9 +175,6 @@ public class AutonomousRoutines extends CommandGroup {
 
 	public class RedRightToRightSwitch extends CommandGroup {
 		public RedRightToRightSwitch() {
-			// addSequential(new DriveStraightDistance(1.0,116.5,Drive.Direction.FORWARD));
-			// addSequential(new TurnToHeading(-90));
-			// addSequential(new DriveStraightDistance(1.0,20.875,Drive.Direction.FORWARD));
 			addParallel(new DriveAndEject(0, 0, RRRS_PATH));
 			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
 			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
