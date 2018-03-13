@@ -6,10 +6,13 @@ import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.WITHIN_EIGHTEEN_INCHES;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.WITHIN_TWO_FEET;
 
+import org.usfirst.frc948.NRGRobot2018.OI;
+import org.usfirst.frc948.NRGRobot2018.OI.Side;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPID;
 import org.usfirst.frc948.NRGRobot2018.commands.EjectUntilCubeOut;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
@@ -54,67 +57,51 @@ public class AutonomousRoutines extends CommandGroup {
 
 	public AutonomousRoutines() {
 		addSequential(new ResetSensors());
-//		addSequential(new SetDriveScale(Drive.SCALE_LOW));
+		// addSequential(new SetDriveScale(Drive.SCALE_LOW));
 		autoMovement = Robot.autoMovementChooser.getSelected();
 		autoPosition = Robot.autoPositionChooser.getSelected();
 
-//		System.out.println("Auto Movement is : " + autoMovement);
-//		System.out.println("Auto Position is : " + autoPosition);
-//
-//		switch (autoMovement) {
-//		case LEFT_SWITCH:
-//			if (autoPosition == AutoPosition.LEFT) {
-//				addSequential(new RedLeftToLeftSwitch());
-//			} else if (autoPosition == BLUE_LEFT) {
-//				addSequential(new BlueLeftToLeftSwitch());
-//			} else if (autoPosition == CENTER) {
-//				addSequential(new RedMiddleToLeftSwitch());
-//			} else if (autoPosition == BLUE_CENTER) {
-//				addSequential(new BlueMiddleToLeftSwitch());
-//			} else if (autoPosition == RIGHT) {
-//				addSequential(new RedRightToLeftSwitch());
-//			} else if (autoPosition == BLUE_RIGHT) {
-//				addSequential(new BlueRightToLeftSwitch());
-//			}
-//			break;
-//		case RIGHT_SWITCH:
-//			if (autoPosition == RIGHT) {
-//				addSequential(new RedRightToRightSwitch());
-//			} else if (autoPosition == BLUE_RIGHT) {
-//				addSequential(new BlueRightToRightSwitch());
-//			} else if (autoPosition == CENTER) {
-//				addSequential(new RedMiddleToRightSwitch());
-//			} else if (autoPosition == BLUE_CENTER) {
-//				addSequential(new BlueMiddleToRightSwitch());
-//			} else if (autoPosition == LEFT) {
-//				addSequential(new RedLeftToRightSwitch());
-//			} else if (autoPosition == BLUE_LEFT) {
-//				addSequential(new BlueLeftToRightSwitch());
-//			}
-//			break;
-//		case LEFT_SCALE:
-//			if (autoPosition == AutoPosition.BLUE_LEFT) {
-//				addSequential(new BlueLeftToLeftScale());
-//			} else if (autoPosition == CENTER) {
-//				addSequential(new RedMiddleToLeftScale());
-//			} else if (autoPosition == BLUE_CENTER) {
-//				addSequential(new BlueMiddleToLeftScale());
-//			} else if (autoPosition == LEFT) {
-//				addSequential(new RedLeftToLeftScale());
-//			}
-//			break;
-//		case RIGHT_SCALE:
-//			if (autoPosition == RIGHT) {
-//				addSequential(new RedRightToRightScale());
-//			} else if (autoPosition == BLUE_RIGHT) {
-//				addSequential(new BlueRightToRightScale());
-//			} else if (autoPosition == CENTER) {
-//				addSequential(new RedMiddleToRightScale());
-//			} else if (autoPosition == BLUE_CENTER) {
-//				addSequential(new BlueMiddleToRightScale());
-//			}
-//			break;
-//		}
+		System.out.println("Auto Movement is : " + autoMovement);
+		System.out.println("Auto Position is : " + autoPosition);
+
+		switch (autoMovement) {
+		case SWITCH:
+			if (OI.getAllianceSwitchSide() == Side.LEFT) {
+				if (autoPosition == AutoPosition.LEFT) {
+					addSequential(new RedLeftToLeftSwitch());
+				} else if (autoPosition == AutoPosition.CENTER) {
+					addSequential(new RedMiddleToLeftSwitch());
+				} else if (autoPosition == AutoPosition.RIGHT) {
+					addSequential(new RedRightToLeftSwitch());
+				}
+			} else if (OI.getAllianceSwitchSide() == Side.RIGHT) {
+				if (autoPosition == AutoPosition.LEFT) {
+					addSequential(new RedLeftToRightSwitch());
+				} else if (autoPosition == AutoPosition.CENTER) {
+					addSequential(new RedMiddleToRightSwitch());
+				} else if (autoPosition == AutoPosition.RIGHT) {
+					addSequential(new RedRightToRightSwitch());
+				}
+			}
+			break;
+		case SCALE:
+		if(OI.getScaleSide() == Side.LEFT) {
+			if (autoPosition == AutoPosition.CENTER) {
+				addSequential(new RedMiddleToLeftScale());
+			} else if (autoPosition == AutoPosition.LEFT) {
+				addSequential(new RedLeftToLeftScale());
+			}
+		} else if (OI.getScaleSide() == Side.RIGHT) {
+			if (autoPosition == AutoPosition.CENTER) {
+				addSequential(new RedMiddleToRightScale());
+			} else if (autoPosition == AutoPosition.RIGHT) {
+				addSequential(new RedRightToRightScale());
+			}
+		}			
+			break;
+		case FORWARD: 
+			addSequential(new DriveToXYHeadingPID(0, 60, 0));
+		}
 	}
 
 	public class RedLeftToLeftSwitch extends CommandGroup {
@@ -203,9 +190,9 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new DriveStraightDistance(0.3, 24, Direction.BACKWARD));
 		}
 	}
-	
+
 	public class LiftToHeightAndHold extends CommandGroup {
-		public LiftToHeightAndHold(LifterLevel level){
+		public LiftToHeightAndHold(LifterLevel level) {
 			addSequential(new LiftToHeight(level));
 			addSequential(new ManualCubeLift());
 		}
@@ -221,29 +208,29 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
-	
+
 	private static final Waypoint RRLSWITCH_PATH[] = {
 			new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(15)),
 			new Waypoint(CoordinateType.RELATIVE, -242, 0.0, 90, new WithinInches(2)),
 			new Waypoint(CoordinateType.RELATIVE, 0, 0.0, 129, USE_PID),
 			new Waypoint(CoordinateType.RELATIVE, 31.5, -25.5, 135, new WithinInches(2))
-//			new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(30)),
-//			new Waypoint(CoordinateType.RELATIVE, -237, 0.0, -90, WITHIN_TWO_FEET),
-//			new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
-//			new Waypoint(CoordinateType.RELATIVE, 18, 0, -270, USE_PID)
+			// new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(30)),
+			// new Waypoint(CoordinateType.RELATIVE, -237, 0.0, -90, WITHIN_TWO_FEET),
+			// new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
+			// new Waypoint(CoordinateType.RELATIVE, 18, 0, -270, USE_PID)
 	};
+
 	public class RedRightToLeftSwitch extends CommandGroup {
 		public RedRightToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, RRLSWITCH_PATH));
 			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
-	
+
 	private static final Waypoint BLLSWITCH_PATH[] = {
-	        new Waypoint(CoordinateType.RELATIVE, 0, 149.5, 0, WITHIN_TWO_FEET),
-	        new Waypoint(CoordinateType.RELATIVE, -20.875, 0, -90, USE_PID)
-	};
-	
+			new Waypoint(CoordinateType.RELATIVE, 0, 149.5, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, -20.875, 0, -90, USE_PID) };
+
 	public class BlueLeftToLeftSwitch extends CommandGroup {
 		public BlueLeftToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, BLLSWITCH_PATH));
@@ -252,113 +239,107 @@ public class AutonomousRoutines extends CommandGroup {
 	}
 
 	private static final Waypoint BLLSCALE_PATH[] = {
-	        new Waypoint(CoordinateType.RELATIVE, 0, 305.5, 0, WITHIN_TWO_FEET),
-	        new Waypoint(CoordinateType.RELATIVE, -20.875, 0, -90, USE_PID)
-	};
-	
+			new Waypoint(CoordinateType.RELATIVE, 0, 305.5, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, -20.875, 0, -90, USE_PID) };
+
 	public class BlueLeftToLeftScale extends CommandGroup {
 		public BlueLeftToLeftScale() {
 			addParallel(new DriveAndEject(0, 0, BLLSCALE_PATH));
-	        addSequential(new LiftToHeightAndHold(SCALE_LOW));
+			addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
-	
+
 	private static final Waypoint BLRSWITCH_PATH[] = {
-	        new Waypoint(CoordinateType.RELATIVE, 0, 207, 0, WITHIN_TWO_FEET),
-	        new Waypoint(CoordinateType.RELATIVE, 212.75, 0, 90, WITHIN_TWO_FEET),
-	        new Waypoint(CoordinateType.RELATIVE, 0, -45, 180, WITHIN_EIGHTEEN_INCHES),
-	        new Waypoint(CoordinateType.RELATIVE, -20, 0, 270, USE_PID)
-	};
-	
+			new Waypoint(CoordinateType.RELATIVE, 0, 207, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, 212.75, 0, 90, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, 0, -45, 180, WITHIN_EIGHTEEN_INCHES),
+			new Waypoint(CoordinateType.RELATIVE, -20, 0, 270, USE_PID) };
+
 	public class BlueLeftToRightSwitch extends CommandGroup {
 		public BlueLeftToRightSwitch() {
 			addParallel(new DriveAndEject(0, 0, BLRSWITCH_PATH));
 			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
-	
+
 	private static final Waypoint BMRSWITCH_PATH[] = {
-	        new Waypoint(CoordinateType.RELATIVE, 0, 108.75, 0, WITHIN_TWO_FEET),
-	        new Waypoint(CoordinateType.RELATIVE, 149.5, 0, 90, WITHIN_TWO_FEET),
-	        new Waypoint(CoordinateType.RELATIVE, 0, 20, 0, USE_PID)
-	};
-	
+			new Waypoint(CoordinateType.RELATIVE, 0, 108.75, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, 149.5, 0, 90, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, 0, 20, 0, USE_PID) };
+
 	public class BlueMiddleToRightSwitch extends CommandGroup {
 		public BlueMiddleToRightSwitch() {
 			addParallel(new DriveAndEject(0, 0, BMRSWITCH_PATH));
 			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
-	
+
 	private static final Waypoint BMLSWITCH_PATH[] = {
-            new Waypoint(CoordinateType.RELATIVE, 0, 84.75, 0, WITHIN_TWO_FEET),
-            new Waypoint(CoordinateType.RELATIVE, -148.5, 0, -90, WITHIN_TWO_FEET),
-            new Waypoint(CoordinateType.RELATIVE, 0, 20, 0, USE_PID)
-    };
-	
+			new Waypoint(CoordinateType.RELATIVE, 0, 84.75, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, -148.5, 0, -90, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, 0, 20, 0, USE_PID) };
+
 	public class BlueMiddleToLeftSwitch extends CommandGroup {
 		public BlueMiddleToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, BMLSWITCH_PATH));
 			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
+
 	private static final Waypoint BMRSCALE_PATH[] = {
-	        
+
 	};
-	
+
 	public class BlueMiddleToRightScale extends CommandGroup {
 		public BlueMiddleToRightScale() {
-		    addParallel(new DriveAndEject(0, 0, BMRSCALE_PATH));
-            addSequential(new LiftToHeightAndHold(SCALE_LOW));
+			addParallel(new DriveAndEject(0, 0, BMRSCALE_PATH));
+			addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
-	
+
 	private static final Waypoint BMLSCALE_PATH[] = {
-            
-    };
-	
+
+	};
+
 	public class BlueMiddleToLeftScale extends CommandGroup {
 		public BlueMiddleToLeftScale() {
-		    addParallel(new DriveAndEject(0, 0, BMLSCALE_PATH));
-            addSequential(new LiftToHeightAndHold(SCALE_LOW));
+			addParallel(new DriveAndEject(0, 0, BMLSCALE_PATH));
+			addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
-	
+
 	private static final Waypoint BRRSWITCH_PATH[] = {
-            new Waypoint(CoordinateType.RELATIVE, 0, 149.5, 0, WITHIN_TWO_FEET),
-            new Waypoint(CoordinateType.RELATIVE, -20.875, 0, -90, USE_PID)
-    };
-	
+			new Waypoint(CoordinateType.RELATIVE, 0, 149.5, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, -20.875, 0, -90, USE_PID) };
+
 	public class BlueRightToRightSwitch extends CommandGroup {
 		public BlueRightToRightSwitch() {
-		    addParallel(new DriveAndEject(0, 0, BRRSWITCH_PATH));
-            addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new DriveAndEject(0, 0, BRRSWITCH_PATH));
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
-	
+
 	private static final Waypoint BRRSCALE_PATH[] = {
-            new Waypoint(CoordinateType.RELATIVE, 0, 305.5, 0, WITHIN_TWO_FEET),
-            new Waypoint(CoordinateType.RELATIVE, 7.68, 0, 90, USE_PID)
-    };
-	
+			new Waypoint(CoordinateType.RELATIVE, 0, 305.5, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, 7.68, 0, 90, USE_PID) };
+
 	public class BlueRightToRightScale extends CommandGroup {
 		public BlueRightToRightScale() {
-		    addParallel(new DriveAndEject(0, 0, BRRSCALE_PATH));
-            addSequential(new LiftToHeightAndHold(SCALE_LOW));
+			addParallel(new DriveAndEject(0, 0, BRRSCALE_PATH));
+			addSequential(new LiftToHeightAndHold(SCALE_LOW));
 		}
 	}
-	
+
 	private static final Waypoint BRLSWITCH_PATH[] = {
-            new Waypoint(CoordinateType.RELATIVE, 0, 207, 0, WITHIN_TWO_FEET),
-            new Waypoint(CoordinateType.RELATIVE, -212.75, 0, -90, WITHIN_TWO_FEET),
-            new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
-            new Waypoint(CoordinateType.RELATIVE, 20, 0, -270, USE_PID)
-    };
-	
+			new Waypoint(CoordinateType.RELATIVE, 0, 207, 0, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, -212.75, 0, -90, WITHIN_TWO_FEET),
+			new Waypoint(CoordinateType.RELATIVE, 0, -45, -180, WITHIN_EIGHTEEN_INCHES),
+			new Waypoint(CoordinateType.RELATIVE, 20, 0, -270, USE_PID) };
+
 	public class BlueRightToLeftSwitch extends CommandGroup {
 		public BlueRightToLeftSwitch() {
-		    addParallel(new DriveAndEject(0, 0, BRLSWITCH_PATH));
-            addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new DriveAndEject(0, 0, BRLSWITCH_PATH));
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
 		}
 	}
 }
