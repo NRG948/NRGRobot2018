@@ -11,6 +11,8 @@
 
 package org.usfirst.frc948.NRGRobot2018;
 
+import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
+import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
@@ -30,6 +32,7 @@ import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
+import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -50,13 +53,23 @@ public class OI {
 	public static XboxController xboxController;
 	public static Joystick arduinoJoystick;
 
-	public JoystickButton leftShiftGears;
-	public JoystickButton driveStraight;
-	public JoystickButton strafeStraight;
-	public JoystickButton rightShiftGears;
-	public JoystickButton climberButton;
-	public JoystickButton interruptButton;
-	public JoystickButton driveToCube;
+	public static final JoystickButton leftShiftGears = new JoystickButton(leftJoystick, 1);
+	public static final JoystickButton driveStraight = new JoystickButton(leftJoystick, 2);
+	public static final JoystickButton strafeStraight = new JoystickButton(leftJoystick, 3);
+	public static final JoystickButton rightShiftGears = new JoystickButton(rightJoystick, 1);
+	public static final JoystickButton interruptButton = new JoystickButton(leftJoystick, 6);
+	public static final JoystickButton driveToCube = new JoystickButton(rightJoystick, 2);
+	// public static final JoystickButton tiltAcquirerAndEjectCube;
+	// arduino buttons
+	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 10);
+	public static final JoystickButton autoLeft = new JoystickButton(arduinoJoystick, 1);
+	public static final JoystickButton autoCenter = new JoystickButton(arduinoJoystick, 3);
+	public static final JoystickButton autoRight = new JoystickButton(arduinoJoystick, 2);
+	public static final JoystickButton autoSwitch = new JoystickButton(arduinoJoystick, 4);
+	public static final JoystickButton autoScale = new JoystickButton(arduinoJoystick, 5);
+	public static final JoystickButton autoBoth = new JoystickButton(arduinoJoystick, 6);
+	public static final JoystickButton autoForward = new JoystickButton(arduinoJoystick, 7);
+	public static final JoystickButton autoNone = new JoystickButton(arduinoJoystick, 8);
 //	public JoystickButton tiltAcquirerAndEjectCube;
 	
 	public static SendableChooser<Command> chooser;
@@ -71,22 +84,7 @@ public class OI {
 		rightJoystick = new Joystick(1);
 		xboxController = new XboxController(2);
 		arduinoJoystick = new Joystick(3);
-
-		// Initializing buttons AFTER the Joysticks
-		leftShiftGears = new JoystickButton(leftJoystick, 1);
-		driveStraight = new JoystickButton(leftJoystick, 2);
-		strafeStraight = new JoystickButton(leftJoystick, 3);
-		interruptButton = new JoystickButton(leftJoystick, 6);
-		rightShiftGears = new JoystickButton(rightJoystick, 1);// drive team needed it for both
-		driveToCube = new JoystickButton(rightJoystick, 2);// joysticks
-
-		// arduino buttons
-		 climberButton = new JoystickButton(arduinoJoystick, 10);
-		 
-		// xbox buttons
-		// climberButton = new JoystickButton(xboxController, 8);
-//		 tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1);
-
+		
 		// Initialize commands after initializing buttons
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
 		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
@@ -188,5 +186,37 @@ public class OI {
 
 	public static Side getOpposingSwitchSide() {
 		return DriverStation.getInstance().getGameSpecificMessage().charAt(2) == 'L' ? Side.LEFT : Side.RIGHT;
+	}
+	public static AutoPosition getAutoPosition() {
+		AutoPosition autoPosition = null;
+		DriverStation ds = DriverStation.getInstance();
+		if (Robot.preferences.getBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, false)) {
+				if (autoLeft.get()) {
+					autoPosition = AutoPosition.LEFT;
+				} else if(autoRight.get() ) {
+					autoPosition = AutoPosition.RIGHT;
+				} else if(autoCenter.get()) {
+					autoPosition = AutoPosition.CENTER;
+				}
+		} else {
+			autoPosition = Robot.autoPositionChooser.getSelected();
+		}
+		return autoPosition;
+	}
+
+	public static AutoMovement getAutoMovement() {
+		AutoMovement autoMovement = AutoMovement.SWITCH;
+		if(autoSwitch.get()) {
+				autoMovement = AutoMovement.SWITCH;
+		} else if (autoScale.get()) {
+			autoMovement = AutoMovement.SCALE;
+		} else if(autoBoth.get()) {
+			autoMovement = AutoMovement.BOTH;
+		} else if(autoForward.get()) {
+			autoMovement = AutoMovement.FORWARD;
+		} else if(autoNone.get()) {
+			autoMovement = AutoMovement.NONE;
+		}
+		return null;
 	}
 }
