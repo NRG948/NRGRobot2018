@@ -7,10 +7,10 @@ import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.WITHIN_EIGHTEEN
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.WITHIN_TWO_FEET;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
-import org.usfirst.frc948.NRGRobot2018.OI.Side;
+import org.usfirst.frc948.NRGRobot2018.OI.PlateLocation;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
-import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
+import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPID;
 import org.usfirst.frc948.NRGRobot2018.commands.EjectUntilCubeOut;
@@ -53,54 +53,57 @@ public class AutonomousRoutines extends CommandGroup {
 	// arm.
 
 	private AutoMovement autoMovement;
-	private AutoPosition autoPosition;
+	private AutoStartingPosition autoPosition;
 
 	public AutonomousRoutines() {
 		addSequential(new ResetSensors());
 		// addSequential(new SetDriveScale(Drive.SCALE_LOW));
+
 		autoMovement = OI.getAutoMovement();
 		autoPosition = OI.getAutoPosition();
-
 		System.out.println("Auto Movement is : " + autoMovement);
 		System.out.println("Auto Position is : " + autoPosition);
+
 		switch (autoMovement) {
 		case SWITCH:
 			System.out.println("Switch side: " + OI.getAllianceSwitchSide());
-			if (OI.getAllianceSwitchSide() == Side.LEFT) {
-				if (autoPosition == AutoPosition.LEFT) {
+			if (OI.getAllianceSwitchSide() == PlateLocation.LEFT) {
+				if (autoPosition == AutoStartingPosition.LEFT) {
 					addSequential(new RedLeftToLeftSwitch());
-				} else if (autoPosition == AutoPosition.CENTER) {
+				} else if (autoPosition == AutoStartingPosition.CENTER) {
 					addSequential(new RedMiddleToLeftSwitch());
-				} else if (autoPosition == AutoPosition.RIGHT) {
+				} else if (autoPosition == AutoStartingPosition.RIGHT) {
 					addSequential(new RedRightToLeftSwitch());
 				}
-			} else if (OI.getAllianceSwitchSide() == Side.RIGHT) {
-				if (autoPosition == AutoPosition.LEFT) {
+			} else if (OI.getAllianceSwitchSide() == PlateLocation.RIGHT) {
+				if (autoPosition == AutoStartingPosition.LEFT) {
 					addSequential(new RedLeftToRightSwitch());
-				} else if (autoPosition == AutoPosition.CENTER) {
+				} else if (autoPosition == AutoStartingPosition.CENTER) {
 					addSequential(new RedMiddleToRightSwitch());
-				} else if (autoPosition == AutoPosition.RIGHT) {
+				} else if (autoPosition == AutoStartingPosition.RIGHT) {
 					addSequential(new RedRightToRightSwitch());
 				}
 			}
 			break;
+
 		case SCALE:
-		System.out.println("Scale side: " + OI.getScaleSide());
-		if(OI.getScaleSide() == Side.LEFT) {
-			if (autoPosition == AutoPosition.CENTER) {
-				addSequential(new RedMiddleToLeftScale());
-			} else if (autoPosition == AutoPosition.LEFT) {
-				addSequential(new RedLeftToLeftScale());
+			System.out.println("Scale side: " + OI.getScaleSide());
+			if (OI.getScaleSide() == PlateLocation.LEFT) {
+				if (autoPosition == AutoStartingPosition.CENTER) {
+					addSequential(new RedMiddleToLeftScale());
+				} else if (autoPosition == AutoStartingPosition.LEFT) {
+					addSequential(new RedLeftToLeftScale());
+				}
+			} else if (OI.getScaleSide() == PlateLocation.RIGHT) {
+				if (autoPosition == AutoStartingPosition.CENTER) {
+					addSequential(new RedMiddleToRightScale());
+				} else if (autoPosition == AutoStartingPosition.RIGHT) {
+					addSequential(new RedRightToRightScale());
+				}
 			}
-		} else if (OI.getScaleSide() == Side.RIGHT) {
-			if (autoPosition == AutoPosition.CENTER) {
-				addSequential(new RedMiddleToRightScale());
-			} else if (autoPosition == AutoPosition.RIGHT) {
-				addSequential(new RedRightToRightScale());
-			}
-		}			
 			break;
-		case FORWARD: 
+
+		case FORWARD:
 			addSequential(new DriveToXYHeadingPID(0, 60, 0));
 		}
 	}
@@ -124,22 +127,21 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new TurnToHeading(90));
 			addSequential(new DriveStraightDistance(1.0, 20.875, Drive.Direction.FORWARD));
 		}
-	} 
+	}
 
 	private static final Waypoint RLRSWITCH_PATH[] = {
 			new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(15)),
 			new Waypoint(CoordinateType.RELATIVE, 242, 0.0, -90, new WithinInches(2)),
 			new Waypoint(CoordinateType.RELATIVE, 0, 0.0, -129, USE_PID),
-			new Waypoint(CoordinateType.RELATIVE, -31.5, -25.5, -135, new WithinInches(2))
-	};
-	
+			new Waypoint(CoordinateType.RELATIVE, -31.5, -25.5, -135, new WithinInches(2)) };
+
 	public class RedLeftToRightSwitch extends CommandGroup {
 		public RedLeftToRightSwitch() {
 			addParallel(new DriveAndEject(0, 0, RLRSWITCH_PATH));
 			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
 			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
-	}	
+	}
 
 	public class RedMiddleToRightSwitch extends CommandGroup {
 		public RedMiddleToRightSwitch() {

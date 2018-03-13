@@ -39,12 +39,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 	Command autonomousCommand;
-	public static SendableChooser<AutoPosition> autoPositionChooser;
+	public static SendableChooser<AutoStartingPosition> autoPositionChooser;
 	public static SendableChooser<AutoMovement> autoMovementChooser;
 
 	public static Preferences preferences;
-	public static OI oi;
-	
 	public static Drive drive;
 	public static CubeAcquirer cubeAcquirer;
 	public static CubeLifter cubeLifter;
@@ -52,7 +50,7 @@ public class Robot extends TimedRobot {
 	public static Climber climber;
 	public static PositionTracker positionTracker;
 
-	public enum AutoPosition {
+	public enum AutoStartingPosition {
 		LEFT, CENTER, RIGHT
 	}
 
@@ -70,15 +68,15 @@ public class Robot extends TimedRobot {
 		preferences = Preferences.getInstance();
 		RobotMap.init();
 
-		preferences = Preferences.getInstance();
 		drive = new Drive();
 		cubeAcquirer = new CubeAcquirer();
 		cubeLifter = new CubeLifter();
 		cubeTilter = new CubeTilter();
 		climber = new Climber();
-		oi = new OI();
 		positionTracker = new PositionTracker(0, 0);
 
+		OI.init();
+		
 		// OI must be constructed after subsystems. If the OI creates Commands
 		// (which it very likely will), subsystems are not guaranteed to be
 		// constructed yet. Thus, their requires() statements may grab null
@@ -89,10 +87,10 @@ public class Robot extends TimedRobot {
 		RobotMap.arduino.startArduinoThread();
 		System.out.println("robotInit() done");
 
-		autoPositionChooser = new SendableChooser<AutoPosition>();
-		autoPositionChooser.addDefault("Left", AutoPosition.LEFT);
-		autoPositionChooser.addObject("Center", AutoPosition.CENTER);
-		autoPositionChooser.addObject("Right", AutoPosition.RIGHT);
+		autoPositionChooser = new SendableChooser<AutoStartingPosition>();
+		autoPositionChooser.addDefault("Left", AutoStartingPosition.LEFT);
+		autoPositionChooser.addObject("Center", AutoStartingPosition.CENTER);
+		autoPositionChooser.addObject("Right", AutoStartingPosition.RIGHT);
 
 		autoMovementChooser = new SendableChooser<AutoMovement>();
 		autoMovementChooser.addObject("Switch", AutoMovement.SWITCH);
@@ -166,7 +164,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
 
 		ArrayList<Block> currFrame = RobotMap.pixy.getPixyFrameData();
-
 		if (currFrame.size() > 0) {
 			Block cube = currFrame.get(0);
 

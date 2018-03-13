@@ -12,7 +12,7 @@
 package org.usfirst.frc948.NRGRobot2018;
 
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
-import org.usfirst.frc948.NRGRobot2018.Robot.AutoPosition;
+import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
@@ -60,6 +60,7 @@ public class OI {
 	public static final JoystickButton interruptButton = new JoystickButton(leftJoystick, 6);
 	public static final JoystickButton driveToCube = new JoystickButton(rightJoystick, 2);
 	// public static final JoystickButton tiltAcquirerAndEjectCube;
+	
 	// arduino buttons
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 10);
 	public static final JoystickButton autoLeft = new JoystickButton(arduinoJoystick, 9);
@@ -72,13 +73,11 @@ public class OI {
 	public static final JoystickButton autoNone = new JoystickButton(arduinoJoystick, 1);
 	// public JoystickButton tiltAcquirerAndEjectCube;
 
-	public static SendableChooser<Command> chooser;
-
-	public enum Side {
+	public enum PlateLocation {
 		LEFT, RIGHT;
 	}
 
-	public OI() {
+	public static void init() {
 		// Initialize commands after initializing buttons
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
 		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
@@ -171,37 +170,39 @@ public class OI {
 
 	// These methods return the location of the alliance's switch/scale plates,
 	// relative to the alliance facing the field from behind the alliance wall
-	public static Side getAllianceSwitchSide() {
-		return DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L' ? Side.LEFT : Side.RIGHT;
+	public static PlateLocation getAllianceSwitchSide() {
+		return DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L' ? PlateLocation.LEFT : PlateLocation.RIGHT;
 	}
 
-	public static Side getScaleSide() {
-		return DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L' ? Side.LEFT : Side.RIGHT;
+	public static PlateLocation getScaleSide() {
+		return DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L' ? PlateLocation.LEFT : PlateLocation.RIGHT;
 	}
 
-	public static Side getOpposingSwitchSide() {
-		return DriverStation.getInstance().getGameSpecificMessage().charAt(2) == 'L' ? Side.LEFT : Side.RIGHT;
+	public static PlateLocation getOpposingSwitchSide() {
+		return DriverStation.getInstance().getGameSpecificMessage().charAt(2) == 'L' ? PlateLocation.LEFT : PlateLocation.RIGHT;
 	}
 
-	public static AutoPosition getAutoPosition() {
-		AutoPosition autoPosition = null;
-		DriverStation ds = DriverStation.getInstance();
+	public static AutoStartingPosition getAutoPosition() {
+		AutoStartingPosition autoPosition = null;
+		
 		if (Robot.preferences.getBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true)) {
 			if (autoLeft.get()) {
-				autoPosition = AutoPosition.LEFT;
+				autoPosition = AutoStartingPosition.LEFT;
 			} else if (autoRight.get()) {
-				autoPosition = AutoPosition.RIGHT;
+				autoPosition = AutoStartingPosition.RIGHT;
 			} else if (autoCenter.get()) {
-				autoPosition = AutoPosition.CENTER;
+				autoPosition = AutoStartingPosition.CENTER;
 			}
 		} else {
 			autoPosition = Robot.autoPositionChooser.getSelected();
 		}
+		
 		return autoPosition;
 	}
 
 	public static AutoMovement getAutoMovement() {
 		AutoMovement autoMovement = AutoMovement.SWITCH;
+		
 		if (Robot.preferences.getBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true)) {
 			if (autoSwitch.get()) {
 				autoMovement = AutoMovement.SWITCH;
@@ -217,6 +218,7 @@ public class OI {
 		} else {
 			autoMovement = Robot.autoMovementChooser.getSelected();
 		}
+		
 		return autoMovement;
 	}
 }
