@@ -58,14 +58,14 @@ public class AutonomousRoutines extends CommandGroup {
 	public AutonomousRoutines() {
 		addSequential(new ResetSensors());
 		// addSequential(new SetDriveScale(Drive.SCALE_LOW));
-		autoMovement = Robot.autoMovementChooser.getSelected();
-		autoPosition = Robot.autoPositionChooser.getSelected();
+		autoMovement = OI.getAutoMovement();
+		autoPosition = OI.getAutoPosition();
 
 		System.out.println("Auto Movement is : " + autoMovement);
 		System.out.println("Auto Position is : " + autoPosition);
-
 		switch (autoMovement) {
 		case SWITCH:
+			System.out.println("Switch side: " + OI.getAllianceSwitchSide());
 			if (OI.getAllianceSwitchSide() == Side.LEFT) {
 				if (autoPosition == AutoPosition.LEFT) {
 					addSequential(new RedLeftToLeftSwitch());
@@ -85,6 +85,7 @@ public class AutonomousRoutines extends CommandGroup {
 			}
 			break;
 		case SCALE:
+		System.out.println("Scale side: " + OI.getScaleSide());
 		if(OI.getScaleSide() == Side.LEFT) {
 			if (autoPosition == AutoPosition.CENTER) {
 				addSequential(new RedMiddleToLeftScale());
@@ -129,12 +130,12 @@ public class AutonomousRoutines extends CommandGroup {
 			new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(15)),
 			new Waypoint(CoordinateType.RELATIVE, 242, 0.0, -90, new WithinInches(2)),
 			new Waypoint(CoordinateType.RELATIVE, 0, 0.0, -129, USE_PID),
-			new Waypoint(CoordinateType.RELATIVE, -31.5, 25.5, -135, new WithinInches(2))
+			new Waypoint(CoordinateType.RELATIVE, -31.5, -25.5, -135, new WithinInches(2))
 	};
 	
 	public class RedLeftToRightSwitch extends CommandGroup {
 		public RedLeftToRightSwitch() {
-			addParallel(new DriveAndEject(0, 0, RRLSWITCH_PATH));
+			addParallel(new DriveAndEject(0, 0, RLRSWITCH_PATH));
 			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
 			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
