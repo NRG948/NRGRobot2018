@@ -207,7 +207,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class RedRightToRightScale extends CommandGroup {
 		public RedRightToRightScale() {
 			addParallel(new DriveAndEject(0, 0, RRRSCALE_PATH));
-			addSequential(new LiftToHeightAndHold(SCALE_LOW));
+			addParallel(new LiftToHeightAndHold(SCALE_LOW));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -222,7 +223,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class RedRightToLeftSwitch extends CommandGroup {
 		public RedRightToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, RRLSWITCH_PATH));
-			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -233,7 +235,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueLeftToLeftSwitch extends CommandGroup {
 		public BlueLeftToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, BLLSWITCH_PATH));
-			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -244,7 +247,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueLeftToLeftScale extends CommandGroup {
 		public BlueLeftToLeftScale() {
 			addParallel(new DriveAndEject(0, 0, BLLSCALE_PATH));
-			addSequential(new LiftToHeightAndHold(SCALE_LOW));
+			addParallel(new LiftToHeightAndHold(SCALE_LOW));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -257,7 +261,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueLeftToRightSwitch extends CommandGroup {
 		public BlueLeftToRightSwitch() {
 			addParallel(new DriveAndEject(0, 0, BLRSWITCH_PATH));
-			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -269,7 +274,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueMiddleToRightSwitch extends CommandGroup {
 		public BlueMiddleToRightSwitch() {
 			addParallel(new DriveAndEject(0, 0, BMRSWITCH_PATH));
-			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -281,7 +287,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueMiddleToLeftSwitch extends CommandGroup {
 		public BlueMiddleToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, BMLSWITCH_PATH));
-			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -292,7 +299,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueMiddleToRightScale extends CommandGroup {
 		public BlueMiddleToRightScale() {
 			addParallel(new DriveAndEject(0, 0, BMRSCALE_PATH));
-			addSequential(new LiftToHeightAndHold(SCALE_LOW));
+			addParallel(new LiftToHeightAndHold(SCALE_LOW));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -303,7 +311,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueMiddleToLeftScale extends CommandGroup {
 		public BlueMiddleToLeftScale() {
 			addParallel(new DriveAndEject(0, 0, BMLSCALE_PATH));
-			addSequential(new LiftToHeightAndHold(SCALE_LOW));
+			addParallel(new LiftToHeightAndHold(SCALE_LOW));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -314,7 +323,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueRightToRightSwitch extends CommandGroup {
 		public BlueRightToRightSwitch() {
 			addParallel(new DriveAndEject(0, 0, BRRSWITCH_PATH));
-			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -325,7 +335,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueRightToRightScale extends CommandGroup {
 		public BlueRightToRightScale() {
 			addParallel(new DriveAndEject(0, 0, BRRSCALE_PATH));
-			addSequential(new LiftToHeightAndHold(SCALE_LOW));
+			addParallel(new LiftToHeightAndHold(SCALE_LOW));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 
@@ -338,7 +349,8 @@ public class AutonomousRoutines extends CommandGroup {
 	public class BlueRightToLeftSwitch extends CommandGroup {
 		public BlueRightToLeftSwitch() {
 			addParallel(new DriveAndEject(0, 0, BRLSWITCH_PATH));
-			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		}
 	}
 }
