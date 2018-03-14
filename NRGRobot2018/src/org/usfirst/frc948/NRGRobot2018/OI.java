@@ -182,7 +182,7 @@ public class OI {
 		return DriverStation.getInstance().getGameSpecificMessage().charAt(2) == 'L' ? PlateLocation.LEFT : PlateLocation.RIGHT;
 	}
 
-	public static AutoStartingPosition getAutoPosition() {
+	public static AutoStartingPosition getAutoStartingPosition() {
 		AutoStartingPosition autoPosition = null;
 		
 		if (Robot.preferences.getBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true)) {
