@@ -27,8 +27,7 @@ public class ManualCubeLift extends Command {
 	protected void execute() {
 		double upSpeed = OI.getXBoxTriggerR();
 		double downSpeed = OI.getXBoxTriggerL();
-		double finalPower = Robot.cubeLifter.hasReachedUpperLimit() || Robot.cubeLifter.hasReachedLowerLimit() ? 0
-				: upSpeed - downSpeed;
+		double finalPower = Robot.cubeLifter.hasReachedUpperLimit() ? 0 : upSpeed - downSpeed;
 
 		// if finalPower is 0, use lift PID controller to maintain current height
 		if (finalPower == 0) {
@@ -45,6 +44,7 @@ public class ManualCubeLift extends Command {
 			if (prevFinalPower == 0) {
 				System.out.println("Exiting pid mode");
 			}
+			System.out.println(finalPower);
 			Robot.cubeLifter.manualLift(finalPower);
 		}
 

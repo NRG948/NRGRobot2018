@@ -23,7 +23,7 @@ public class CubeLifter extends Subsystem {
 	private SimplePIDController lifterPIDController;
 
 	public static final double LIFT_POWER_SCALE_UP = 0.95;
-	public static final double LIFT_POWER_SCALE_DOWN = 0.35;
+	public static final double LIFT_POWER_SCALE_DOWN = 0.5;
 
 	public final static double DEFAULT_LIFT_P = 0.005;
 	public final static double DEFAULT_LIFT_I = 0.0;
