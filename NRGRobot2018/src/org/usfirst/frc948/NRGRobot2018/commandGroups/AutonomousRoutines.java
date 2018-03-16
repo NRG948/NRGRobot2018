@@ -280,7 +280,7 @@ public class AutonomousRoutines extends CommandGroup {
     }
 
     private static final Waypoint RRRSCALE_PATH[] = {
-            new Waypoint(CoordinateType.RELATIVE, 0.0, 309, 0, new Waypoint.GreaterThanY(280)),
+            new Waypoint(CoordinateType.RELATIVE, 0.0, 295, 0, new Waypoint.GreaterThanY(280)),
             new Waypoint(CoordinateType.RELATIVE, -21, 0, -90, USE_PID) };
 
     public class RightToRightScale extends CommandGroup {
