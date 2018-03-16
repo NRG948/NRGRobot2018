@@ -107,7 +107,7 @@ public class AutonomousRoutines extends CommandGroup {
 			break;
 
 		case FORWARD:
-			addSequential(new DriveToXYHeadingPID(0, 60, 0));
+			addSequential(new DriveToXYHeadingPID(0, 140, 0));
 		}
 	}
 	
@@ -127,7 +127,7 @@ public class AutonomousRoutines extends CommandGroup {
 				convertedPath[i] = new Waypoint(currWaypoint.coordinateType, 
 												newX, 
 												currWaypoint.y, 
-												currWaypoint.heading,
+												-currWaypoint.heading,
 												currWaypoint.waypointPredicate);
 			}
 		}
