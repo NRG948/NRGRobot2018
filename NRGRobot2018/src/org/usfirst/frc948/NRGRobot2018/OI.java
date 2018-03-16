@@ -54,12 +54,15 @@ public class OI {
 	public static final Joystick arduinoJoystick = new Joystick(3);
 
 	public static final JoystickButton leftShiftGears = new JoystickButton(leftJoystick, 1);
+	public static final JoystickButton rightShiftGears = new JoystickButton(rightJoystick, 1);
 	public static final JoystickButton driveStraight = new JoystickButton(leftJoystick, 2);
 	public static final JoystickButton strafeStraight = new JoystickButton(leftJoystick, 3);
-	public static final JoystickButton rightShiftGears = new JoystickButton(rightJoystick, 1);
-	public static final JoystickButton interruptButton = new JoystickButton(leftJoystick, 6);
 	public static final JoystickButton driveToCube = new JoystickButton(rightJoystick, 2);
-	// public static final JoystickButton tiltAcquirerAndEjectCube;
+	public static final JoystickButton interruptCommandsButton = new JoystickButton(leftJoystick, 6);
+	public static final JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 7);
+	
+	//xbox buttons
+	public static final JoystickButton tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1); // 'A' Button
 	
 	// arduino buttons
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 10);
@@ -71,7 +74,6 @@ public class OI {
 	public static final JoystickButton autoBoth = new JoystickButton(arduinoJoystick, 5);
 	public static final JoystickButton autoForward = new JoystickButton(arduinoJoystick, 2);
 	public static final JoystickButton autoNone = new JoystickButton(arduinoJoystick, 1);
-	// public JoystickButton tiltAcquirerAndEjectCube;
 
 	public enum PlateLocation {
 		LEFT, RIGHT;
@@ -79,16 +81,19 @@ public class OI {
 
 	public static void init() {
 		// Initialize commands after initializing buttons
+		interruptCommandsButton.whenPressed(new InterruptCommands());
+		resetSensorsButton.whenPressed(new ResetSensors());
+
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
 		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
 		rightShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
 		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
 		driveStraight.whileHeld(new ManualDriveStraight());
 		strafeStraight.whileHeld(new ManualStrafeStraight());
-		climberButton.whileHeld(new ManualClimb(0.7));
-		interruptButton.whenPressed(new InterruptCommands());
 		driveToCube.whenPressed(new DriveToCubeNoPID(false));
-		// tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(45, 1, 0.5));
+
+		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(45, 1, 0.5));
+		climberButton.whileHeld(new ManualClimb(0.7));
 
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());

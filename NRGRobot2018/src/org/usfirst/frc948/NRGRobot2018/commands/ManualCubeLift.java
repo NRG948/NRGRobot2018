@@ -44,7 +44,6 @@ public class ManualCubeLift extends Command {
 			if (prevFinalPower == 0) {
 				System.out.println("Exiting pid mode");
 			}
-			System.out.println(finalPower);
 			Robot.cubeLifter.manualLift(finalPower);
 		}
 

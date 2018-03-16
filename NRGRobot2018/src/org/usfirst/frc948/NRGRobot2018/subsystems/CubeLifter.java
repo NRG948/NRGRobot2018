@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Positive power is for raising lifter, negative power is for lowering lifter.
  */
 public class CubeLifter extends Subsystem {
-	private static final int LIFTER_MAX_TICKS = 7000 - 50; // safe zone of 50 ticks
+	private static final int LIFTER_MAX_TICKS = 7400 - 100; // safe zone of 100 ticks
 	private static final int LIFTER_MIN_TICKS = 50;
 
 	private SimplePIDController lifterPIDController;
@@ -29,8 +29,8 @@ public class CubeLifter extends Subsystem {
 	public final static double DEFAULT_LIFT_I = 0.0;
 	public final static double DEFAULT_LIFT_D = 0.0;
 	
-	public final static int DEFAULT_SCALE_HIGH_TICKS = 6400; // Needs to be tested
-	public final static int DEFAULT_SCALE_MEDIUM_TICKS = 6400;
+	public final static int DEFAULT_SCALE_HIGH_TICKS = 7400; // Needs to be tested
+	public final static int DEFAULT_SCALE_MEDIUM_TICKS = 7000;
 	public final static int DEFAULT_SCALE_LOW_TICKS = 6500;
 	public final static int DEFAULT_SWITCH_TICKS = 3000;
 	public static final int DEFAULT_STOWED_TICKS = 0;
@@ -44,7 +44,6 @@ public class CubeLifter extends Subsystem {
 	private boolean prevUpperLimitState = false;
 	
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
 		setDefaultCommand(new ManualCubeLift());
 	}
 	
