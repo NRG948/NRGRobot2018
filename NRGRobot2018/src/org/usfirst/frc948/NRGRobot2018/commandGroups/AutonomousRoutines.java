@@ -200,13 +200,15 @@ public class AutonomousRoutines extends CommandGroup {
         }
     }
 
+    private static final Waypoint MRSWITCH_PATH[] = {
+            new Waypoint(CoordinateType.RELATIVE, 50, 50, 45, new WithinInches(15)),
+            new Waypoint(CoordinateType.RELATIVE, 0, 50, 0, USE_PID) };
+
     public class MiddleToRightSwitch extends CommandGroup {
         public MiddleToRightSwitch() {
-            addSequential(new DriveStraightDistance(1.0, 108.75, Drive.Direction.FORWARD));
-            addSequential(new TurnToHeading(90));
-            addSequential(new DriveStraightDistance(1.0, 149.5, Drive.Direction.FORWARD));
-            addSequential(new TurnToHeading(90));
-            addSequential(new DriveStraightDistance(1.0, 20, Drive.Direction.FORWARD));
+            addParallel(new DriveAndEject(0, 0, MRSWITCH_PATH));
+            addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+            addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
         }
     }
 
