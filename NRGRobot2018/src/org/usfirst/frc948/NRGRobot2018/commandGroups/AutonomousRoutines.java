@@ -232,13 +232,21 @@ public class AutonomousRoutines extends CommandGroup {
     public class MiddleToRightScale extends CommandGroup {
         public MiddleToRightScale() {
             addParallel(new DriveAndEject(0, 0, MRSCALE_PATH));
-            addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+            addParallel(new LiftToHeightAndHold(SCALE_LOW));
             addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
         }
     }
 
+    private static final Waypoint MLSCALE_PATH[] = {
+            new Waypoint(CoordinateType.RELATIVE, -142, 112.6, -51.6, new WithinInches(15)),
+            new Waypoint(CoordinateType.RELATIVE, 0, 130, 0, new WithinInches(15)),
+            new Waypoint(CoordinateType.RELATIVE, 57, 57, 45, USE_PID) };
+
     public class MiddleToLeftScale extends CommandGroup {
         public MiddleToLeftScale() {
+            addParallel(new DriveAndEject(0, 0, MLSCALE_PATH));
+            addParallel(new LiftToHeightAndHold(SCALE_LOW));
+            addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 
         }
     }
