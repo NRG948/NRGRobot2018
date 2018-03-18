@@ -1,5 +1,6 @@
 package org.usfirst.frc948.NRGRobot2018.subsystems;
 
+import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
@@ -23,7 +24,7 @@ public class CubeLifter extends Subsystem {
 	private SimplePIDController lifterPIDController;
 
 	public static final double LIFT_POWER_SCALE_UP = 0.95;
-	public static final double LIFT_POWER_SCALE_DOWN = 0.5;
+	public static final double LIFT_POWER_SCALE_DOWN = 0.50;
 
 	public final static double DEFAULT_LIFT_P = 0.005;
 	public final static double DEFAULT_LIFT_I = 0.0;

@@ -31,6 +31,7 @@ public class DriveToCubeNoPID extends Command {
 	protected void initialize() {
 		distanceToCube = Double.MAX_VALUE;
 		currFrame = null;
+		System.out.println("DriveToCube init");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -41,6 +42,7 @@ public class DriveToCubeNoPID extends Command {
 		SmartDashboard.putNumber("DriveToCube/current frame size", currFrame.size());
 		if (currFrame.size() > 0) {
 			currBlock = currFrame.get(0);
+			System.out.println("Detected Block " + currBlock);
 			distanceToCube = CubeCalculations.getDistanceFromWidth(currBlock);
 
 			double cubeNormalized = CubeCalculations.getDistanceToCenterNormalized(currBlock);
@@ -49,7 +51,7 @@ public class DriveToCubeNoPID extends Command {
 			double drivePower;
 
 			if (driveUntilCubeAcquired) {
-				drivePower = MathUtil.clamp(Math.abs(distanceToCube / DISTANCE_TO_SLOW), 0.2, 1);
+				drivePower = MathUtil.clamp(Math.abs(distanceToCube / DISTANCE_TO_SLOW), 0.15, 0.5);
 			} else {
 				drivePower = Math.min(1.0, (distanceToCube - DISTANCE_TO_STOP) / (DISTANCE_TO_SLOW - DISTANCE_TO_STOP));
 			}
@@ -66,6 +68,7 @@ public class DriveToCubeNoPID extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		System.out.println("DriveToCube end");
 		Robot.drive.stop();
 	}
 

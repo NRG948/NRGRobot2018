@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Held upright by mechanical arm before auto period is 0deg, all the way down is 86deg
  */ 
 public class CubeTilter extends Subsystem {
-	public static final double TILT_UP_POWER = 0.3;
+	public static final double TILT_UP_POWER = 0.4;
 	public static final double TILT_DOWN_POWER = -0.1;
 
 	public static final double DEFAULT_TILT_P = 1 / 5.0;
@@ -23,7 +23,7 @@ public class CubeTilter extends Subsystem {
 	public static final double DEFAULT_TILT_D = 0;
 	
 	public static final double TILTER_UP = 0;
-	public static final double TILTER_DOWN = -270;
+	public static final double TILTER_DOWN = -240;
 	
 	private static SimplePIDController tiltPIDController;
 

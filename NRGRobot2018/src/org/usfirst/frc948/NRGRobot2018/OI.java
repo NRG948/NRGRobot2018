@@ -13,6 +13,7 @@ package org.usfirst.frc948.NRGRobot2018;
 
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
+import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveToCubeAndGrab;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
@@ -20,6 +21,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPIDTest;
 import org.usfirst.frc948.NRGRobot2018.commands.InterruptCommands;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualClimb;
+import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDrive;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualStrafeStraight;
@@ -75,6 +77,8 @@ public class OI {
 	public static final JoystickButton autoForward = new JoystickButton(arduinoJoystick, 2);
 	public static final JoystickButton autoNone = new JoystickButton(arduinoJoystick, 1);
 
+	private static boolean reverseTriggers = false;
+	
 	public enum PlateLocation {
 		LEFT, RIGHT;
 	}
@@ -90,10 +94,10 @@ public class OI {
 		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
 		driveStraight.whileHeld(new ManualDriveStraight());
 		strafeStraight.whileHeld(new ManualStrafeStraight());
-		driveToCube.whenPressed(new DriveToCubeNoPID(false));
+		driveToCube.whenPressed(new DriveToCubeAndGrab());
 
-		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(45, 1, 0.5));
-		climberButton.whileHeld(new ManualClimb(0.7));
+		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(-133, 1, 0.5));
+		climberButton.whileHeld(new ManualClimb(0.9));
 
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
@@ -108,10 +112,8 @@ public class OI {
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
 		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID(false));
-		// SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48,
-		// Direction.RIGHT));
-		// SmartDashboard.putData("driveStraightDistanceBackward 4 feet",
-		// new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
+		 SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48,Direction.RIGHT));
+		 SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
 		SmartDashboard.putData("CubeTiltDown", new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		SmartDashboard.putData("CubeTiltUp", new TiltAcquirerToAngle(CubeTilter.TILTER_UP));
 
@@ -152,13 +154,19 @@ public class OI {
 	}
 
 	public static double getXBoxTriggerL() {
-		return MathUtil.deadband(xboxController.getRawAxis(2), 0.1);
+		double triggerL = reverseTriggers ? 1 - xboxController.getRawAxis(2) :  xboxController.getRawAxis(2);
+		return MathUtil.deadband(triggerL, 0.1);
 	}
 
 	public static double getXBoxTriggerR() {
-		return MathUtil.deadband(xboxController.getRawAxis(3), 0.1);
+		double triggerR = reverseTriggers ? 1 - xboxController.getRawAxis(3) :  xboxController.getRawAxis(3);
+		return MathUtil.deadband(triggerR, 0.1);
 	}
-
+	
+	public static void initTriggers() {
+		reverseTriggers = OI.getXBoxTriggerL() > 0.1 && OI.getXBoxTriggerL() > 0.1;
+	}
+	
 	public static boolean isXBoxDPadUp() {
 		int pov = xboxController.getPOV();
 		return pov == 0 || pov == 45 || pov == 315;

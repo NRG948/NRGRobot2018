@@ -122,6 +122,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
 		System.out.println("autoInit()");
+		OI.initTriggers();
 		autonomousCommand = new AutonomousRoutines();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -141,6 +142,7 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		OI.initTriggers();
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
