@@ -93,22 +93,6 @@ public class AutonomousRoutines extends CommandGroup {
             addSequential(new DriveToXYHeadingPID(0, 140, 0));
         }
     }
-    
-    public class DriveAndEject extends CommandGroup {
-    	public DriveAndEject(double startX, double startY, Waypoint[] path, double timeout) { // timeout needs to parametrized
-    		addSequential(new FollowWaypoints(startX, startY, path), timeout);
-    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
-    		// so the acquirer doesnt hit the scale/switch when disabled
-//            addSequential(new DriveStraightDistance(0.3, 24, Direction.BACKWARD));
-    	}
-    }
-    
-    public class LiftToHeightAndHold extends CommandGroup {
-    	public LiftToHeightAndHold(LifterLevel level) {
-    		addSequential(new LiftToHeight(level));
-    		addSequential(new ManualCubeLift());
-    	}
-    }
 
 //    // Left is default starting position - waypoints are converted if starting
 //    // position is right
@@ -163,6 +147,22 @@ public class AutonomousRoutines extends CommandGroup {
 //            addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 //        }
 //    }
+    
+    public class DriveAndEject extends CommandGroup {
+    	public DriveAndEject(double startX, double startY, Waypoint[] path, double timeout) { // timeout needs to parametrized
+    		addSequential(new FollowWaypoints(startX, startY, path), timeout);
+    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    		// so the acquirer doesnt hit the scale/switch when disabled
+//            addSequential(new DriveStraightDistance(0.3, 24, Direction.BACKWARD));
+    	}
+    }
+    
+    public class LiftToHeightAndHold extends CommandGroup {
+    	public LiftToHeightAndHold(LifterLevel level) {
+    		addSequential(new LiftToHeight(level));
+    		addSequential(new ManualCubeLift());
+    	}
+    }
 
     // Switch auto routines
     private static final Waypoint LEFT_LEFT_SWITCH_PATH[] = {
