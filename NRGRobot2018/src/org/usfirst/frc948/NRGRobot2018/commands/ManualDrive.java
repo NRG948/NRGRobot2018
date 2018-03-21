@@ -12,6 +12,7 @@
 package org.usfirst.frc948.NRGRobot2018.commands;
 import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.Robot;
+import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -45,7 +46,7 @@ public class ManualDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	  Robot.drive.driveCartesian(OI.getLeftJoystickX(), OI.getRightJoystickY(), OI.getRightJoystickRot());
+    	  Robot.drive.driveCartesian(OI.getLeftJoystickX(), OI.getRightJoystickY(), MathUtil.deadband(OI.getRightJoystickRot(), 0.1));
     }
 
     // Make this return true when this Command no longer needs to run execute()

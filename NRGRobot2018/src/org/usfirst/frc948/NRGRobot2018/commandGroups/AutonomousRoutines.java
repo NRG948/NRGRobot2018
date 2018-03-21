@@ -15,10 +15,12 @@ import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
+import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerDown;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerToAngle;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
+import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 import org.usfirst.frc948.NRGRobot2018.utilities.LifterLevel;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
@@ -54,12 +56,12 @@ public class AutonomousRoutines extends CommandGroup {
                     addSequential(new MiddleToLeftSwitch());
                 } else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
 //                    addSequential(new RightToLeftSwitch());
-                	addSequential(new DriveToXYHeadingPID(0, 165, 0));
+                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
                 }
             } else if (OI.getAllianceSwitchSide() == PlateLocation.RIGHT) {
                 if (autoStartingPosition == AutoStartingPosition.LEFT) {
 //                    addSequential(new LeftToRightSwitch());
-                	addSequential(new DriveToXYHeadingPID(0, 165, 0));
+                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
                 } else if (autoStartingPosition == AutoStartingPosition.CENTER) {
                     addSequential(new MiddleToRightSwitch());
                 } else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
@@ -173,7 +175,8 @@ public class AutonomousRoutines extends CommandGroup {
         public LeftToLeftSwitch() {
             addParallel(new DriveAndEject(0, 0, LEFT_LEFT_SWITCH_PATH, 6.0));
             addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-            addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+            //addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+            addSequential(new TiltAcquirerDown(1));
         }
     }
     
@@ -183,11 +186,25 @@ public class AutonomousRoutines extends CommandGroup {
     		new Waypoint(CoordinateType.RELATIVE, 0, 0.0, -129, USE_PID),
     		new Waypoint(CoordinateType.RELATIVE, -39.5, -29.5, -143, new WithinInches(2)) };
     
+//    private static final Waypoint LEFT_RIGHT_SWITCH_FIRST_WAYPOINT = 
+//    		new Waypoint(CoordinateType.RELATIVE, -10.0, 216, 0, USE_PID);
+//    
+//    private static final Waypoint LEFT_RIGHT_SWITCH_PATH_LAST_SECTION[] = {
+//    		new Waypoint(CoordinateType.RELATIVE, 0, 0.0, -129, USE_PID),
+//    		new Waypoint(CoordinateType.RELATIVE, -39.5, -29.5, -143, new WithinInches(2)) };    		
+    
     public class LeftToRightSwitch extends CommandGroup {
     	public LeftToRightSwitch() {
     		addParallel(new DriveAndEject(0, 0, LEFT_RIGHT_SWITCH_PATH, 12.0));
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		//addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		 addSequential(new TiltAcquirerDown(1));
+//    		addParallel(new DriveToXYHeadingPID(LEFT_RIGHT_SWITCH_FIRST_WAYPOINT, true));
+//    		addParallel(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+//    		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+//    		addSequential(new TurnToHeading(-90));
+//    		addSequential(new DriveStraightDistance(1.0, 260, Direction.BACKWARD));
+//    		addSequential(new DriveAndEject(0, 0, LEFT_RIGHT_SWITCH_PATH_LAST_SECTION, 2.5));
     	}
     }
     
@@ -199,7 +216,8 @@ public class AutonomousRoutines extends CommandGroup {
     	public MiddleToLeftSwitch() {
     		addParallel(new DriveAndEject(0, 0, MIDDLE_LEFT_SWITCH_PATH, 6.0));
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		//addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		 addSequential(new TiltAcquirerDown(1));
     	}
     }
     
@@ -211,22 +229,26 @@ public class AutonomousRoutines extends CommandGroup {
     	public MiddleToRightSwitch() {
     		addParallel(new DriveAndEject(0, 0, MIDDLE_RIGHT_SWITCH_PATH, 6.0));
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		//addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		 addSequential(new TiltAcquirerDown(1));
     	}
     }
     
     private static final Waypoint RIGHT_LEFT_SWITCH_PATH[] = {
-    		new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(15)),
-    		new Waypoint(CoordinateType.RELATIVE, -242, 0.0, 90, new WithinInches(2)),
+    		new Waypoint(CoordinateType.RELATIVE, 10.0, 216, 0, new WithinInches(6)),
+    		new Waypoint(CoordinateType.RELATIVE, -260, 0.0, 90, new WithinInches(2)),
     		new Waypoint(CoordinateType.RELATIVE, 0, 0.0, 129, USE_PID),
-    		new Waypoint(CoordinateType.RELATIVE, 31.5, -25.5, 141, new WithinInches(2))
+    		new Waypoint(CoordinateType.RELATIVE, 39.5, -29.5, 143, new WithinInches(2))
     };
+    
+    
     
     public class RightToLeftSwitch extends CommandGroup {
     	public RightToLeftSwitch() {
     		addParallel(new DriveAndEject(0, 0, RIGHT_LEFT_SWITCH_PATH, 12.0));
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		//addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		 addSequential(new TiltAcquirerDown(1));
     	}
     }
     
@@ -238,7 +260,8 @@ public class AutonomousRoutines extends CommandGroup {
     	public RightToRightSwitch() {
     		addParallel(new DriveAndEject(0, 0, RIGHT_RIGHT_SWITCH_PATH, 6.0));
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		//addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		 addSequential(new TiltAcquirerDown(1));
     	}
     }
 
@@ -261,7 +284,8 @@ public class AutonomousRoutines extends CommandGroup {
     	public MiddleToLeftScale() {
     		addParallel(new DriveAndEject(0, 0, MIDDLE_LEFT_SCALE_PATH, 12.0));
     		addParallel(new LiftToHeightAndHold(SCALE_LOW));
-    		addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		//addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		 addSequential(new TiltAcquirerDown(1));
     	}
     }
 
@@ -274,7 +298,8 @@ public class AutonomousRoutines extends CommandGroup {
         public MiddleToRightScale() {
             addParallel(new DriveAndEject(0, 0, MIDDLE_RIGHT_SCALE_PATH, 12.0));
             addParallel(new LiftToHeightAndHold(SCALE_LOW));
-            addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+            //addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+            addSequential(new TiltAcquirerDown(1));
         }
     }
 
@@ -286,7 +311,8 @@ public class AutonomousRoutines extends CommandGroup {
         public RightToRightScale() {
             addParallel(new DriveAndEject(0, 0, RIGHT_RIGHT_SCALE_PATH, 12.0));
             addParallel(new LiftToHeightAndHold(SCALE_LOW));
-            addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+            //addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+            addSequential(new TiltAcquirerDown(1));
         }
     }
 }

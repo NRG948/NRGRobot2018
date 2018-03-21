@@ -27,6 +27,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualStrafeStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
+import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerDown;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerToAngle;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
@@ -122,6 +123,8 @@ public class OI {
 
 		SmartDashboard.putData("Set to high gear", new SetDriveScale(Drive.SCALE_HIGH));
 		SmartDashboard.putData("Set to low gear", new SetDriveScale(Drive.SCALE_LOW));
+		
+		SmartDashboard.putData("Tilt acquirer down", new TiltAcquirerDown(1));
 	}
 
 	public static double getRightJoystickX() {

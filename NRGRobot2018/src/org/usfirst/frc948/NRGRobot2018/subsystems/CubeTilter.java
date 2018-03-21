@@ -18,12 +18,16 @@ public class CubeTilter extends Subsystem {
 	public static final double TILT_UP_POWER = 0.4;
 	public static final double TILT_DOWN_POWER = -0.1;
 
-	public static final double DEFAULT_TILT_P = 1 / 5.0;
+	public static final double DEFAULT_TILT_P = 1 / 100.0;
 	public static final double DEFAULT_TILT_I = 0;
 	public static final double DEFAULT_TILT_D = 0;
 	
 	public static final double TILTER_UP = 0;
-	public static final double TILTER_DOWN = -240;
+	public static final double TILTER_DOWN = -1200;
+	
+	public static final double TILTER_RANGE_MIN = -2300;
+	public static final double TILTER_RANGE_MAX = 0;
+	public static final double TILTER_PID_CUTOFF = -2000;
 	
 	private static SimplePIDController tiltPIDController;
 
@@ -34,7 +38,7 @@ public class CubeTilter extends Subsystem {
     private void createTiltPIDController(double setpoint, double tolerance){
     	tiltPIDController = new SimplePIDController(DEFAULT_TILT_P, DEFAULT_TILT_I, DEFAULT_TILT_D, true)
     			.setAbsoluteTolerance(tolerance)
-//    			.setInputRange(0, 90)
+    			.setInputRange(TILTER_RANGE_MIN, TILTER_RANGE_MAX)
     			.setOutputRange(TILT_DOWN_POWER, TILT_UP_POWER)
     			.setSetpoint(setpoint);
     }

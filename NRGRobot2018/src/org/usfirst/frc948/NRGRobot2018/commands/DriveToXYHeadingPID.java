@@ -103,17 +103,18 @@ public class DriveToXYHeadingPID extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	double gyroEnd = RobotMap.gyro.getAngle();
         if (isFinalWaypoint) {
             Robot.drive.stop();
-            SmartDashboard.putNumber("DriveToXYHeading/gyro", RobotMap.gyro.getAngle());
+            SmartDashboard.putNumber("DriveToXYHeading/gyro", gyroEnd);
         }
-        System.out.println("DriveToXYHeading " + Robot.positionTracker);
+        System.out.println("DriveToXYHeading end: " + Robot.positionTracker + ", gyro: " + gyroEnd);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	System.out.println("DriveToXYHeading " + Robot.positionTracker);
+    	System.out.println("DriveToXYHeading interrupt: " + Robot.positionTracker + ", gyro: " + RobotMap.gyro.getAngle());
     	Robot.drive.stop();
     }
 }

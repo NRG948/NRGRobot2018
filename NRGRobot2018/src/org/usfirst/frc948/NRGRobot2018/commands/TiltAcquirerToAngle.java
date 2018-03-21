@@ -8,17 +8,17 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class TiltAcquirerToAngle extends Command {
-	private final double angle;
+	private final double ticks;
 
-	public TiltAcquirerToAngle(double angle) {
+	public TiltAcquirerToAngle(double ticks) {
 		requires(Robot.cubeTilter);
-		this.angle = angle;
+		this.ticks = ticks;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.cubeTilter.tiltToAnglePIDIntialize(angle, 15);
-		System.out.println("TiltAcquirerToAngle init: " + angle);
+		Robot.cubeTilter.tiltToAnglePIDIntialize(ticks, 50);
+		System.out.println("TiltAcquirerToAngle init: " + ticks);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -34,11 +34,13 @@ public class TiltAcquirerToAngle extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		System.out.println("TiltAcquirerToAngle end");
+		Robot.cubeLifter.stop();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		System.out.println("TiltAcquirerToAngle interrupted");
 		end();
 	}
 }

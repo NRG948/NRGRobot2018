@@ -21,6 +21,7 @@ public class ManualCubeTilt extends Command {
 
 	protected void initialize() {
 		prevPower = Double.MAX_VALUE;
+		System.out.println("ManualCubeTilt: init()");
 	}
 
 	protected void execute() {
@@ -33,11 +34,15 @@ public class ManualCubeTilt extends Command {
 			power = CubeTilter.TILT_DOWN_POWER;
 			Robot.cubeTilter.rawTilt(power);
 		} else {
+//			double encoderValue = RobotMap.cubeTiltEncoder.getDistance();
 //
-//			if (prevPower != 0) {
-//				Robot.cubeTilter.tiltToAnglePIDIntialize(RobotMap.cubeTiltEncoder.getDistance(), 1);
+//			if (encoderValue >= CubeTilter.TILTER_PID_CUTOFF) {
+//				if (prevPower != 0) {
+//					Robot.cubeTilter.tiltToAnglePIDIntialize(encoderValue, 50);
+//					System.out.println("Entering Tilter PID mode for setpoint " + encoderValue);
+//				}
+//				Robot.cubeTilter.tiltToAnglePIDExecute();
 //			}
-//			Robot.cubeTilter.tiltToAnglePIDExecute();
 		}
 
 		prevPower = power;
@@ -49,6 +54,7 @@ public class ManualCubeTilt extends Command {
 
 	protected void end() {
 		Robot.cubeTilter.stop();
+		System.out.println("ManualCubeTilt: end()");
 	}
 
 	protected void interrupted() {

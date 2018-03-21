@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
 		// pointers. Bad news. Don't move it.
 
 		initPreferences();
-		RobotMap.pixy.startVisionThread();
+//		RobotMap.pixy.startVisionThread();
 		RobotMap.arduino.startArduinoThread();
 		System.out.println("robotInit() done");
 
@@ -183,6 +183,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("cubeTilttEncoder", RobotMap.cubeTiltEncoder.getDistance());
 		SmartDashboard.putData("LimitUpper", RobotMap.lifterUpperLimitSwitch);
 		SmartDashboard.putNumber("POV", OI.xboxController.getPOV());
+		SmartDashboard.putNumber("Z Axis", OI.getRightJoystickRot());
 	}
 
 	public void initPreferences() {

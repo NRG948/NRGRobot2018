@@ -20,7 +20,7 @@ public class ManualCubeLift extends Command {
 		// dummy value other than 0, in case first execute cycle of ManualLift
 		// calculates final power to be 0
 		prevFinalPower = Double.MAX_VALUE;
-		System.out.println("ManualCubeLift init");
+		System.out.println("ManualCubeLift: init()");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -36,15 +36,12 @@ public class ManualCubeLift extends Command {
 			// current height
 			if (prevFinalPower != 0) {
 				double setPoint = RobotMap.cubeLiftEncoder.getDistance();
-				System.out.println("Entering pid mode for setpoint:" + setPoint);
+				System.out.println("Entering lifter pid mode for setpoint:" + setPoint);
 				Robot.cubeLifter.liftToHeightPIDInit(setPoint, 100);
 			}
 			// send PID-calculated power to motor
 			Robot.cubeLifter.liftToHeightPIDExecute();
 		} else {
-			if (prevFinalPower == 0) {
-				System.out.println("Exiting pid mode");
-			}
 			Robot.cubeLifter.manualLift(finalPower);
 		}
 
@@ -59,7 +56,7 @@ public class ManualCubeLift extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.cubeLifter.stop();
-		System.out.println("ManualCubeLift end");
+		System.out.println("ManualCubeLift: end()");
 	}
 
 	// Called when another command which requires one or more of the same
