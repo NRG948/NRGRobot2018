@@ -38,17 +38,16 @@ public class CenterToCube extends Command {
     		currentBlock = currentFrame.get(0);
     		//determines where the cube's center is.
     		double cubeCentered = CubeCalculations.getDistanceToCenterNormalized(currentBlock);
-			//determines the turning power of the robot in order to turn enough so that it is centered.
+		//determines the turning power of the robot in order to turn enough so that it is centered.
     		double turnPower = Math.copySign(MathUtil.clamp(Math.abs(cubeCentered), 0.15, 1), cubeCentered);
     		Robot.drive.rawDriveCartesian(0, 0, turnPower);
-			SmartDashboard.putNumber("Center To Cube/turning power", turnPower);
-			centeredToCube = true;
+		SmartDashboard.putNumber("Center To Cube/turning power", turnPower);
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return centeredToCube;
+        return centeredToCube = true;
     }
 
     // Called once after isFinished returns true
