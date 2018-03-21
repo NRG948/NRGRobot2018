@@ -53,6 +53,11 @@ public class RobotMap {
 	public static Encoder cubeLiftEncoder;
 	public static Encoder cubeTiltEncoder;
 	
+	public static Encoder leftFrontEncoder;
+	public static Encoder leftRearEncoder;
+	public static Encoder rightFrontEncoder;
+	public static Encoder rightRearEncoder;
+	
 	public static DigitalInput lifterLowerLimitSwitch;
 	public static DigitalInput lifterUpperLimitSwitch;
 	public static DigitalInput cubeDetectSwitch;
