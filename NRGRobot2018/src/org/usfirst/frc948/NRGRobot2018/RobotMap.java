@@ -41,10 +41,10 @@ public class RobotMap {
 	public static MecanumDrive driveMecanumDrive;
 
 	public static Victor cubeLifterMotor;
+	public static Victor cubeTilterMotor;
 	
 	public static Victor acquirerRightMotor;
 	public static Victor acquirerLeftMotor;
-	public static Victor cubeTitlerMotor;
 
 	public static Victor climberMotor;
 
@@ -81,12 +81,12 @@ public class RobotMap {
 
 		cubeLifterMotor = new Victor(4);
 		
+		cubeTilterMotor = new Victor(7);
+		cubeTilterMotor.setInverted(false);
+		
 		acquirerLeftMotor = new Victor(5);
 		acquirerRightMotor = new Victor(6);
 		acquirerRightMotor.setInverted(true);
-		
-		cubeTitlerMotor = new Victor(7);
-		cubeTitlerMotor.setInverted(false);
 		
 		climberMotor = new Victor(8);
 

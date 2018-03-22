@@ -199,6 +199,7 @@ public class AutonomousRoutines extends CommandGroup {
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
     		//addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
     		 addSequential(new TiltAcquirerDown(1));
+    		 
 //    		addParallel(new DriveToXYHeadingPID(LEFT_RIGHT_SWITCH_FIRST_WAYPOINT, true));
 //    		addParallel(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 //    		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));

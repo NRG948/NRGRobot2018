@@ -83,9 +83,8 @@ public class Robot extends TimedRobot {
 		// pointers. Bad news. Don't move it.
 
 		initPreferences();
-//		RobotMap.pixy.startVisionThread();
+		RobotMap.pixy.startVisionThread();
 		RobotMap.arduino.startArduinoThread();
-		System.out.println("robotInit() done");
 
 		autoPositionChooser = new SendableChooser<AutoStartingPosition>();
 		autoPositionChooser.addDefault("Left", AutoStartingPosition.LEFT);
@@ -101,6 +100,8 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
 		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
+
+		System.out.println("robotInit() done");
 	}
 
 	/**
@@ -109,13 +110,16 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		drive.stop();
+		cubeLifter.stop();
+		cubeTilter.stop();
+		cubeAcquirer.stop();
+		climber.stop();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-
 	}
 
 	@Override
@@ -138,11 +142,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		OI.initTriggers();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		OI.initTriggers();
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -158,7 +162,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -175,15 +178,16 @@ public class Robot extends TimedRobot {
 		}
 
 		positionTracker.updatePosition();
-		SmartDashboard.putNumber("PositionTracker current x", positionTracker.getX());
-		SmartDashboard.putNumber("PositionTracker current y", positionTracker.getY());
-		SmartDashboard.putNumber("xEncoder", RobotMap.xEncoder.getDistance());
-		SmartDashboard.putNumber("yEncoder", RobotMap.yEncoder.getDistance());
-		SmartDashboard.putNumber("cubeLiftEncoder", RobotMap.cubeLiftEncoder.getDistance());
-		SmartDashboard.putNumber("cubeTilttEncoder", RobotMap.cubeTiltEncoder.getDistance());
-		SmartDashboard.putData("LimitUpper", RobotMap.lifterUpperLimitSwitch);
-		SmartDashboard.putNumber("POV", OI.xboxController.getPOV());
-		SmartDashboard.putNumber("Z Axis", OI.getRightJoystickRot());
+		SmartDashboard.putNumber("PositionTracker/current x", positionTracker.getX());
+		SmartDashboard.putNumber("PositionTracker/current y", positionTracker.getY());
+		SmartDashboard.putNumber("Encoders/x", RobotMap.xEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/y", RobotMap.yEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/cubeLift", RobotMap.cubeLiftEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/cubeTilt", RobotMap.cubeTiltEncoder.getDistance());
+		SmartDashboard.putData("LimitSwitches/Upper", RobotMap.lifterUpperLimitSwitch);
+		SmartDashboard.putData("LimitSwitches/Lower", RobotMap.lifterLowerLimitSwitch);
+//		SmartDashboard.putNumber("POV", OI.xboxController.getPOV());
+		SmartDashboard.putNumber("Joysticks/Rot", OI.getRightJoystickRot());
 	}
 
 	public void initPreferences() {
