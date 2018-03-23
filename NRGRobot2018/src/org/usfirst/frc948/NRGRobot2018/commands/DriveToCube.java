@@ -46,12 +46,12 @@ public class DriveToCube extends Command {
 			distanceToCube = CubeCalculations.getDistanceFromWidth(currBlock);
 
 			double cubeNormalized = CubeCalculations.getDistanceToCenterNormalized(currBlock);
-			double turnPower = Math.copySign(MathUtil.clamp(Math.abs(cubeNormalized), 0.15, 1), cubeNormalized);
+			double turnPower = MathUtil.clampNegativePositive(cubeNormalized, 0.15, 1.0);
 
 			double drivePower;
-
+			
 			if (driveUntilCubeAcquired) {
-				drivePower = MathUtil.clamp(Math.abs(distanceToCube / DISTANCE_TO_SLOW), 0.15, 0.5);
+				drivePower = MathUtil.clamp(Math.abs(distanceToCube / DISTANCE_TO_SLOW), 0.15, 0.65);
 			} else {
 				drivePower = Math.min(1.0, (distanceToCube - DISTANCE_TO_STOP) / (DISTANCE_TO_SLOW - DISTANCE_TO_STOP));
 			}

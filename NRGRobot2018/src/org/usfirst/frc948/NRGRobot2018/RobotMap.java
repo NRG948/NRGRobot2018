@@ -128,8 +128,6 @@ public class RobotMap {
 		arduinoLink = new I2Cwrapper(I2C.Port.kOnboard, 84);
 		arduino = new Arduino(arduinoLink);
 		
-		USBCamera.
-		
 		// Will show up on ShuffleBoard/SmartDashboard after calling
 //		USBCamera = CameraServer.getInstance().startAutomaticCapture();
 	}
