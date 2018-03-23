@@ -15,9 +15,9 @@ import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveToCubeAndGrab;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
-import org.usfirst.frc948.NRGRobot2018.commands.CenterToCubeNoPID;
+import org.usfirst.frc948.NRGRobot2018.commands.StrafeAlignWithCube;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
-import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveToCube;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPIDTest;
 import org.usfirst.frc948.NRGRobot2018.commands.InterruptCommands;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
@@ -57,13 +57,17 @@ public class OI {
 	public static final XboxController xboxController = new XboxController(2);
 	public static final Joystick arduinoJoystick = new Joystick(3);
 
+	public static final JoystickButton interruptCommands = new JoystickButton(leftJoystick, 6);
+	public static final JoystickButton resetSensors = new JoystickButton(leftJoystick, 7);
+
 	public static final JoystickButton leftShiftGears = new JoystickButton(leftJoystick, 1);
 	public static final JoystickButton rightShiftGears = new JoystickButton(rightJoystick, 1);
 	public static final JoystickButton driveStraight = new JoystickButton(leftJoystick, 2);
 	public static final JoystickButton strafeStraight = new JoystickButton(leftJoystick, 3);
-	public static final JoystickButton driveToCube = new JoystickButton(rightJoystick, 2);
-	public static final JoystickButton interruptCommandsButton = new JoystickButton(leftJoystick, 6);
-	public static final JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 7);
+	
+	// need to talk with driver about these button locations
+	public static final JoystickButton driveToCubeAndGrab = new JoystickButton(rightJoystick, 2);
+	public static final JoystickButton strafeAlignWithCube = new JoystickButton(rightJoystick, 3);
 	
 	//xbox buttons
 	public static final JoystickButton tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1); // 'A' Button
@@ -87,8 +91,8 @@ public class OI {
 
 	public static void init() {
 		// Initialize commands after initializing buttons
-		interruptCommandsButton.whenPressed(new InterruptCommands());
-		resetSensorsButton.whenPressed(new ResetSensors());
+		interruptCommands.whenPressed(new InterruptCommands());
+		resetSensors.whenPressed(new ResetSensors());
 
 		leftShiftGears.whenPressed(new SetDriveScale(Drive.SCALE_LOW));
 		leftShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
@@ -96,7 +100,9 @@ public class OI {
 		rightShiftGears.whenReleased(new SetDriveScale(Drive.SCALE_HIGH));
 		driveStraight.whileHeld(new ManualDriveStraight());
 		strafeStraight.whileHeld(new ManualStrafeStraight());
-		driveToCube.whenPressed(new DriveToCubeAndGrab());
+		
+		driveToCubeAndGrab.whenPressed(new DriveToCubeAndGrab());
+		strafeAlignWithCube.whenPressed(new StrafeAlignWithCube());
 
 		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(-133, 1, 0.5));
 		climberButton.whileHeld(new ManualClimb(0.9));
@@ -104,20 +110,15 @@ public class OI {
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 
-		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(CubeLifter.SCALE_MEDIUM));
-		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(CubeLifter.SWITCH_LEVEL));
-		SmartDashboard.putData("Set Lift height to zero?", new LiftToHeight(CubeLifter.STOWED));
-
-		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
-
 		SmartDashboard.putData("ManualDrive", new ManualDrive());
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
-		SmartDashboard.putData("Drive to Cube NoPID", new DriveToCubeNoPID(false));
-		 SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48,Direction.RIGHT));
-		 SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
-		SmartDashboard.putData("CubeTiltDown", new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
-		SmartDashboard.putData("CubeTiltUp", new TiltAcquirerToAngle(CubeTilter.TILTER_UP));
+		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48,Direction.RIGHT));
+		SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
+		
+		SmartDashboard.putData("Drive to Cube", new DriveToCube(false));
+		SmartDashboard.putData("Drive to Cube and grab", new DriveToCubeAndGrab());
+		SmartDashboard.putData("Center to Cube", new StrafeAlignWithCube());
 
 		SmartDashboard.putData("Turn To 90 Degrees", new TurnToHeading(90));
 		SmartDashboard.putData("Turn To -90 Degrees", new TurnToHeading(-90));
@@ -125,9 +126,14 @@ public class OI {
 		SmartDashboard.putData("Set to high gear", new SetDriveScale(Drive.SCALE_HIGH));
 		SmartDashboard.putData("Set to low gear", new SetDriveScale(Drive.SCALE_LOW));
 		
-		SmartDashboard.putData("Tilt acquirer down", new TiltAcquirerDown(1));
+		SmartDashboard.putData("Lift to Scale?", new LiftToHeight(CubeLifter.SCALE_MEDIUM));
+		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(CubeLifter.SWITCH_LEVEL));
+		SmartDashboard.putData("Set Lift height to zero?", new LiftToHeight(CubeLifter.STOWED));
 		
-		SmartDashboard.putData("Center to Cube", new CenterToCubeNoPID());
+		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
+		SmartDashboard.putData("CubeTiltDown", new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+		SmartDashboard.putData("CubeTiltUp", new TiltAcquirerToAngle(CubeTilter.TILTER_UP));
+		SmartDashboard.putData("Tilt acquirer down", new TiltAcquirerDown(1));
 	}
 
 	public static double getRightJoystickX() {

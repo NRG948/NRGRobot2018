@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class DriveToCubeNoPID extends Command {
+public class DriveToCube extends Command {
 	private final double DISTANCE_TO_SLOW = 33;
 	private final int DISTANCE_TO_STOP = 21;
 
@@ -22,7 +22,7 @@ public class DriveToCubeNoPID extends Command {
 	double distanceToCube; // in inches
 	boolean driveUntilCubeAcquired;
 
-	public DriveToCubeNoPID(boolean driveUntilCubeAcquired) {
+	public DriveToCube(boolean driveUntilCubeAcquired) {
 		requires(Robot.drive);
 		this.driveUntilCubeAcquired = driveUntilCubeAcquired;
 	}

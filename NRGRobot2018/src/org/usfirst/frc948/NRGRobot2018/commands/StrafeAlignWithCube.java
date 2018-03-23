@@ -16,12 +16,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 
 // Adapting most of DriveToCubeNoPID into this
-public class CenterToCubeNoPID extends Command {
+public class StrafeAlignWithCube extends Command {
 	private final double ERROR_TOLERANCE = 0.05;
 
 	private double error;
 
-	public CenterToCubeNoPID() {
+	public StrafeAlignWithCube() {
 		requires(Robot.drive);
 	}
 
@@ -40,7 +40,7 @@ public class CenterToCubeNoPID extends Command {
 			Block currentBlock = currentFrame.get(0);
 			
 			double error = CubeCalculations.getDistanceToCenterNormalized(currentBlock);
-			// minimum turn power is .15 to prevent stalling out
+			// minimum strafe power is .15 to prevent stalling out
 			double strafePower = Math.copySign(MathUtil.clamp(Math.abs(error), 0.15, 1), error);
 			
 			Robot.drive.rawDriveCartesian(0, strafePower, 0);
