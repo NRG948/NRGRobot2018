@@ -53,6 +53,11 @@ public class RobotMap {
 	public static Encoder cubeLiftEncoder;
 	public static Encoder cubeTiltEncoder;
 	
+	public static Encoder leftFrontEncoder;
+	public static Encoder leftRearEncoder;
+	public static Encoder rightFrontEncoder;
+	public static Encoder rightRearEncoder;
+	
 	public static DigitalInput lifterLowerLimitSwitch;
 	public static DigitalInput lifterUpperLimitSwitch;
 	public static DigitalInput cubeDetectSwitch;
@@ -99,6 +104,11 @@ public class RobotMap {
 		yEncoder.setDistancePerPulse(0.0544);
 		cubeLiftEncoder.setDistancePerPulse(1.0);
 		cubeTiltEncoder.setDistancePerPulse(1.0);
+		
+		leftFrontEncoder = new Encoder(11, 12, true);
+		rightFrontEncoder = new Encoder(13, 14, true);
+		leftRearEncoder = new Encoder(15, 16, true);
+		rightRearEncoder = new Encoder(17, 18, true);
 
 		navx = new AHRS(SPI.Port.kMXP);
 		gyro = new ContinuousGyro(navx);
