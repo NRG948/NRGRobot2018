@@ -5,5 +5,6 @@ public class ArduinoLightConstants {
 	public final static int MEDIUM_SCALE_REACHED = 2;
 	public final static int CUBE_SENSOR_PRESSED = 3;
 	public final static int CUBE_SENSOR_RELEASED = 4;
+	public final static int CLIMBER_BUTTON_PRESSED = 7;
 	
 }

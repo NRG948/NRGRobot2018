@@ -28,7 +28,7 @@ public class PositionTracker {
 	}
 
 	public void updatePosition() {
-		updatePositionFourEncoders();
+//		updatePositionFourEncoders();
 		updatePositionTwoEncoders();
 		SmartDashboard.putNumber("Position Tracker/mechX", mechX);
 		SmartDashboard.putNumber("Position Tracker/mechY", mechY);

@@ -99,7 +99,7 @@ public class RobotMap {
 		
 		climberMotor = new Victor(8);
 
-		xEncoder = new Encoder(2, 3, false); // positive is right
+		xEncoder = new Encoder(2, 3, true); // positive is right
 		yEncoder = new Encoder(0, 1, true); // positive is forward
 		cubeLiftEncoder = new Encoder(6, 7, false);
 		cubeTiltEncoder = new Encoder(8, 9, false);
@@ -109,13 +109,13 @@ public class RobotMap {
 		cubeLiftEncoder.setDistancePerPulse(1.0);
 		cubeTiltEncoder.setDistancePerPulse(1.0);
 		
-		leftFrontEncoder = new Encoder(11, 12, true);
-		rightFrontEncoder = new Encoder(13, 14, true);
-		leftRearEncoder = new Encoder(15, 16, true);
-		rightRearEncoder = new Encoder(17, 18, true);
 
 		navx = new AHRS(SPI.Port.kMXP);
 		gyro = new ContinuousGyro(navx);
+//		leftFrontEncoder = new Encoder(11, 12, true);
+//		rightFrontEncoder = new Encoder(13, 14, true);
+//		leftRearEncoder = new Encoder(15, 16, true);
+//		rightRearEncoder = new Encoder(17, 18, true);
 		
 		lifterLowerLimitSwitch = new DigitalInput(4);
 		lifterUpperLimitSwitch = new DigitalInput(5);
