@@ -41,10 +41,10 @@ public class CenterToCubeNoPID extends Command {
 			
 			double error = CubeCalculations.getDistanceToCenterNormalized(currentBlock);
 			// minimum turn power is .15 to prevent stalling out
-			double turnPower = Math.copySign(MathUtil.clamp(Math.abs(error), 0.15, 1), error);
+			double strafePower = Math.copySign(MathUtil.clamp(Math.abs(error), 0.15, 1), error);
 			
-			Robot.drive.rawDriveCartesian(0, 0, turnPower);
-			SmartDashboard.putNumber("Center To Cube/turning power", turnPower);
+			Robot.drive.rawDriveCartesian(0, strafePower, 0);
+			SmartDashboard.putNumber("Center To Cube/strafe power", strafePower);
 		}
 	}
 
