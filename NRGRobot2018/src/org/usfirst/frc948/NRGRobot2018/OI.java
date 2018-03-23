@@ -15,6 +15,7 @@ import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveToCubeAndGrab;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
+import org.usfirst.frc948.NRGRobot2018.commands.CenterToCubeNoPID;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCubeNoPID;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPIDTest;
@@ -125,6 +126,8 @@ public class OI {
 		SmartDashboard.putData("Set to low gear", new SetDriveScale(Drive.SCALE_LOW));
 		
 		SmartDashboard.putData("Tilt acquirer down", new TiltAcquirerDown(1));
+		
+		SmartDashboard.putData("Center to Cube", new CenterToCubeNoPID());
 	}
 
 	public static double getRightJoystickX() {

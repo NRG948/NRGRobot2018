@@ -58,7 +58,7 @@ public class CubeTilter extends Subsystem {
     }
     
     public void rawTilt(double power) {
-    	RobotMap.cubeTitlerMotor.set(power);
+    	RobotMap.cubeTilterMotor.set(power);
     }
     
     public void tiltDown() {
@@ -70,7 +70,7 @@ public class CubeTilter extends Subsystem {
     }
     
     public void stop() {
-    	RobotMap.cubeTitlerMotor.stopMotor();
+    	RobotMap.cubeTilterMotor.stopMotor();
     }
 }
 

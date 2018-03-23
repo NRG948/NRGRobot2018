@@ -87,6 +87,7 @@ public class PositionTracker {
 	public void setXY(double x, double y) {
 		this.mechX = x;
 		this.mechY = y;
+
 		this.omniX = x;
 		this.omniY = y;
 	}
