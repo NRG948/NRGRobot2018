@@ -71,6 +71,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		return new SimplePIDController(xP, xI, xD).setOutputRange(-xMaxPower, xMaxPower).setAbsoluteTolerance(tolerance)
 				.setSetpoint(setpoint).start();
 	}
+	
+	
 
 	public void drivePIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
 		drivePIDController = new SimplePIDController(p, i, d, false, RobotMap.gyro, this);
@@ -202,6 +204,14 @@ public class Drive extends Subsystem implements PIDOutput {
 		RobotMap.driveMecanumDrive.driveCartesian(velX, velY, rot);
 		SmartDashboard.putNumber("velY", velY);
 		SmartDashboard.putNumber("velX", velX);
+	}
+	
+	public void tankDrive(double pL, double pR) {
+		RobotMap.driveLeftFrontMotor.set(pL);
+		RobotMap.driveLeftRearMotor.set(pL);
+
+		RobotMap.driveRightFrontMotor.set(-pR);
+		RobotMap.driveRightRearMotor.set(-pR);
 	}
 
 	public void stop() {
