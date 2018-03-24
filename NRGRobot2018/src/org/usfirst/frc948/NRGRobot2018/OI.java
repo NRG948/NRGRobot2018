@@ -73,7 +73,8 @@ public class OI {
 	//xbox buttons
 	public static final JoystickButton tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1); // 'A' Button
 	
-	// arduino buttons
+	// arduino buttons\
+	
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 10);
 	public static final JoystickButton autoLeft = new JoystickButton(arduinoJoystick, 9);
 	public static final JoystickButton autoCenter = new JoystickButton(arduinoJoystick, 8);
@@ -104,7 +105,7 @@ public class OI {
 		
 		driveToCubeAndGrab.whenPressed(new DriveToCubeAndGrab());
 		driveToCube.whenPressed(new DriveToCube(false));
-		strafeAlignWithCube.whenPressed(new StrafeAlignWithCube());
+//		strafeAlignWithCube.whenPressed(new StrafeAlignWithCube());
 
 		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(-133, 1, 0.5));
 		climberButton.whileHeld(new ManualClimb(0.9));
@@ -133,8 +134,8 @@ public class OI {
 		SmartDashboard.putData("Set Lift height to zero?", new LiftToHeight(CubeLifter.STOWED));
 		
 		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
-		SmartDashboard.putData("CubeTiltDown", new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
-		SmartDashboard.putData("CubeTiltUp", new TiltAcquirerToAngle(CubeTilter.TILTER_UP));
+		SmartDashboard.putData("TiltDown", new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+		SmartDashboard.putData("TiltUp", new TiltAcquirerToAngle(CubeTilter.TILTER_UP));
 		SmartDashboard.putData("Tilt acquirer down", new TiltAcquirerDown(1));
 	}
 

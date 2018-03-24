@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class DriveToCubeAndGrab extends CommandGroup {
     public DriveToCubeAndGrab() {
+    	System.out.println("DriveToCubeAndGrab start");
     	addParallel(new DriveToCube(true));
-    	addSequential(new AcquireUntilCubeDetected(0.5));
+    	addSequential(new AcquireUntilCubeDetected(0.65));
+    	System.out.println("DriveToCubeAndGrab end");
     }
 }

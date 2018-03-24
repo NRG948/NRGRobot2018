@@ -55,8 +55,11 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public final static double SCALE_HIGH = 1.0;
 	public final static double SCALE_LOW = 0.5;
-	public double scale = SCALE_HIGH;
-	public static final double DEF_MAX_VEL_CHANGE = 0.1;
+	private double scale = SCALE_HIGH;
+
+	private double maxDriveAccel = 1.0;
+	public static final double DEF_TELEOP_MAX_DRIVE_ACCEL = 0.1;
+	public static final double DEF_AUTO_MAX_DRIVE_ACCEL = 0.05;
 
 	private double lastVelX = 0.0;
 	private double lastVelY = 0.0;
@@ -71,8 +74,6 @@ public class Drive extends Subsystem implements PIDOutput {
 		return new SimplePIDController(xP, xI, xD).setOutputRange(-xMaxPower, xMaxPower).setAbsoluteTolerance(tolerance)
 				.setSetpoint(setpoint).start();
 	}
-	
-	
 
 	public void drivePIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
 		drivePIDController = new SimplePIDController(p, i, d, false, RobotMap.gyro, this);
@@ -179,33 +180,35 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveCartesian(double currVelX, double currVelY, double currRot) {
-		double maxVelDifference = Robot.preferences.getDouble(PreferenceKeys.MAX_VEL_CHANGE, DEF_MAX_VEL_CHANGE);
-		double velXChange = currVelX - lastVelX;
-		double velYChange = currVelY - lastVelY;
-
-		if (Math.abs(velXChange) > maxVelDifference) {
-			currVelX = lastVelX + Math.copySign(maxVelDifference, velXChange);
-		}
-
-		if (Math.abs(velYChange) > maxVelDifference) {
-			currVelY = lastVelY + Math.copySign(maxVelDifference, velYChange);
-		}
-
 		rawDriveCartesian(currVelX, currVelY, currRot);
 	}
 
 	public void rawDriveCartesian(double velX, double velY, double rot) {
-		lastVelX = velX;
-		lastVelY = velY;
-
-//		velX *= scale; for Kmo(he sucks)
 		velY *= scale;
 		rot *= scale;
+
+		double xAccel = velX - lastVelX;
+		double yAccel = velY - lastVelY;
+
+		if (Math.abs(xAccel) > maxDriveAccel) {
+			velX = lastVelX + Math.copySign(maxDriveAccel, xAccel);
+		}
+		if (Math.abs(yAccel) > maxDriveAccel) {
+			velY = lastVelY + Math.copySign(maxDriveAccel, yAccel);
+		}
+
 		RobotMap.driveMecanumDrive.driveCartesian(velX, velY, rot);
+		
 		SmartDashboard.putNumber("velY", velY);
 		SmartDashboard.putNumber("velX", velX);
+		lastVelX = velX;
+		lastVelY = velY;
 	}
-	
+
+	public void setMaxAccel(double accel) {
+		maxDriveAccel = accel;
+	}
+
 	public void tankDrive(double pL, double pR) {
 		RobotMap.driveLeftFrontMotor.set(pL);
 		RobotMap.driveLeftRearMotor.set(pL);

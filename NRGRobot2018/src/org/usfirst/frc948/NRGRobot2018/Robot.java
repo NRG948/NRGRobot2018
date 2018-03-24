@@ -19,6 +19,7 @@ import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.utilities.CubeCalculations;
+import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 import org.usfirst.frc948.NRGRobot2018.utilities.PositionTracker;
 import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
@@ -31,10 +32,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.properties file in the
+ * The VM is configured to automatically run this class, and to call the functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the name of this class or
+ * the package after creating this project, you must also update the build.properties file in the
  * project.
  */
 public class Robot extends TimedRobot {
@@ -59,8 +59,8 @@ public class Robot extends TimedRobot {
 	}
 
 	/**
-	 * This function is run when the robot is first started up and should be used
-	 * for any initialization code.
+	 * This function is run when the robot is first started up and should be used for any
+	 * initialization code.
 	 */
 	@Override
 	public void robotInit() {
@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
 		positionTracker = new PositionTracker(0, 0);
 
 		OI.init();
-		
+
 		// OI must be constructed after subsystems. If the OI creates Commands
 		// (which it very likely will), subsystems are not guaranteed to be
 		// constructed yet. Thus, their requires() statements may grab null
@@ -105,8 +105,8 @@ public class Robot extends TimedRobot {
 	}
 
 	/**
-	 * This function is called when the disabled button is hit. You can use it to
-	 * reset subsystems before shutting down.
+	 * This function is called when the disabled button is hit. You can use it to reset subsystems
+	 * before shutting down.
 	 */
 	@Override
 	public void disabledInit() {
@@ -127,6 +127,7 @@ public class Robot extends TimedRobot {
 		// schedule the autonomous command (example)
 		System.out.println("autoInit()");
 		OI.initTriggers();
+		drive.setMaxAccel(preferences.getDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, drive.DEF_AUTO_MAX_DRIVE_ACCEL));
 		autonomousCommand = new AutonomousRoutines();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -147,6 +148,8 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		drive.setMaxAccel(
+				preferences.getDouble(PreferenceKeys.TELEOP_MAX_DRIVE_ACCEL, drive.DEF_TELEOP_MAX_DRIVE_ACCEL));
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -157,6 +160,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		double liftHeight = RobotMap.cubeLiftEncoder.getDistance();
+		double liftPercentage = MathUtil.clamp(liftHeight / CubeLifter.DEFAULT_SCALE_HIGH_TICKS, 0, 1);
+		double defaultAccel = preferences.getDouble(PreferenceKeys.TELEOP_MAX_DRIVE_ACCEL, 
+				Drive.DEF_TELEOP_MAX_DRIVE_ACCEL);
+		drive.setMaxAccel(MathUtil.clamp(Math.pow((1 - liftPercentage), 2.0), defaultAccel, 1));
 	}
 
 	@Override
@@ -169,7 +178,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
 
 		ArrayList<Block> currFrame = RobotMap.pixy.getPixyFrameData();
-		if (currFrame.size() > 0) {
+		if (currFrame.size() > 0) { 
 			Block cube = currFrame.get(0);
 
 			SmartDashboard.putString("Cube/Cube", cube.toString());
@@ -182,11 +191,15 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("PositionTracker/current y", positionTracker.getY());
 		SmartDashboard.putNumber("Encoders/x", RobotMap.xEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/y", RobotMap.yEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/leftFront", RobotMap.leftFrontEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/rightFront", RobotMap.rightFrontEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/leftRear", RobotMap.leftRearEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/rightRear", RobotMap.rightRearEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/cubeLift", RobotMap.cubeLiftEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/cubeTilt", RobotMap.cubeTiltEncoder.getDistance());
 		SmartDashboard.putData("LimitSwitches/Upper", RobotMap.lifterUpperLimitSwitch);
 		SmartDashboard.putData("LimitSwitches/Lower", RobotMap.lifterLowerLimitSwitch);
-//		SmartDashboard.putNumber("POV", OI.xboxController.getPOV());
+		// SmartDashboard.putNumber("POV", OI.xboxController.getPOV());
 		SmartDashboard.putNumber("Joysticks/Rot", OI.getRightJoystickRot());
 	}
 
@@ -197,8 +210,6 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.LIFT_D_TERM, CubeLifter.DEFAULT_LIFT_D);
 			preferences.putDouble(PreferenceKeys.LIFT_UP_MAX_POWER, CubeLifter.LIFT_POWER_SCALE_UP);
 			preferences.putDouble(PreferenceKeys.LIFT_DOWN_MAX_POWER, CubeLifter.LIFT_POWER_SCALE_DOWN);
-
-			preferences.putDouble(PreferenceKeys.MAX_VEL_CHANGE, Drive.DEF_MAX_VEL_CHANGE);
 
 			preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
 			preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
@@ -229,8 +240,11 @@ public class Robot extends TimedRobot {
 			preferences.putInt(PreferenceKeys.STOWED_TICKS, CubeLifter.DEFAULT_STOWED_TICKS);
 
 			preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
-			
+
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
+
+			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, 0);
+			preferences.putDouble(PreferenceKeys.TELEOP_MAX_DRIVE_ACCEL, Drive.DEF_TELEOP_MAX_DRIVE_ACCEL);
 		}
 	}
 }

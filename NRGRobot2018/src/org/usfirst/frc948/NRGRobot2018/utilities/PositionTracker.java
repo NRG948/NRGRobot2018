@@ -28,7 +28,7 @@ public class PositionTracker {
 	}
 
 	public void updatePosition() {
-//		updatePositionFourEncoders();
+		updatePositionFourEncoders();
 		updatePositionTwoEncoders();
 		SmartDashboard.putNumber("Position Tracker/mechX", mechX);
 		SmartDashboard.putNumber("Position Tracker/mechY", mechY);
@@ -64,8 +64,8 @@ public class PositionTracker {
 		double xPos = ((currLeftFrontEncoder + currRightRearEncoder) - (currRightFrontEncoder + currLeftRearEncoder)) / 4.0;
 		double yPos = (currLeftFrontEncoder + currLeftRearEncoder + currRightFrontEncoder + currRightRearEncoder) / 4.0;
 		
-		this.omniX = xPos;
-		this.omniY = yPos;
+		mechX = xPos;
+		mechY = yPos;
 	}
 	
 	public double getX() {

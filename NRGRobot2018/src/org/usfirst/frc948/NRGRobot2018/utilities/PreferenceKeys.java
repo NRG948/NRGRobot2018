@@ -4,7 +4,6 @@ public class PreferenceKeys {
 	
 	public static final String WRITE_DEFAULT = "Write_Default";
 	
-	public static final String MAX_VEL_CHANGE = "Max_Velocity_Change";
 	
 	public static final String TURN_P_TERM = "Turn_P";
 	public static final String TURN_I_TERM = "Turn_I";
@@ -49,4 +48,7 @@ public class PreferenceKeys {
 	public static final String USE_PHYSICAL_AUTO_CHOOSER = "USE_PHYSICAL_AUTO_CHOOSER";
 	
 	public static final String USE_FOUR_ENCODERS = "USE_FOUR_ENCODERS";
+	public static final String AUTO_MAX_DRIVE_ACCEL = "AUTO_MAX_DRIVE_ACCEL";
+	public static final String TELEOP_MAX_DRIVE_ACCEL = "TELEOP_MAX_DRIVE_ACCEL";
 }
+

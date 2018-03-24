@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DriveToCube extends Command {
-	private final double DISTANCE_TO_SLOW = 33;
-	private final int DISTANCE_TO_STOP = 21;
+	private final double DISTANCE_TO_SLOW = 50;
+	private final int DISTANCE_TO_STOP = 31;
 
 	ArrayList<Block> currFrame;
 	double distanceToCube; // in inches
@@ -51,7 +51,7 @@ public class DriveToCube extends Command {
 			double drivePower;
 			
 			if (driveUntilCubeAcquired) {
-				drivePower = MathUtil.clamp(Math.abs(distanceToCube / DISTANCE_TO_SLOW), 0.15, 0.65);
+				drivePower = MathUtil.clamp(Math.abs(distanceToCube / DISTANCE_TO_SLOW), 0.12, 0.35);
 			} else {
 				drivePower = Math.min(1.0, (distanceToCube - DISTANCE_TO_STOP) / (DISTANCE_TO_SLOW - DISTANCE_TO_STOP));
 			}
