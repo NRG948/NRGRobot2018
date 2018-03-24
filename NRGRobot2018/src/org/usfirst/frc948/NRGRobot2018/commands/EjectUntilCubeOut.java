@@ -26,6 +26,7 @@ public class EjectUntilCubeOut extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		timer.start();
+		System.out.println("EjectUntilCubeOut");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -42,6 +43,7 @@ public class EjectUntilCubeOut extends Command {
 	protected void end() {
 		Robot.cubeAcquirer.stop();
 		timer.reset();
+		System.out.println("EjectUntilCubeOut End");
 	}
 
 	// Called when another command which requires one or more of the same

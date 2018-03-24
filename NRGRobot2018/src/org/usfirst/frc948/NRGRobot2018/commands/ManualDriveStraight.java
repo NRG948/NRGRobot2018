@@ -22,6 +22,7 @@ public class ManualDriveStraight extends Command {
     protected void initialize() {
     	currentHeading = RobotMap.gyro.getAngle();
     	Robot.drive.driveHeadingPIDInit(currentHeading, 1.0);
+    	System.out.println("ManualDriveStraight:" + currentHeading);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -37,6 +38,7 @@ public class ManualDriveStraight extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.drive.driveHeadingPIDEnd();
+    	System.out.println("ManualDriveStraight End");
     }
 
     // Called when another command which requires one or more of the same

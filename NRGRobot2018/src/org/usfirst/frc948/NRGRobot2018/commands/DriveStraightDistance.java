@@ -54,6 +54,8 @@ public class DriveStraightDistance extends Command {
 		
 		SmartDashboard.putNumber("DriveStraightDistance/startX", startX);
 		SmartDashboard.putNumber("DriveStraightDistance/startY", startY);
+		
+		System.out.println("DriveStraightDistance");
 	}
 
 	protected void execute() {
@@ -79,6 +81,7 @@ public class DriveStraightDistance extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drive.driveHeadingPIDEnd();
+		System.out.println("DriveStraightDistance End");
 	}
 
 	// Called when another command which requires one or more of the same

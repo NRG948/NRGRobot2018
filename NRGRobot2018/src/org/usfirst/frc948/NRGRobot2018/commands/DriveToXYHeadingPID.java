@@ -63,6 +63,7 @@ public class DriveToXYHeadingPID extends Command {
         SmartDashboard.putNumber("currentWaypointH:", waypoint.heading);
         
         System.out.println(waypoint);
+        System.out.println("DriveToXYHeadingPID");
     }
 
     // Called repeatedly when this Command is scheduled to run

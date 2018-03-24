@@ -14,6 +14,11 @@ public class PositionTracker {
 	private double prevXEncoder;
 	private double prevYEncoder; 
 	
+	private double prevLF;
+	private double prevLR;
+	private double prevRF;
+	private double prevRR;
+	
 	private double mechX;
 	private double mechY;
 	/*private double prevLeftFrontEncoder;
@@ -42,12 +47,12 @@ public class PositionTracker {
 		double currHeading = RobotMap.gyro.getAngle();
 
 		// in robot reference frame
-		double xDelta = currXEncoder - prevXEncoder;
-		double yDelta = currYEncoder - prevYEncoder;
-		double distanceTraveled = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
+		double dxRobot = currXEncoder - prevXEncoder;
+		double dyRobot = currYEncoder - prevYEncoder;
+		double distanceTraveled = Math.sqrt(dxRobot * dxRobot + dyRobot * dyRobot);
 
 		// converting to field reference frame
-		double robotToFieldRadians = Math.toRadians(90 - (currHeading + Math.toDegrees(Math.atan2(xDelta, yDelta))));
+		double robotToFieldRadians = robotToFieldRadians(currHeading, dxRobot, dyRobot);
 		omniX += distanceTraveled * Math.cos(robotToFieldRadians);
 		omniY += distanceTraveled * Math.sin(robotToFieldRadians);
 
@@ -60,12 +65,26 @@ public class PositionTracker {
 		double currLeftRearEncoder = RobotMap.leftRearEncoder.getDistance();
 		double currRightFrontEncoder = RobotMap.rightFrontEncoder.getDistance();
 		double currRightRearEncoder = RobotMap.rightRearEncoder.getDistance();
+		double currHeading = RobotMap.gyro.getAngle();
 		
-		double xPos = ((currLeftFrontEncoder + currRightRearEncoder) - (currRightFrontEncoder + currLeftRearEncoder)) / 4.0;
-		double yPos = (currLeftFrontEncoder + currLeftRearEncoder + currRightFrontEncoder + currRightRearEncoder) / 4.0;
+		// in robot reference frame
+		double dxRobot = ((currLeftFrontEncoder + currRightRearEncoder) - (currRightFrontEncoder + currLeftRearEncoder)) / 4.0;
+		double dyRobot = (currLeftFrontEncoder + currLeftRearEncoder + currRightFrontEncoder + currRightRearEncoder) / 4.0;
+		double distanceTraveled = Math.sqrt(dxRobot * dxRobot + dyRobot * dyRobot);
 		
-		mechX = xPos;
-		mechY = yPos;
+		// converting to field reference frame
+		double robotToFieldRadians = robotToFieldRadians(currHeading, dxRobot, dyRobot);
+		mechX += distanceTraveled * Math.cos(robotToFieldRadians);
+		mechY += distanceTraveled * Math.sin(robotToFieldRadians);
+		
+		prevLF = currLeftFrontEncoder;
+		prevLR = currLeftRearEncoder;
+		prevRF = currRightFrontEncoder;
+		prevRR = currRightRearEncoder;
+	}
+
+	private double robotToFieldRadians(double currHeading, double dxRobot, double dyRobot) {
+		return Math.toRadians(90 - (currHeading + Math.toDegrees(Math.atan2(dxRobot, dyRobot))));
 	}
 	
 	public double getX() {

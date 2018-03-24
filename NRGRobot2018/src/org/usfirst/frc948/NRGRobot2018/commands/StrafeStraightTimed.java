@@ -27,6 +27,8 @@ public class StrafeStraightTimed extends Command {
     	currentHeading = RobotMap.gyro.getAngle();
     	Robot.drive.driveHeadingPIDInit(currentHeading, 1.0);
     	timer.start();
+    	
+    	System.out.println("StrafeStraightTimed int");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -43,6 +45,7 @@ public class StrafeStraightTimed extends Command {
     protected void end() {
     	Robot.drive.driveHeadingPIDEnd();
     	timer.stop();
+    	System.out.println("StrafeStraightTimed End");
     }
 
     // Called when another command which requires one or more of the same

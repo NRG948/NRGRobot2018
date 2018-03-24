@@ -31,6 +31,7 @@ public class DriveStraightTimed extends Command {
     	Robot.drive.driveHeadingPIDInit(currentHeading, 1.0);
     	timer.start();
     	
+    	System.out.println("DriveStraightTimed");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -48,6 +49,8 @@ public class DriveStraightTimed extends Command {
     protected void end() {
     	Robot.drive.driveHeadingPIDEnd();
     	timer.stop();
+    	
+    	System.out.println("DriveStraightTimed End");
     }
 
     // Called when another command which requires one or more of the same
