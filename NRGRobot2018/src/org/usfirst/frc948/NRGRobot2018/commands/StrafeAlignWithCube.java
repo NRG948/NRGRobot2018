@@ -41,9 +41,9 @@ public class StrafeAlignWithCube extends Command {
 			
 			double error = CubeCalculations.getDistanceToCenterNormalized(currentBlock);
 			// minimum strafe power is .15 to prevent stalling out
-			double strafePower = MathUtil.clampNegativePositive(error, 0.15, 1.0);
+			double strafePower = MathUtil.clampNegativePositive(error, 0.25, 1.0);
 			
-			Robot.drive.rawDriveCartesian(0, strafePower, 0);
+			Robot.drive.rawDriveCartesian(strafePower, 0 , 0);
 			SmartDashboard.putNumber("Center To Cube/strafe power", strafePower);
 		}
 	}

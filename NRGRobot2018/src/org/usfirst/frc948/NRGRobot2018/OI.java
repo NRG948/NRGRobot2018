@@ -67,6 +67,7 @@ public class OI {
 	
 	// need to talk with driver about these button locations
 	public static final JoystickButton driveToCubeAndGrab = new JoystickButton(rightJoystick, 2);
+	public static final JoystickButton driveToCube = new JoystickButton(rightJoystick, 5);
 	public static final JoystickButton strafeAlignWithCube = new JoystickButton(rightJoystick, 3);
 	
 	//xbox buttons
@@ -102,6 +103,7 @@ public class OI {
 		strafeStraight.whileHeld(new ManualStrafeStraight());
 		
 		driveToCubeAndGrab.whenPressed(new DriveToCubeAndGrab());
+		driveToCube.whenPressed(new DriveToCube(false));
 		strafeAlignWithCube.whenPressed(new StrafeAlignWithCube());
 
 		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(-133, 1, 0.5));

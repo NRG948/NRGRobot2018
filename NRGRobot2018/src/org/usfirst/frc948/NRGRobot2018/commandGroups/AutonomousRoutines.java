@@ -60,8 +60,8 @@ public class AutonomousRoutines extends CommandGroup {
                 }
             } else if (OI.getAllianceSwitchSide() == PlateLocation.RIGHT) {
                 if (autoStartingPosition == AutoStartingPosition.LEFT) {
-//                    addSequential(new LeftToRightSwitch());
-                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
+                    addSequential(new LeftToRightSwitch());
+//                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
                 } else if (autoStartingPosition == AutoStartingPosition.CENTER) {
                     addSequential(new MiddleToRightSwitch());
                 } else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
@@ -195,7 +195,7 @@ public class AutonomousRoutines extends CommandGroup {
     
     public class LeftToRightSwitch extends CommandGroup {
     	public LeftToRightSwitch() {
-    		addParallel(new DriveAndEject(0, 0, LEFT_RIGHT_SWITCH_PATH, 12.0));
+    		addParallel(new DriveAndEject(0, 0, LEFT_RIGHT_SWITCH_PATH, 15.0));
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
     		//addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
     		 addSequential(new TiltAcquirerDown(1));
