@@ -197,8 +197,10 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Encoders/rightRear", RobotMap.rightRearEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/cubeLift", RobotMap.cubeLiftEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/cubeTilt", RobotMap.cubeTiltEncoder.getDistance());
+		
 		SmartDashboard.putData("LimitSwitches/Upper", RobotMap.lifterUpperLimitSwitch);
 		SmartDashboard.putData("LimitSwitches/Lower", RobotMap.lifterLowerLimitSwitch);
+		
 		// SmartDashboard.putNumber("POV", OI.xboxController.getPOV());
 		SmartDashboard.putNumber("Joysticks/Rot", OI.getRightJoystickRot());
 	}
