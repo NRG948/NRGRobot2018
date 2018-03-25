@@ -49,6 +49,6 @@ public class PreferenceKeys {
 	
 	public static final String USE_FOUR_ENCODERS = "USE_FOUR_ENCODERS";
 	public static final String AUTO_MAX_DRIVE_ACCEL = "AUTO_MAX_DRIVE_ACCEL";
-	public static final String TELEOP_MAX_DRIVE_ACCEL = "TELEOP_MAX_DRIVE_ACCEL";
+	public static final String TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT = "TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT";
 }
 

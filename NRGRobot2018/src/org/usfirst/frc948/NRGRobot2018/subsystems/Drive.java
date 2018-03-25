@@ -58,7 +58,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	private double scale = SCALE_HIGH;
 
 	private double maxDriveAccel = 1.0;
-	public static final double DEF_TELEOP_MAX_DRIVE_ACCEL = 0.1;
+	public static final double DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT = 0.1;
 	public static final double DEF_AUTO_MAX_DRIVE_ACCEL = 0.05;
 
 	private double lastVelX = 0.0;
@@ -201,6 +201,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		
 		SmartDashboard.putNumber("velY", velY);
 		SmartDashboard.putNumber("velX", velX);
+		
 		lastVelX = velX;
 		lastVelY = velY;
 	}

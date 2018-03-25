@@ -127,7 +127,7 @@ public class Robot extends TimedRobot {
 		// schedule the autonomous command (example)
 		System.out.println("autoInit()");
 		OI.initTriggers();
-		drive.setMaxAccel(preferences.getDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, drive.DEF_AUTO_MAX_DRIVE_ACCEL));
+		drive.setMaxAccel(preferences.getDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, Drive.DEF_AUTO_MAX_DRIVE_ACCEL));
 		autonomousCommand = new AutonomousRoutines();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -149,7 +149,7 @@ public class Robot extends TimedRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		drive.setMaxAccel(
-				preferences.getDouble(PreferenceKeys.TELEOP_MAX_DRIVE_ACCEL, drive.DEF_TELEOP_MAX_DRIVE_ACCEL));
+				preferences.getDouble(PreferenceKeys.TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT, Drive.DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT));
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -163,8 +163,8 @@ public class Robot extends TimedRobot {
 		
 		double liftHeight = RobotMap.cubeLiftEncoder.getDistance();
 		double liftPercentage = MathUtil.clamp(liftHeight / CubeLifter.DEFAULT_SCALE_HIGH_TICKS, 0, 1);
-		double defaultAccel = preferences.getDouble(PreferenceKeys.TELEOP_MAX_DRIVE_ACCEL, 
-				Drive.DEF_TELEOP_MAX_DRIVE_ACCEL);
+		double defaultAccel = preferences.getDouble(PreferenceKeys.TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT, 
+				Drive.DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT);
 		drive.setMaxAccel(MathUtil.clamp(Math.pow((1 - liftPercentage), 2.0), defaultAccel, 1));
 	}
 
@@ -244,7 +244,7 @@ public class Robot extends TimedRobot {
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 
 			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, 0);
-			preferences.putDouble(PreferenceKeys.TELEOP_MAX_DRIVE_ACCEL, Drive.DEF_TELEOP_MAX_DRIVE_ACCEL);
+			preferences.putDouble(PreferenceKeys.TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT, Drive.DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT);
 		}
 	}
 }
