@@ -21,11 +21,6 @@ public class PositionTracker {
 	
 	private double mechX;
 	private double mechY;
-	/*private double prevLeftFrontEncoder;
-	private double prevLeftRearEncoder;
-	private double prevRightFrontEncoder;
-	private double prevRightRearEncoder;*/
-
 
 	public PositionTracker(double x, double y) {
 		// parameters are in inches
@@ -61,15 +56,20 @@ public class PositionTracker {
 	}
 	
 	public void updatePositionFourEncoders() {
-		double currLeftFrontEncoder = RobotMap.leftFrontEncoder.getDistance();
-		double currLeftRearEncoder = RobotMap.leftRearEncoder.getDistance();
-		double currRightFrontEncoder = RobotMap.rightFrontEncoder.getDistance();
-		double currRightRearEncoder = RobotMap.rightRearEncoder.getDistance();
+		double currLF = RobotMap.leftFrontEncoder.getDistance();
+		double currLR = RobotMap.leftRearEncoder.getDistance();
+		double currRF = RobotMap.rightFrontEncoder.getDistance();
+		double currRR = RobotMap.rightRearEncoder.getDistance();
 		double currHeading = RobotMap.gyro.getAngle();
-		
+
+		double dLF = currLF - prevLF;
+		double dLR = currLR - prevLR;
+		double dRF = currRF - prevRF;
+		double dRR = currRR - prevRR;
+
 		// in robot reference frame
-		double dxRobot = ((currLeftFrontEncoder + currRightRearEncoder) - (currRightFrontEncoder + currLeftRearEncoder)) / 4.0;
-		double dyRobot = (currLeftFrontEncoder + currLeftRearEncoder + currRightFrontEncoder + currRightRearEncoder) / 4.0;
+		double dxRobot = ((dLF + dRR) - (dRF + dLR)) / 4.0;
+		double dyRobot = (dLF + dLR + dRF + dRR) / 4.0;
 		double distanceTraveled = Math.sqrt(dxRobot * dxRobot + dyRobot * dyRobot);
 		
 		// converting to field reference frame
@@ -77,10 +77,10 @@ public class PositionTracker {
 		mechX += distanceTraveled * Math.cos(robotToFieldRadians);
 		mechY += distanceTraveled * Math.sin(robotToFieldRadians);
 		
-		prevLF = currLeftFrontEncoder;
-		prevLR = currLeftRearEncoder;
-		prevRF = currRightFrontEncoder;
-		prevRR = currRightRearEncoder;
+		prevLF = currLF;
+		prevLR = currLR;
+		prevRF = currRF;
+		prevRR = currRR;
 	}
 
 	private double robotToFieldRadians(double currHeading, double dxRobot, double dyRobot) {
