@@ -30,7 +30,6 @@ public class SimplePIDController {
 	private double setpoint = 0.0;
 
 	private double result = 0.0;
-	private double prevResult = 0.0;
 	private double prevInput;
 
 	private double prevError = 0.0; // the prior error (used to compute derivative of error)
@@ -39,13 +38,13 @@ public class SimplePIDController {
 
 	public SimplePIDController(double p, double i, double d, boolean isIntegralNeededToHoldPosition, PIDSource source,
 			PIDOutput output) {
-		this(p, i, d, isIntegralNeededToHoldPosition, false);
+		this(p, i, d, isIntegralNeededToHoldPosition);
 
 		this.source = source;
 		this.output = output;
 	}
 
-	public SimplePIDController(double p, double i, double d, boolean isIntegralNeededToHoldPosition, boolean useAccelLimiting) {
+	public SimplePIDController(double p, double i, double d, boolean isIntegralNeededToHoldPosition) {
 		kP = p;
 		kD = d;
 		kI = i;
@@ -59,8 +58,8 @@ public class SimplePIDController {
 		this.isIntegralNeededToHoldPosition = isIntegralNeededToHoldPosition;
 	}
 
-	public SimplePIDController(double p, double i, double d, boolean useAccelLimiting) {
-		this(p, i, d, false, useAccelLimiting);
+	public SimplePIDController(double p, double i, double d) {
+		this(p, i, d, false);
 	}
 
 	public SimplePIDController start() {
@@ -113,44 +112,6 @@ public class SimplePIDController {
 		return result;
 	}
 
-	public double update(double input, boolean useAccelLimiting) {
-		double currTime = System.nanoTime() / 1.0e9;
-		double deltaTime = currTime - prevTime;
-
-		input = MathUtil.clamp(input, minimumInput, maximumInput);
-		double error = setpoint - input;
-
-		if (wasPIDReset) {
-			prevError = error;
-			wasPIDReset = false;
-		}
-
-		double derivative = (error - prevError) / deltaTime;
-		double pdTerms = kP * error + kD * derivative;
-
-		// only integrate when close to setpoint
-		if (pdTerms >= maximumOutput) {
-			result = maximumOutput;
-			integral = 0;
-		} else if (pdTerms <= minimumOutput) {
-			result = minimumOutput;
-			integral = 0;
-		} else {
-			// integral is reset if sensor value overshoots the setpoint
-			if (!isIntegralNeededToHoldPosition && Math.signum(error) != Math.signum(prevError)) {
-				integral = 0;
-			}
-			integral += kI * (error + prevError) * 0.5 * deltaTime;
-			result = MathUtil.clamp(pdTerms + integral, minimumOutput, maximumOutput);
-		}
-
-		prevTime = currTime;
-		prevError = error;
-		prevInput = input;
-
-		return result;
-	}
-	
 	public void update() {
 		double input = source.pidGet();
 		double result = update(input);
