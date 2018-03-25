@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // Adapting most of DriveToCubeNoPID into this
 public class StrafeAlignWithCube extends Command {
-	private final double ERROR_TOLERANCE = 0.05;
+	private final double ALIGN_ERROR_TOLERANCE = 0.05;
 
-	private double error;
+	private double alignError;
 
 	public StrafeAlignWithCube() {
 		requires(Robot.drive);
@@ -27,7 +27,9 @@ public class StrafeAlignWithCube extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		error = Double.MAX_VALUE;
+		alignError = Double.MAX_VALUE;
+		
+		Robot.drive.turnPIDControllerInit(RobotMap.gyro.getAngle(), 1.0);
 		System.out.println("CenterToCube init");
 	}
 
@@ -39,18 +41,20 @@ public class StrafeAlignWithCube extends Command {
 		if (currentFrame.size() > 0) {
 			Block currentBlock = currentFrame.get(0);
 			
-			double error = CubeCalculations.getDistanceToCenterNormalized(currentBlock);
-			// minimum strafe power is .15 to prevent stalling out
-			double strafePower = MathUtil.clampNegativePositive(error, 0.25, 1.0);
+			alignError = CubeCalculations.getDistanceToCenterNormalized(currentBlock);
 			
-			Robot.drive.rawDriveCartesian(strafePower, 0 , 0);
-			SmartDashboard.putNumber("Center To Cube/strafe power", strafePower);
+			// minimum strafe power is .15 to prevent stalling out
+			double strafePower = MathUtil.clampNegativePositive(alignError, 0.25, 1.0);
+			double calculatedTurnPower = Robot.drive.turnPIDControllerExecute(RobotMap.gyro.getAngle());
+			
+			Robot.drive.rawDriveCartesian(strafePower, 0, calculatedTurnPower);
+			SmartDashboard.putNumber("CenterToCube/strafe power", strafePower);
 		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Math.abs(error) <= ERROR_TOLERANCE;
+		return Math.abs(alignError) <= ALIGN_ERROR_TOLERANCE;
 	}
 
 	// Called once after isFinished returns true
