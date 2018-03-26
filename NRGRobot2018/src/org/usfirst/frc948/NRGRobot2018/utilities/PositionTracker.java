@@ -102,6 +102,24 @@ public class PositionTracker {
 		}
 		return omniY;
 	}
+	
+	public static double getMechX() {
+		double lf = RobotMap.leftFrontEncoder.getDistance();  
+		double lr = RobotMap.leftRearEncoder.getDistance();   
+		double rf = RobotMap.rightFrontEncoder.getDistance(); 
+		double rr = RobotMap.rightRearEncoder.getDistance();
+		
+		return ((lf + rr) - (rf + lr)) / 4.0;
+	}
+
+	public static double getMechY() {
+		double lf = RobotMap.leftFrontEncoder.getDistance();
+		double lr = RobotMap.leftRearEncoder.getDistance();
+		double rf = RobotMap.rightFrontEncoder.getDistance();
+		double rr = RobotMap.rightRearEncoder.getDistance();
+		
+		return (lf + lr + rf + rr) / 4.0;
+	}
 
 	public void setXY(double x, double y) {
 		this.mechX = x;

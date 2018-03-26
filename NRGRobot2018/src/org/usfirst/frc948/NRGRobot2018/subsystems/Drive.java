@@ -68,11 +68,13 @@ public class Drive extends Subsystem implements PIDOutput {
 	private double scale = SCALE_HIGH;
 
 	private double maxDriveAccel = 1.0;
-	public static final double DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT = 0.1;
+	public static final double DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT = 0.045;
 	public static final double DEF_AUTO_MAX_DRIVE_ACCEL = 0.05;
 
 	private double lastVelX = 0.0;
 	private double lastVelY = 0.0;
+	
+	private double desiredHeading = 0.0;
 
 	@Override
 	public void initDefaultCommand() {
@@ -123,6 +125,7 @@ public class Drive extends Subsystem implements PIDOutput {
 				DEFAULT_DRIVE_TURN_POWER);
 
 		turnPIDController = createPIDController(setpoint, tolerance, turnP, turnI, turnD, turnMaxPower);
+		desiredHeading = setpoint;
 	}
 
 	public void driveHeadingPIDInit(double desiredHeading, double tolerance) {
@@ -235,6 +238,7 @@ public class Drive extends Subsystem implements PIDOutput {
 				DRIVE_STRAIGHT_ON_HEADING_I, 
 				DRIVE_STRAIGHT_ON_HEADING_D, 
 				maxDrivePower);
+		
 	}
 	
 	public void tankDriveOnHeadingPIDExecute(double power) {
@@ -297,5 +301,9 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public double getTurnError() {
 		return turnPIDController.getError();
+	}
+	
+	public double getDesiredHeading() {
+		return desiredHeading;
 	}
 }

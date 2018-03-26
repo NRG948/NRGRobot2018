@@ -17,6 +17,7 @@ import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveToCubeAndGrab;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.StrafeAlignWithCube;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistanceTank;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCube;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPIDTest;
 import org.usfirst.frc948.NRGRobot2018.commands.InterruptCommands;
@@ -116,6 +117,7 @@ public class OI {
 		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
 		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48,Direction.RIGHT));
+		SmartDashboard.putData("DriveStraightDistanceTank 10 feet", new DriveStraightDistanceTank(0.7, 120));
 		SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
 		
 		SmartDashboard.putData("Drive to Cube", new DriveToCube(false));
