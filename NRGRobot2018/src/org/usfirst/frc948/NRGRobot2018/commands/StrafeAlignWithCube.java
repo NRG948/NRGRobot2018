@@ -44,7 +44,7 @@ public class StrafeAlignWithCube extends Command {
 			alignError = CubeCalculations.getDistanceToCenterNormalized(currentBlock);
 			
 			// minimum strafe power is .15 to prevent stalling out
-			double strafePower = MathUtil.clampNegativePositive(alignError, 0.25, 1.0);
+			double strafePower = MathUtil.clampNegativePositive(alignError, 0.5, 1.0);
 			double calculatedTurnPower = Robot.drive.turnPIDControllerExecute(RobotMap.gyro.getAngle());
 			
 			Robot.drive.rawDriveCartesian(strafePower, 0, calculatedTurnPower);
