@@ -73,8 +73,7 @@ public class OI {
 	//xbox buttons
 	public static final JoystickButton tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1); // 'A' Button
 	
-	// arduino buttons\
-	
+	// arduino buttons
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 10);
 	public static final JoystickButton autoLeft = new JoystickButton(arduinoJoystick, 9);
 	public static final JoystickButton autoCenter = new JoystickButton(arduinoJoystick, 8);

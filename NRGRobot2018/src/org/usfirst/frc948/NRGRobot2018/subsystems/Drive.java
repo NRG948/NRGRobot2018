@@ -13,12 +13,14 @@ package org.usfirst.frc948.NRGRobot2018.subsystems;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDrive;
+import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 import org.usfirst.frc948.NRGRobot2018.utilities.SimplePIDController;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import sun.java2d.DestSurfaceProvider;
 
 /**
  *
@@ -33,10 +35,18 @@ public class Drive extends Subsystem implements PIDOutput {
 	private SimplePIDController yPIDController;
 	private SimplePIDController turnPIDController;
 	private SimplePIDController drivePIDController;
+	private SimplePIDController driveStraightOnHeadingPIDController;
+	
 	private int cyclesOnTarget;
 	private volatile double drivePIDOutput = 0;
 	private static final int REQUIRED_CYCLES_ON_TARGET = 3;
 
+	public final double DRIVE_STRAIGHT_ON_HEADING_P = 0.02;
+	public final double DRIVE_STRAIGHT_ON_HEADING_I = 0.005 * 20;
+	public final double DRIVE_STRAIGHT_ON_HEADING_D = 0.02 / 20;
+	private final double PID_MIN_OUTPUT = 0.08;
+	private final double PID_MAX_OUTPUT = 1;
+	
 	public final static double DEFAULT_TURN_P = 0.18;
 	public final static double DEFAULT_TURN_I = 0.6;
 	public final static double DEFAULT_TURN_D = 0.0135;
@@ -135,12 +145,12 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public void driveHeadingPIDExecute(double velX, double velY) {
 		drivePIDController.update();
-		double currentPIDOutput = drivePIDOutput;
+		double pidOutput = drivePIDOutput;
 
 		SmartDashboard.putNumber("Turn To Heading PID Error", drivePIDController.getError());
-		SmartDashboard.putNumber("Turn To Heading PID Output", currentPIDOutput);
+		SmartDashboard.putNumber("Turn To Heading PID Output", pidOutput);
 
-		rawDriveCartesian(velX, velY, currentPIDOutput);
+		rawDriveCartesian(velX, velY, pidOutput);
 	}
 
 	public void driveHeadingPIDEnd() {
@@ -217,7 +227,42 @@ public class Drive extends Subsystem implements PIDOutput {
 		RobotMap.driveRightFrontMotor.set(-pR);
 		RobotMap.driveRightRearMotor.set(-pR);
 	}
+	
+	public void tankDriveOnHeadingPIDInit(double desiredHeading, double maxDrivePower) {
+		driveStraightOnHeadingPIDController = createPIDController(desiredHeading, 
+				1.0, 
+				DRIVE_STRAIGHT_ON_HEADING_P, 
+				DRIVE_STRAIGHT_ON_HEADING_I, 
+				DRIVE_STRAIGHT_ON_HEADING_D, 
+				maxDrivePower);
+	}
+	
+	public void tankDriveOnHeadingPIDExecute(double power) {
+		double currHeading = RobotMap.gyro.getAngle();
+		double error = driveStraightOnHeadingPIDController.getSetpoint() - currHeading;
+		
+		double outputRange = MathUtil.clamp(PID_MIN_OUTPUT
+				+ (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT),
+				0, PID_MAX_OUTPUT);
+		driveStraightOnHeadingPIDController.setOutputRange(-outputRange, outputRange);
 
+		double pidOutput = driveStraightOnHeadingPIDController.update(currHeading);
+		
+		SmartDashboard.putNumber("drive on heading PID output", pidOutput);	
+		
+		double leftPower = power;
+		double rightPower = power;
+
+		if (pidOutput > 0) {
+			rightPower -= pidOutput;
+		} else {
+			leftPower += pidOutput;
+		}
+
+		tankDrive(leftPower, rightPower);
+	}
+
+	
 	public void stop() {
 		lastVelX = 0;
 		lastVelY = 0;

@@ -44,18 +44,13 @@ public class DriveStraightDistance extends Command {
 		}
 	}
 
-	// Called just before this Command runs the first time
 	protected void initialize() {
-		startX = Robot.positionTracker.getX();
+//		startX = Robot.positionTracker.getX();
 		startY = Robot.positionTracker.getY();
-		distanceTravelled = 0.0;
 
-		Robot.drive.driveHeadingPIDInit(RobotMap.gyro.getAngle(), 2.0);
-		
-		SmartDashboard.putNumber("DriveStraightDistance/startX", startX);
-		SmartDashboard.putNumber("DriveStraightDistance/startY", startY);
-		
-		System.out.println("DriveStraightDistance");
+		Robot.drive.tankDriveOnHeadingPIDInit();
+
+		System.out.println("DriveStraightDistance init");
 	}
 
 	protected void execute() {

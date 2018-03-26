@@ -14,20 +14,19 @@ public class ManualDriveStraight extends Command {
 	private double currentHeading;
 
     public ManualDriveStraight() {
-        // Use requires() here to declare subsystem dependencies
         requires(Robot.drive);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	currentHeading = RobotMap.gyro.getAngle();
-    	Robot.drive.driveHeadingPIDInit(currentHeading, 1.0);
-    	System.out.println("ManualDriveStraight:" + currentHeading);
+    	Robot.drive.tankDriveOnHeadingPIDInit(RobotMap.gyro.getAngle(), 1.0);
+    	System.out.println("ManualDriveStraight init, currentHeading:" + currentHeading);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drive.driveHeadingPIDExecute(0.0, OI.getRightJoystickY());
+    	Robot.drive.tankDriveOnHeadingPIDExecute(OI.getRightJoystickY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

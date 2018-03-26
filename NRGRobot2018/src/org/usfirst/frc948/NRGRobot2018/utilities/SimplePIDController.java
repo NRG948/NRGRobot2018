@@ -151,6 +151,10 @@ public class SimplePIDController {
 	public double getError() {
 		return prevError;
 	}
+	
+	public double getSetpoint() {
+		return setpoint;
+	}
 
 	public boolean onTarget() {
 		return tolerance.onTarget();
