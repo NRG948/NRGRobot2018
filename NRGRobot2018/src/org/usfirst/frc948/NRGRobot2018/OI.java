@@ -180,7 +180,7 @@ public class OI {
 	}
 	
 	public static void initTriggers() {
-		reverseTriggers = OI.getXBoxTriggerL() > 0.1 && OI.getXBoxTriggerL() > 0.1;
+		reverseTriggers = OI.getXBoxTriggerL() > 0.1 && OI.getXBoxTriggerR() > 0.1;
 	}
 	
 	public static boolean isXBoxDPadUp() {

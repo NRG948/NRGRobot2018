@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		System.out.println("robotInit() started");
+		
 		preferences = Preferences.getInstance();
 		RobotMap.init();
 
@@ -77,6 +78,7 @@ public class Robot extends TimedRobot {
 		positionTracker = new PositionTracker(0, 0);
 
 		OI.init();
+		OI.initTriggers();
 
 		// OI must be constructed after subsystems. If the OI creates Commands
 		// (which it very likely will), subsystems are not guaranteed to be
@@ -125,10 +127,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		// schedule the autonomous command (example)
 		System.out.println("autoInit()");
+		
 		OI.initTriggers();
 		drive.setMaxAccel(preferences.getDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, Drive.DEF_AUTO_MAX_DRIVE_ACCEL));
+
 		autonomousCommand = new AutonomousRoutines();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -144,13 +147,16 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		System.out.println("teleopInit()");
+		
 		OI.initTriggers();
+		drive.setMaxAccel(
+				preferences.getDouble(PreferenceKeys.TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT, Drive.DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT));
+
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		drive.setMaxAccel(
-				preferences.getDouble(PreferenceKeys.TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT, Drive.DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT));
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -171,13 +177,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testPeriodic() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void robotPeriodic() {
-		SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
-
+		positionTracker.updatePosition();
+		
 		ArrayList<Block> currFrame = RobotMap.pixy.getPixyFrameData();
 		if (currFrame.size() > 0) { 
 			Block cube = currFrame.get(0);
@@ -187,23 +192,35 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("Cube/Inches to cube from width", CubeCalculations.getDistanceFromWidth(cube));
 		}
 
-		positionTracker.updatePosition();
+		SmartDashboard.putNumber("navx gyro yaw", RobotMap.navx.getYaw());
+		
 		SmartDashboard.putNumber("PositionTracker/current x", positionTracker.getX());
 		SmartDashboard.putNumber("PositionTracker/current y", positionTracker.getY());
-		SmartDashboard.putNumber("Encoders/x", RobotMap.xEncoder.getDistance());
-		SmartDashboard.putNumber("Encoders/y", RobotMap.yEncoder.getDistance());
-		SmartDashboard.putNumber("Encoders/leftFront", RobotMap.leftFrontEncoder.getDistance());
-		SmartDashboard.putNumber("Encoders/rightFront", RobotMap.rightFrontEncoder.getDistance());
-		SmartDashboard.putNumber("Encoders/leftRear", RobotMap.leftRearEncoder.getDistance());
-		SmartDashboard.putNumber("Encoders/rightRear", RobotMap.rightRearEncoder.getDistance());
-		SmartDashboard.putNumber("Encoders/cubeLift", RobotMap.cubeLiftEncoder.getDistance());
-		SmartDashboard.putNumber("Encoders/cubeTilt", RobotMap.cubeTiltEncoder.getDistance());
 		
-		SmartDashboard.putData("LimitSwitches/Upper", RobotMap.lifterUpperLimitSwitch);
-		SmartDashboard.putData("LimitSwitches/Lower", RobotMap.lifterLowerLimitSwitch);
+		SmartDashboard.putNumber("Encoders/omni x", RobotMap.xEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/omni y", RobotMap.yEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/left front", RobotMap.leftFrontEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/left rear", RobotMap.leftRearEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/right front", RobotMap.rightFrontEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/right rear", RobotMap.rightRearEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/lifter", RobotMap.cubeLiftEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/tilter", RobotMap.cubeTiltEncoder.getDistance());
 		
-		// SmartDashboard.putNumber("POV", OI.xboxController.getPOV());
-		SmartDashboard.putNumber("Joysticks/Rot", OI.getRightJoystickRot());
+		SmartDashboard.putData("LifterLimitSwitches/upper", RobotMap.lifterUpperLimitSwitch);
+		SmartDashboard.putData("LifterLimitSwitches/lower", RobotMap.lifterLowerLimitSwitch);
+		
+		SmartDashboard.putNumber("LeftJoystick/x", OI.getLeftJoystickX());
+		SmartDashboard.putNumber("LeftJoystick/y", OI.getLeftJoystickY());
+		
+		SmartDashboard.putNumber("RightJoystick/x", OI.getRightJoystickX());
+		SmartDashboard.putNumber("RightJoystick/y", OI.getRightJoystickY());
+		SmartDashboard.putNumber("RightJoystick/rot", OI.getRightJoystickRot());
+		
+		SmartDashboard.putNumber("XBox/left joystick y",  OI.getXBoxLeftY());
+		SmartDashboard.putNumber("XBox/right joystick y", OI.getXBoxRightY());
+		SmartDashboard.putNumber("XBox/left trigger", OI.getXBoxTriggerL());
+		SmartDashboard.putNumber("XBox/right trigger", OI.getXBoxTriggerR());
+		SmartDashboard.putNumber("XBox/d-pad", OI.xboxController.getPOV());
 	}
 
 	public void initPreferences() {
