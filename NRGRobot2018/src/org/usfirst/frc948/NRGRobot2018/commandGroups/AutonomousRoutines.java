@@ -1,11 +1,13 @@
 package org.usfirst.frc948.NRGRobot2018.commandGroups;
 
+import static org.usfirst.frc948.NRGRobot2018.Robot.cubeLifter;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_LOW;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SWITCH_LEVEL;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.OI.PlateLocation;
+import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
@@ -32,10 +34,18 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * Selects the auto routine to run based on the SmartDashboard chooser.
  */
 public class AutonomousRoutines extends CommandGroup {
+	public static final int FIELD_LENGTH_INCHES = 54 * 12;
+	public static final int FIELD_WIDTH_INCHES = 27 * 12;
+
+	public static final double BUMPER_THICKNESS = 3.0;
+	public static final double ROBOT_HALF_LENGTH = 39.0 / 2;
+	public static final double ROBOT_HALF_WIDTH = 34.0 / 2;
+	public static final double ACQUIRE_EXTRA_LENGTH = 13.0;
+	public static final double HALF_WIDTH_AND_BUMPER = ROBOT_HALF_WIDTH + BUMPER_THICKNESS;
+	public static final double HALF_LENGTH_AND_BUMPER = ROBOT_HALF_LENGTH + BUMPER_THICKNESS;
+
 	private AutoMovement autoMovement;
     private AutoStartingPosition autoStartingPosition;
-
-    public static final int FIELD_WIDTH_INCHES = 27 * 12;
 
     public AutonomousRoutines() {
         addSequential(new ResetSensors());
@@ -315,5 +325,58 @@ public class AutonomousRoutines extends CommandGroup {
             //addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
             addSequential(new TiltAcquirerDown(1));
         }
+    }
+    
+    // drivestraight backup commands
+    public class LeftToRightScaleDriveStraight extends CommandGroup {
+    	public LeftToRightScaleDriveStraight() {
+    		addParallel(new TiltAcquirerDown(1));
+    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+    		addSequential(new TurnToHeading(90));
+    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
+    		addSequential(new DriveStraightDistance(1.0, 205.74, Direction.FORWARD));
+    		addSequential(new TurnToHeading(0));
+    		addSequential(new DriveStraightDistance(0.6, 17.25, Direction.FORWARD));
+    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    	}
+    }
+    
+    public class RightToLeftScaleDriveStraight extends CommandGroup {
+    	public RightToLeftScaleDriveStraight() {
+    		addParallel(new TiltAcquirerDown(1));
+    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+    		addSequential(new TurnToHeading(-90));
+    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
+    		addSequential(new DriveStraightDistance(1.0, 205.74, Direction.FORWARD));
+    		addSequential(new TurnToHeading(0));
+    		addSequential(new DriveStraightDistance(0.6, 17.25, Direction.FORWARD));
+    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    	}
+    }
+    
+    public class LeftToRightSwitchDriveStraight extends CommandGroup {
+    	public LeftToRightSwitchDriveStraight() {
+    		addParallel(new TiltAcquirerDown(1));
+    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+    		addSequential(new TurnToHeading(-90));
+    		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+    		addSequential(new DriveStraightDistance(1.0, 231.31, Direction.BACKWARD));
+    		addSequential(new TurnToHeading(-135));
+    		addSequential(new DriveStraightDistance(0.6, 21.0, Direction.FORWARD));
+    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    	}
+    }
+    
+    public class RightToLeftSwitchDriveStraight extends CommandGroup {
+    	public RightToLeftSwitchDriveStraight() {
+    		addParallel(new TiltAcquirerDown(1));
+    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+    		addSequential(new TurnToHeading(90));
+    		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+    		addSequential(new DriveStraightDistance(1.0, 231.31, Direction.BACKWARD));
+    		addSequential(new TurnToHeading(135));
+    		addSequential(new DriveStraightDistance(0.6, 21.0, Direction.FORWARD));
+    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    	}
     }
 }

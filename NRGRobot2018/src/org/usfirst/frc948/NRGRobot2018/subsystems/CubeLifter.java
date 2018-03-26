@@ -51,13 +51,12 @@ public class CubeLifter extends Subsystem {
 	public void lifterPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
 		double maxPowerUp = Robot.preferences.getDouble(PreferenceKeys.LIFT_UP_MAX_POWER, LIFT_POWER_SCALE_UP);
 		double maxPowerDown = Robot.preferences.getDouble(PreferenceKeys.LIFT_DOWN_MAX_POWER, LIFT_POWER_SCALE_DOWN);
-		lifterPIDController = new SimplePIDController(p, i, d, true);
-		lifterPIDController.setInputRange(LIFTER_MIN_TICKS, LIFTER_MAX_TICKS);
-		lifterPIDController.setOutputRange(-maxPowerDown, maxPowerUp);
-		lifterPIDController.setAbsoluteTolerance(tolerance);
-		lifterPIDController.setSetpoint(setpoint);
-
-		lifterPIDController.start();
+		
+		lifterPIDController = new SimplePIDController(p, i, d, true)
+								.setInputRange(LIFTER_MIN_TICKS, LIFTER_MAX_TICKS)
+								.setOutputRange(-maxPowerDown, maxPowerUp)
+								.setAbsoluteTolerance(tolerance).setSetpoint(setpoint)
+								.start();
 	}
 
 	public void liftToHeightPIDInit(double setpoint, double tolerance) {

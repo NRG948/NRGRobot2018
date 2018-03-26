@@ -40,7 +40,8 @@ public class CubeTilter extends Subsystem {
     			.setAbsoluteTolerance(tolerance)
     			.setInputRange(TILTER_RANGE_MIN, TILTER_RANGE_MAX)
     			.setOutputRange(TILT_DOWN_POWER, TILT_UP_POWER)
-    			.setSetpoint(setpoint);
+    			.setSetpoint(setpoint)
+    			.start();
     }
     
     public void tiltToAnglePIDIntialize(double setpoint, double tolerance){
