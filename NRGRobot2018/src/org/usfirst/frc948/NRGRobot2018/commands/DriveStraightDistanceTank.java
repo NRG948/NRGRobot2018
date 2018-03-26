@@ -26,16 +26,16 @@ public class DriveStraightDistanceTank extends Command {
 	private int cyclesOnTarget;
 
 	public DriveStraightDistanceTank(double power, double distance, double distanceTolerance) {
-    		requires(Robot.drive);
-    		this.power = power;
-    		this.distance = distance;
-    		this.distanceTolerance = distanceTolerance;
-    	}
+		requires(Robot.drive);
+		
+		this.power = power;
+		this.distance = distance;
+		this.distanceTolerance = distanceTolerance;
+	}
 
-	public DriveStraightDistanceTank(double power, double distance)
-    	{	
-    		this(power, distance, 2.0);
-    	}
+	public DriveStraightDistanceTank(double power, double distance) {
+		this(power, distance, 1.0);
+	}
 
 	@Override
 	protected void initialize() {
@@ -66,6 +66,7 @@ public class DriveStraightDistanceTank extends Command {
 		} else if (Math.abs(error) < 12.0) {
 			revisedPower = 0.3 * Math.signum(error);
 		}
+		
 		Robot.drive.tankDriveOnHeadingPIDExecute(revisedPower);
 		
 		SmartDashboard.putNumber("DriveStraightDistanceTank/Revised Power", revisedPower);
@@ -79,7 +80,9 @@ public class DriveStraightDistanceTank extends Command {
 		} else {
 			cyclesOnTarget = 0;
 		}
+
 		SmartDashboard.putNumber("DriveStraightDistanceTank/Cycles On Target", cyclesOnTarget);
+
 		return (cyclesOnTarget >= 4);
 	}
 
