@@ -253,12 +253,20 @@ public class Drive extends Subsystem implements PIDOutput {
 		double leftPower = power;
 		double rightPower = power;
 
-		if (pidOutput > 0) {
-			rightPower -= pidOutput;
+		if (power > 0) {
+			if (pidOutput > 0) {
+				rightPower -= pidOutput;
+			} else {
+				leftPower += pidOutput;
+			}
 		} else {
-			leftPower += pidOutput;
+			if (pidOutput > 0) {
+				leftPower += pidOutput;
+			} else {
+				rightPower -= pidOutput;
+			}
 		}
-
+		
 		tankDrive(leftPower, rightPower);
 	}
 
