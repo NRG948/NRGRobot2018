@@ -242,7 +242,8 @@ public class Robot extends TimedRobot {
 			preferences.putInt(PreferenceKeys.STOWED_TICKS, CubeLifter.DEFAULT_STOWED_TICKS);
 
 			preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
-
+			preferences.putBoolean(PreferenceKeys.USE_FOUR_ENCODERS, false);
+			
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 
 			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, 0);

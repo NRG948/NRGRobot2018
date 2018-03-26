@@ -46,7 +46,7 @@ public class DriveToCube extends Command {
 			distanceToCube = CubeCalculations.getDistanceFromWidth(currBlock);
 
 			double cubeNormalized = CubeCalculations.getDistanceToCenterNormalized(currBlock);
-			double turnPower = MathUtil.clampNegativePositive(cubeNormalized, 0.15, 1.0);
+			double turnPower = MathUtil.clampNegativePositive(cubeNormalized, 0.15, 0.7);
 
 			double drivePower;
 			
