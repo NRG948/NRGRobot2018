@@ -2,6 +2,7 @@ package org.usfirst.frc948.NRGRobot2018.commandGroups;
 
 import static org.usfirst.frc948.NRGRobot2018.Robot.cubeLifter;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_LOW;
+import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_MEDIUM;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SWITCH_LEVEL;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.STOWED;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
@@ -11,6 +12,7 @@ import org.usfirst.frc948.NRGRobot2018.OI.PlateLocation;
 import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
+import org.usfirst.frc948.NRGRobot2018.commands.DelaySeconds;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistanceTank;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPID;
@@ -22,6 +24,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerDown;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerToAngle;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
+import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
@@ -428,12 +431,14 @@ public class AutonomousRoutines extends CommandGroup {
     public class LeftSameSideTwoCube extends CommandGroup {
     	public LeftSameSideTwoCube() {
     		addParallel(new TiltAcquirerDown(1));
-    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
-    		addSequential(new DriveStraightDistanceTank(1.0, 295));
-    		addSequential(new TurnToHeading(90));
+    		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to between switch and low scale height
+    		addSequential(new DriveStraightDistanceTank(0.5, 235));
+    		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to medium scale height
+    		addSequential(new TurnToHeading(25));
+    		addSequential(new DriveStraightDistanceTank(0.5, 26));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
-    		addSequential(new LiftToHeightAndHold(STOWED));
-    		addSequential(new TurnToHeading(135));
+    		addParallel(new DelayThenLift(0.75, STOWED));
+    		addSequential(new TurnToHeading(150)); // estimated heading to get cube into pixy frame
     		addSequential(new DriveToCubeAndGrab());
     		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
@@ -443,15 +448,24 @@ public class AutonomousRoutines extends CommandGroup {
     public class RightSameSideTwoCube extends CommandGroup {
     	public RightSameSideTwoCube() {
     		addParallel(new TiltAcquirerDown(1));
-    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
-    		addSequential(new DriveStraightDistanceTank(1.0, 295));
-    		addSequential(new TurnToHeading(-90));
-    		addSequential(new EjectUntilCubeOut(0.5,1.0));
-    		addSequential(new LiftToHeightAndHold(STOWED));
-    		addSequential(new TurnToHeading(-135));
+    		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to between switch and low scale height
+    		addSequential(new DriveStraightDistanceTank(0.5, 235));
+    		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to medium scale height
+    		addSequential(new TurnToHeading(-25));
+    		addSequential(new DriveStraightDistanceTank(0.5, 26));
+    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    		addParallel(new DelayThenLift(0.75, STOWED));
+    		addSequential(new TurnToHeading(-150)); // estimated heading to get cube into pixy frame
     		addSequential(new DriveToCubeAndGrab());
     		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    	}
+    }
+    
+    public class DelayThenLift extends CommandGroup {
+    	public DelayThenLift(double delay, LifterLevel level) {
+    		addSequential(new DelaySeconds(delay));
+    		addSequential(new LiftToHeightAndHold(level));
     	}
     }
 }
