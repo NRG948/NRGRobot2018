@@ -3,6 +3,7 @@ package org.usfirst.frc948.NRGRobot2018.commandGroups;
 import static org.usfirst.frc948.NRGRobot2018.Robot.cubeLifter;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_LOW;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SWITCH_LEVEL;
+import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.STOWED;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
@@ -417,6 +418,36 @@ public class AutonomousRoutines extends CommandGroup {
     		addSequential(new DriveStraightDistanceTank(1.0, 231.31));
     		addSequential(new TurnToHeading(135));
     		addSequential(new DriveStraightDistanceTank(0.6, 21.0));
+    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    	}
+    }
+    
+    public class LeftSameSideTwoCube extends CommandGroup {
+    	public LeftSameSideTwoCube() {
+    		addParallel(new TiltAcquirerDown(1));
+    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
+    		addSequential(new DriveStraightDistanceTank(1.0, 295));
+    		addSequential(new TurnToHeading(90));
+    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    		addSequential(new LiftToHeightAndHold(STOWED));
+    		addSequential(new TurnToHeading(135));
+    		addSequential(new DriveToCubeAndGrab());
+    		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    	}
+    }
+    
+    public class RightSameSideTwoCube extends CommandGroup {
+    	public RightSameSideTwoCube() {
+    		addParallel(new TiltAcquirerDown(1));
+    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
+    		addSequential(new DriveStraightDistanceTank(1.0, 295));
+    		addSequential(new TurnToHeading(-90));
+    		addSequential(new EjectUntilCubeOut(0.5,1.0));
+    		addSequential(new LiftToHeightAndHold(STOWED));
+    		addSequential(new TurnToHeading(-135));
+    		addSequential(new DriveToCubeAndGrab());
+    		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
     	}
     }
