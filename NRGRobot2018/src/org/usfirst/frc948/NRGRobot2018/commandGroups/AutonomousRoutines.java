@@ -11,6 +11,7 @@ import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistanceTank;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPID;
 import org.usfirst.frc948.NRGRobot2018.commands.EjectUntilCubeOut;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
@@ -102,7 +103,7 @@ public class AutonomousRoutines extends CommandGroup {
             break;
 
         case FORWARD:
-            addSequential(new DriveToXYHeadingPID(0, 140, 0));
+            addSequential(new DriveStraightDistanceTank(0.7, 120));
         }
     }
 

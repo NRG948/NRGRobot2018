@@ -34,7 +34,7 @@ public class DriveStraightDistanceTank extends Command {
 
 	public DriveStraightDistanceTank(double power, double distance)
     	{	
-    		this(power, distance, 2.0);
+    		this(power, distance, 1.0);
     	}
 
 	@Override
@@ -80,7 +80,7 @@ public class DriveStraightDistanceTank extends Command {
 			cyclesOnTarget = 0;
 		}
 		SmartDashboard.putNumber("DriveStraightDistanceTank/Cycles On Target", cyclesOnTarget);
-		return (cyclesOnTarget >= 4);
+		return (cyclesOnTarget >= 7);
 	}
 
 	protected void end() {
