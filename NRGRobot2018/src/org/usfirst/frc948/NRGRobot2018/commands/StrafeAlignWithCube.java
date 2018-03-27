@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Adapting most of DriveToCubeNoPID into this
 public class StrafeAlignWithCube extends Command {
 	private final double ALIGN_ERROR_TOLERANCE = 0.05;
+	private final double CONSTANT_STRAFE_POWER = 1.0;
 
 	private double alignError;
 
@@ -36,6 +37,7 @@ public class StrafeAlignWithCube extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		ArrayList<Block> currentFrame = RobotMap.pixy.getPixyFrameData();
+		
 		SmartDashboard.putNumber("CenterToCube/number of objects", currentFrame.size());
 
 		if (currentFrame.size() > 0) {
@@ -43,11 +45,13 @@ public class StrafeAlignWithCube extends Command {
 			
 			alignError = CubeCalculations.getDistanceToCenterNormalized(currentBlock);
 			
-			// minimum strafe power is .15 to prevent stalling out
-			double strafePower = MathUtil.clampNegativePositive(alignError, 0.5, 1.0);
+			// minimum strafe power is .5 to prevent stalling out
+			double strafePower = /*MathUtil.clampNegativePositive(alignError, 0.5, 1.0)*/
+					Math.copySign(CONSTANT_STRAFE_POWER, alignError);
 			double calculatedTurnPower = Robot.drive.turnPIDControllerExecute(RobotMap.gyro.getAngle());
 			
 			Robot.drive.rawDriveCartesian(strafePower, 0, calculatedTurnPower);
+			
 			SmartDashboard.putNumber("CenterToCube/strafe power", strafePower);
 		}
 	}

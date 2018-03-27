@@ -18,7 +18,6 @@ public class DriveToCube extends Command {
 	private final double DISTANCE_TO_SLOW = 50;
 	private final int DISTANCE_TO_STOP = 31;
 
-	ArrayList<Block> currFrame;
 	double distanceToCube; // in inches
 	boolean driveUntilCubeAcquired;
 
@@ -30,24 +29,23 @@ public class DriveToCube extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		distanceToCube = Double.MAX_VALUE;
-		currFrame = null;
 		System.out.println("DriveToCube init");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		currFrame = RobotMap.pixy.getPixyFrameData();
+		ArrayList<Block> currFrame = RobotMap.pixy.getPixyFrameData();
 		Block currBlock;
 
 		SmartDashboard.putNumber("DriveToCube/current frame size", currFrame.size());
+		
 		if (currFrame.size() > 0) {
 			currBlock = currFrame.get(0);
-			System.out.println("Detected Block " + currBlock);
+
 			distanceToCube = CubeCalculations.getDistanceFromWidth(currBlock);
-
 			double cubeNormalized = CubeCalculations.getDistanceToCenterNormalized(currBlock);
+			
 			double turnPower = MathUtil.clampNegativePositive(cubeNormalized, 0.15, 0.7);
-
 			double drivePower;
 			
 			if (driveUntilCubeAcquired) {
@@ -57,6 +55,7 @@ public class DriveToCube extends Command {
 			}
 
 			Robot.drive.rawDriveCartesian(0, drivePower, turnPower);
+			
 			SmartDashboard.putNumber("DriveToCube/distance", distanceToCube);
 		}
 	}

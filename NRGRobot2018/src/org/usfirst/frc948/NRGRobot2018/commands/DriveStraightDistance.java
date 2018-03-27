@@ -85,7 +85,7 @@ public class DriveStraightDistance extends Command {
 		startY = Robot.positionTracker.getY();
 
 		distanceTravelled = 0.0;
-
+		Robot.drive.tankDriveOnHeadingPIDInit(maxPower, RobotMap.gyro.getAngle());
 		Robot.drive.driveHeadingPIDInit(RobotMap.gyro.getAngle(), 2.0);
 
 		SmartDashboard.putNumber("DriveStraightDistance/startX", startX);

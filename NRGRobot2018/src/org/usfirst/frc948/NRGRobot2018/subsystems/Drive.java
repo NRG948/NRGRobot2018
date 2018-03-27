@@ -242,36 +242,40 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 	
 	public void tankDriveOnHeadingPIDExecute(double power) {
-		double currHeading = RobotMap.gyro.getAngle();
-		double error = driveStraightOnHeadingPIDController.getSetpoint() - currHeading;
-		
-		double outputRange = MathUtil.clamp(PID_MIN_OUTPUT
-				+ (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT),
-				0, PID_MAX_OUTPUT);
-		driveStraightOnHeadingPIDController.setOutputRange(-outputRange, outputRange);
-
-		double pidOutput = driveStraightOnHeadingPIDController.update(currHeading);
-		
-		SmartDashboard.putNumber("drive on heading PID output", pidOutput);	
-		
 		double leftPower = power;
 		double rightPower = power;
 
+		double currHeading = RobotMap.gyro.getAngle();
+		double error = driveStraightOnHeadingPIDController.getSetpoint() - currHeading;
+		
+		// output range for turn adjustment power is based on error
+		// in this case, error >= 15deg corresponds to [-1,1]
+		// while 0deg <= error < 15deg corresponds to a smaller range
+		double calculatedOutputRange = MathUtil.clamp(PID_MIN_OUTPUT
+				+ (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT),
+				0, PID_MAX_OUTPUT);
+		driveStraightOnHeadingPIDController.setOutputRange(-calculatedOutputRange, calculatedOutputRange);
+
+		// this power is added/subtracted from desired power to reach desired heading
+		double turnAdjustmentPower = driveStraightOnHeadingPIDController.update(currHeading);
+
 		if (power > 0) {
-			if (pidOutput > 0) {
-				rightPower -= pidOutput;
+			if (turnAdjustmentPower > 0) {
+				rightPower -= turnAdjustmentPower;
 			} else {
-				leftPower += pidOutput;
+				leftPower += turnAdjustmentPower;
 			}
 		} else {
-			if (pidOutput > 0) {
-				leftPower += pidOutput;
+			if (turnAdjustmentPower > 0) {
+				leftPower += turnAdjustmentPower;
 			} else {
-				rightPower -= pidOutput;
+				rightPower -= turnAdjustmentPower;
 			}
 		}
 		
 		tankDrive(leftPower, rightPower);
+
+		SmartDashboard.putNumber("drive on heading turn adjustment power", turnAdjustmentPower);	
 	}
 
 	

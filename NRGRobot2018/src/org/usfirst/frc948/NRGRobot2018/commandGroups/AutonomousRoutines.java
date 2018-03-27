@@ -331,52 +331,92 @@ public class AutonomousRoutines extends CommandGroup {
     // drivestraight backup commands
     public class LeftToRightScaleDriveStraight extends CommandGroup {
     	public LeftToRightScaleDriveStraight() {
+//    		addParallel(new TiltAcquirerDown(1));
+//    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+//    		addSequential(new TurnToHeading(90));
+//    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
+//    		addSequential(new DriveStraightDistance(1.0, 205.74, Direction.FORWARD));
+//    		addSequential(new TurnToHeading(0));
+//    		addSequential(new DriveStraightDistance(0.6, 17.25, Direction.FORWARD));
+//    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    		
+    		// using drivestrighttank command for increased accuracy
     		addParallel(new TiltAcquirerDown(1));
-    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(1.0, 236.0 - HALF_LENGTH_AND_BUMPER));
     		addSequential(new TurnToHeading(90));
     		addParallel(new LiftToHeightAndHold(SCALE_LOW));
-    		addSequential(new DriveStraightDistance(1.0, 205.74, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(1.0, 205.74));
     		addSequential(new TurnToHeading(0));
-    		addSequential(new DriveStraightDistance(0.6, 17.25, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(0.6, 17.25));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
     	}
     }
     
     public class RightToLeftScaleDriveStraight extends CommandGroup {
     	public RightToLeftScaleDriveStraight() {
+//    		addParallel(new TiltAcquirerDown(1));
+//    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+//    		addSequential(new TurnToHeading(-90));
+//    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
+//    		addSequential(new DriveStraightDistance(1.0, 205.74, Direction.FORWARD));
+//    		addSequential(new TurnToHeading(0));
+//    		addSequential(new DriveStraightDistance(0.6, 17.25, Direction.FORWARD));
+//    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    		
+    		// using drivestrighttank command for increased accuracy
     		addParallel(new TiltAcquirerDown(1));
-    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(1.0, 236.0 - HALF_LENGTH_AND_BUMPER));
     		addSequential(new TurnToHeading(-90));
     		addParallel(new LiftToHeightAndHold(SCALE_LOW));
-    		addSequential(new DriveStraightDistance(1.0, 205.74, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(1.0, 205.74));
     		addSequential(new TurnToHeading(0));
-    		addSequential(new DriveStraightDistance(0.6, 17.25, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(0.6, 17.25));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
     	}
     }
     
     public class LeftToRightSwitchDriveStraight extends CommandGroup {
     	public LeftToRightSwitchDriveStraight() {
+//    		addParallel(new TiltAcquirerDown(1));
+//    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+//    		addSequential(new TurnToHeading(-90));
+//    		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+//    		addSequential(new DriveStraightDistance(1.0, 231.31, Direction.BACKWARD));
+//    		addSequential(new TurnToHeading(-135));
+//    		addSequential(new DriveStraightDistance(0.6, 21.0, Direction.FORWARD));
+//    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+
+    		// using drivestrighttank command for increased accuracy
     		addParallel(new TiltAcquirerDown(1));
-    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(1.0, 236.0 - HALF_LENGTH_AND_BUMPER));
     		addSequential(new TurnToHeading(-90));
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new DriveStraightDistance(1.0, 231.31, Direction.BACKWARD));
+    		addSequential(new DriveStraightDistanceTank(1.0, 231.31));
     		addSequential(new TurnToHeading(-135));
-    		addSequential(new DriveStraightDistance(0.6, 21.0, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(0.6, 21.0));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
     	}
     }
     
     public class RightToLeftSwitchDriveStraight extends CommandGroup {
     	public RightToLeftSwitchDriveStraight() {
+//    		addParallel(new TiltAcquirerDown(1));
+//    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+//    		addSequential(new TurnToHeading(90));
+//    		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+//    		addSequential(new DriveStraightDistance(1.0, 231.31, Direction.BACKWARD));
+//    		addSequential(new TurnToHeading(135));
+//    		addSequential(new DriveStraightDistance(0.6, 21.0, Direction.FORWARD));
+//    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    		
+    		// using drivestrighttank command for increased accuracy
     		addParallel(new TiltAcquirerDown(1));
-    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(1.0, 236.0 - HALF_LENGTH_AND_BUMPER));
     		addSequential(new TurnToHeading(90));
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new DriveStraightDistance(1.0, 231.31, Direction.BACKWARD));
+    		addSequential(new DriveStraightDistanceTank(1.0, 231.31));
     		addSequential(new TurnToHeading(135));
-    		addSequential(new DriveStraightDistance(0.6, 21.0, Direction.FORWARD));
+    		addSequential(new DriveStraightDistanceTank(0.6, 21.0));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
     	}
     }
