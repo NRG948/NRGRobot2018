@@ -68,7 +68,8 @@ public class AutonomousRoutines extends CommandGroup {
                     addSequential(new MiddleToLeftSwitch());
                 } else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
 //                    addSequential(new RightToLeftSwitch());
-                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
+//                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
+                	addSequential(new DriveStraightDistanceTank(1.0, 140));
                 }
             } else if (OI.getAllianceSwitchSide() == PlateLocation.RIGHT) {
                 if (autoStartingPosition == AutoStartingPosition.LEFT) {
@@ -90,7 +91,8 @@ public class AutonomousRoutines extends CommandGroup {
                 } else if (autoStartingPosition == AutoStartingPosition.LEFT) {
                     addSequential(new LeftToLeftScale());
                 } else if (autoStartingPosition == AutoStartingPosition.RIGHT){
-                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
+//                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
+                	addSequential(new DriveStraightDistanceTank(1.0, 140));
                 }
             } else if (OI.getScaleSide() == PlateLocation.RIGHT) {
                 if (autoStartingPosition == AutoStartingPosition.CENTER) {
@@ -98,13 +100,14 @@ public class AutonomousRoutines extends CommandGroup {
                 } else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
                     addSequential(new RightToRightScale());
                 } else if (autoStartingPosition == AutoStartingPosition.LEFT){
-                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
+//                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
+                	addSequential(new DriveStraightDistanceTank(1.0, 140));
                 }
             }
             break;
 
         case FORWARD:
-            addSequential(new DriveToXYHeadingPID(0, 140, 0));
+            addSequential(new DriveStraightDistanceTank(0.7, 120));
         }
     }
 

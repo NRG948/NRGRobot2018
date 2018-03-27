@@ -36,7 +36,6 @@ public class DriveStraightDistanceTank extends Command {
 	public DriveStraightDistanceTank(double power, double distance) {
 		this(power, distance, 1.0);
 	}
-
 	@Override
 	protected void initialize() {
 		desiredHeading = Robot.drive.getDesiredHeading();
@@ -82,8 +81,7 @@ public class DriveStraightDistanceTank extends Command {
 		}
 
 		SmartDashboard.putNumber("DriveStraightDistanceTank/Cycles On Target", cyclesOnTarget);
-
-		return (cyclesOnTarget >= 4);
+		return (cyclesOnTarget >= 7);
 	}
 
 	protected void end() {
