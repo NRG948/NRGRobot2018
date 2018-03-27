@@ -48,7 +48,7 @@ public class DriveStraightDistance extends Command {
 //		startX = Robot.positionTracker.getX();
 		startY = Robot.positionTracker.getY();
 
-		Robot.drive.tankDriveOnHeadingPIDInit();
+		Robot.drive.tankDriveOnHeadingPIDInit(maxPower, RobotMap.gyro.getAngle());
 
 		System.out.println("DriveStraightDistance init");
 	}
