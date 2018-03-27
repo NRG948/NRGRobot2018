@@ -1,33 +1,26 @@
 package org.usfirst.frc948.NRGRobot2018.commandGroups;
 
-import static org.usfirst.frc948.NRGRobot2018.Robot.cubeLifter;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_LOW;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_MEDIUM;
-import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SWITCH_LEVEL;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.STOWED;
+import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SWITCH_LEVEL;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.OI.PlateLocation;
-import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
 import org.usfirst.frc948.NRGRobot2018.commands.DelaySeconds;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistanceTank;
-import org.usfirst.frc948.NRGRobot2018.commands.DriveToXYHeadingPID;
 import org.usfirst.frc948.NRGRobot2018.commands.EjectUntilCubeOut;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerDown;
-import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerToAngle;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
-import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
-import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
-import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
 import org.usfirst.frc948.NRGRobot2018.utilities.LifterLevel;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint;
 import org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.CoordinateType;
@@ -45,9 +38,9 @@ public class AutonomousRoutines extends CommandGroup {
 	public static final double BUMPER_THICKNESS = 3.0;
 	public static final double ROBOT_HALF_LENGTH = 39.0 / 2;
 	public static final double ROBOT_HALF_WIDTH = 34.0 / 2;
-	public static final double ACQUIRE_EXTRA_LENGTH = 13.0;
-	public static final double HALF_WIDTH_AND_BUMPER = ROBOT_HALF_WIDTH + BUMPER_THICKNESS;
 	public static final double HALF_LENGTH_AND_BUMPER = ROBOT_HALF_LENGTH + BUMPER_THICKNESS;
+	public static final double HALF_WIDTH_AND_BUMPER = ROBOT_HALF_WIDTH + BUMPER_THICKNESS;
+	public static final double ACQUIRER_EXTRA_LENGTH = 13.0;
 
 	private AutoMovement autoMovement;
     private AutoStartingPosition autoStartingPosition;
@@ -114,59 +107,15 @@ public class AutonomousRoutines extends CommandGroup {
         }
     }
 
-//    // Left is default starting position - waypoints are converted if starting
-//    // position is right
-//    private Waypoint[] convertPath(Waypoint[] path) {
-//        Waypoint[] convertedPath = new Waypoint[path.length];
-//
-//        if (autoStartingPosition == AutoStartingPosition.RIGHT) {
-//            for (int i = 0; i < path.length; i++) {
-//                Waypoint currWaypoint = path[i];
-//                double newX = (currWaypoint.coordinateType == CoordinateType.ABSOLUTE)
-//                        ? FIELD_WIDTH_INCHES - currWaypoint.x
-//                        : -currWaypoint.x;
-//                /*
-//                 * if we're thinking of using GreaterThan/LessThan predicates, which we
-//                 * currently aren't, add getters for their fields so those can be converted too
-//                 */
-//
-//                convertedPath[i] = new Waypoint(currWaypoint.coordinateType, newX, currWaypoint.y,
-//                        -currWaypoint.heading, currWaypoint.waypointPredicate);
-//            }
-//        }
-//
-//        return convertedPath;
-//    }
-//
-//    private static final Waypoint SAME_SIDE_SWITCH_PATH[] = {
-//            new Waypoint(CoordinateType.RELATIVE, 0.0, 146, 0, new Waypoint.WithinInches(44)),
-//            new Waypoint(CoordinateType.RELATIVE, 19, 0, 90, USE_PID) };
-//
-//    public class SameSideSwitch extends CommandGroup {
-//        public SameSideSwitch() {
-//            Waypoint[] convertedPath = convertPath(SAME_SIDE_SWITCH_PATH);
-//
-//            addParallel(new DriveAndEject(0, 0, convertedPath));
-//            addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-//            addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
-//        }
-//    }
-//
-//    private static final Waypoint OPPOSITE_SIDE_SWITCH_PATH[] = {
-//            new Waypoint(CoordinateType.RELATIVE, 0.0, 212, 0, new WithinInches(15)),
-//            new Waypoint(CoordinateType.RELATIVE, 242, 0.0, -90, new WithinInches(2)),
-//            new Waypoint(CoordinateType.RELATIVE, 0, 0.0, -129, USE_PID),
-//            new Waypoint(CoordinateType.RELATIVE, -31.5, -25.5, -135, new WithinInches(2)) };
-//
-//    public class OppositeSideSwitch extends CommandGroup {
-//        public OppositeSideSwitch() {
-//            Waypoint[] convertedPath = convertPath(OPPOSITE_SIDE_SWITCH_PATH);
-//
-//            addParallel(new DriveAndEject(0, 0, convertedPath));
-//            addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-//            addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
-//        }
-//    }
+    /*
+     * Helper command groups
+     */
+    public class TurnAndDriveToCube extends CommandGroup {
+    	public TurnAndDriveToCube(double desiredHeading) {
+    		addSequential(new TurnToHeading(desiredHeading));
+    		addSequential(new DriveToCubeAndGrab());
+    	}
+    }
     
     public class DriveAndEject extends CommandGroup {
     	public DriveAndEject(double startX, double startY, Waypoint[] path, double timeout) { // timeout needs to parametrized
@@ -184,7 +133,16 @@ public class AutonomousRoutines extends CommandGroup {
     	}
     }
 
-    // Switch auto routines
+    public class DelayThenLift extends CommandGroup {
+    	public DelayThenLift(double delaySeconds, LifterLevel level) {
+    		addSequential(new DelaySeconds(delaySeconds));
+    		addSequential(new LiftToHeightAndHold(level));
+    	}
+    }
+
+    /*
+     *  Switch auto routines
+     */
     private static final Waypoint LEFT_LEFT_SWITCH_PATH[] = {
             new Waypoint(CoordinateType.RELATIVE, 0.0, 146, 0, new Waypoint.WithinInches(44)),
             new Waypoint(CoordinateType.RELATIVE, 19, 0, 90, USE_PID) };
@@ -284,7 +242,9 @@ public class AutonomousRoutines extends CommandGroup {
     	}
     }
 
-    // Scale auto routines
+    /*
+     *  Scale auto routines
+     */
     public class LeftToLeftScale extends CommandGroup {
         public LeftToLeftScale() {
             addSequential(new SetDriveScale(0.6));
@@ -335,24 +295,19 @@ public class AutonomousRoutines extends CommandGroup {
         }
     }
     
-    // drivestraight backup commands
+    /*
+     *  DriveStraightDistanceTank backup routines
+     */
     public class LeftToRightScaleDriveStraight extends CommandGroup {
     	public LeftToRightScaleDriveStraight() {
-//    		addParallel(new TiltAcquirerDown(1));
-//    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
-//    		addSequential(new TurnToHeading(90));
-//    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
-//    		addSequential(new DriveStraightDistance(1.0, 205.74, Direction.FORWARD));
-//    		addSequential(new TurnToHeading(0));
-//    		addSequential(new DriveStraightDistance(0.6, 17.25, Direction.FORWARD));
-//    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
-    		
-    		// using drivestrighttank command for increased accuracy
     		addParallel(new TiltAcquirerDown(1));
     		addSequential(new DriveStraightDistanceTank(1.0, 236.0 - HALF_LENGTH_AND_BUMPER));
+    		
     		addSequential(new TurnToHeading(90));
+    		
     		addParallel(new LiftToHeightAndHold(SCALE_LOW));
     		addSequential(new DriveStraightDistanceTank(1.0, 205.74));
+    		
     		addSequential(new TurnToHeading(0));
     		addSequential(new DriveStraightDistanceTank(0.6, 17.25));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
@@ -361,21 +316,14 @@ public class AutonomousRoutines extends CommandGroup {
     
     public class RightToLeftScaleDriveStraight extends CommandGroup {
     	public RightToLeftScaleDriveStraight() {
-//    		addParallel(new TiltAcquirerDown(1));
-//    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
-//    		addSequential(new TurnToHeading(-90));
-//    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
-//    		addSequential(new DriveStraightDistance(1.0, 205.74, Direction.FORWARD));
-//    		addSequential(new TurnToHeading(0));
-//    		addSequential(new DriveStraightDistance(0.6, 17.25, Direction.FORWARD));
-//    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
-    		
-    		// using drivestrighttank command for increased accuracy
     		addParallel(new TiltAcquirerDown(1));
     		addSequential(new DriveStraightDistanceTank(1.0, 236.0 - HALF_LENGTH_AND_BUMPER));
+    		
     		addSequential(new TurnToHeading(-90));
+    		
     		addParallel(new LiftToHeightAndHold(SCALE_LOW));
     		addSequential(new DriveStraightDistanceTank(1.0, 205.74));
+    		
     		addSequential(new TurnToHeading(0));
     		addSequential(new DriveStraightDistanceTank(0.6, 17.25));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
@@ -384,21 +332,14 @@ public class AutonomousRoutines extends CommandGroup {
     
     public class LeftToRightSwitchDriveStraight extends CommandGroup {
     	public LeftToRightSwitchDriveStraight() {
-//    		addParallel(new TiltAcquirerDown(1));
-//    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
-//    		addSequential(new TurnToHeading(-90));
-//    		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-//    		addSequential(new DriveStraightDistance(1.0, 231.31, Direction.BACKWARD));
-//    		addSequential(new TurnToHeading(-135));
-//    		addSequential(new DriveStraightDistance(0.6, 21.0, Direction.FORWARD));
-//    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
-
-    		// using drivestrighttank command for increased accuracy
     		addParallel(new TiltAcquirerDown(1));
     		addSequential(new DriveStraightDistanceTank(1.0, 236.0 - HALF_LENGTH_AND_BUMPER));
+    		
     		addSequential(new TurnToHeading(-90));
+    		
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
     		addSequential(new DriveStraightDistanceTank(1.0, 231.31));
+    		
     		addSequential(new TurnToHeading(-135));
     		addSequential(new DriveStraightDistanceTank(0.6, 21.0));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
@@ -407,39 +348,38 @@ public class AutonomousRoutines extends CommandGroup {
     
     public class RightToLeftSwitchDriveStraight extends CommandGroup {
     	public RightToLeftSwitchDriveStraight() {
-//    		addParallel(new TiltAcquirerDown(1));
-//    		addSequential(new DriveStraightDistance(1.0, 236.0 - HALF_LENGTH_AND_BUMPER, Direction.FORWARD));
-//    		addSequential(new TurnToHeading(90));
-//    		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-//    		addSequential(new DriveStraightDistance(1.0, 231.31, Direction.BACKWARD));
-//    		addSequential(new TurnToHeading(135));
-//    		addSequential(new DriveStraightDistance(0.6, 21.0, Direction.FORWARD));
-//    		addSequential(new EjectUntilCubeOut(0.5, 1.0));
-    		
-    		// using drivestrighttank command for increased accuracy
     		addParallel(new TiltAcquirerDown(1));
     		addSequential(new DriveStraightDistanceTank(1.0, 236.0 - HALF_LENGTH_AND_BUMPER));
+    		
     		addSequential(new TurnToHeading(90));
+    		
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
     		addSequential(new DriveStraightDistanceTank(1.0, 231.31));
+    		
     		addSequential(new TurnToHeading(135));
     		addSequential(new DriveStraightDistanceTank(0.6, 21.0));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
     	}
     }
     
+    /*
+     * Two-cube routines
+     */
     public class LeftSameSideTwoCube extends CommandGroup {
     	public LeftSameSideTwoCube() {
     		addParallel(new TiltAcquirerDown(1));
-    		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to between switch and low scale height
+    		addParallel(new LiftToHeightAndHold(SCALE_LOW)); // lift to low height to prevent tipping
     		addSequential(new DriveStraightDistanceTank(0.5, 235));
+    		
     		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to medium scale height
     		addSequential(new TurnToHeading(25));
+    		
     		addSequential(new DriveStraightDistanceTank(0.5, 26));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+    		
     		addParallel(new DelayThenLift(0.75, STOWED));
-    		addSequential(new TurnToHeading(150)); // estimated heading to get cube into pixy frame
-    		addSequential(new DriveToCubeAndGrab());
+    		addSequential(new TurnAndDriveToCube(150)); // estimated heading to get cube into pixy frame
+    		
     		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
     	}
@@ -448,24 +388,20 @@ public class AutonomousRoutines extends CommandGroup {
     public class RightSameSideTwoCube extends CommandGroup {
     	public RightSameSideTwoCube() {
     		addParallel(new TiltAcquirerDown(1));
-    		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to between switch and low scale height
+    		addParallel(new LiftToHeightAndHold(SCALE_LOW)); // lift to low height to prevent tipping
     		addSequential(new DriveStraightDistanceTank(0.5, 235));
+    		
     		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to medium scale height
     		addSequential(new TurnToHeading(-25));
+    		
     		addSequential(new DriveStraightDistanceTank(0.5, 26));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
+
     		addParallel(new DelayThenLift(0.75, STOWED));
-    		addSequential(new TurnToHeading(-150)); // estimated heading to get cube into pixy frame
-    		addSequential(new DriveToCubeAndGrab());
+    		addSequential(new TurnAndDriveToCube(150)); // estimated heading to get cube into pixy frame
+    		
     		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
     		addSequential(new EjectUntilCubeOut(0.5, 1.0));
-    	}
-    }
-    
-    public class DelayThenLift extends CommandGroup {
-    	public DelayThenLift(double delay, LifterLevel level) {
-    		addSequential(new DelaySeconds(delay));
-    		addSequential(new LiftToHeightAndHold(level));
     	}
     }
 }
