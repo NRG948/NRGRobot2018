@@ -55,58 +55,59 @@ public class AutonomousRoutines extends CommandGroup {
         System.out.println("Auto Movement is : " + autoMovement);
         System.out.println("Auto Position is : " + autoStartingPosition);
 
-        switch (autoMovement) {
-        case SWITCH:
-            System.out.println("Switch side: " + OI.getAllianceSwitchSide());
-            if (OI.getAllianceSwitchSide() == PlateLocation.LEFT) {
-                if (autoStartingPosition == AutoStartingPosition.LEFT) {
-                    addSequential(new LeftToLeftSwitch());
-                } else if (autoStartingPosition == AutoStartingPosition.CENTER) {
-                    addSequential(new MiddleToLeftSwitch());
-                } else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
-//                    addSequential(new RightToLeftSwitch());
-//                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
-                	addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
-                }
-            } else if (OI.getAllianceSwitchSide() == PlateLocation.RIGHT) {
-                if (autoStartingPosition == AutoStartingPosition.LEFT) {
-                    addSequential(new LeftToRightSwitch());
-//                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
-                } else if (autoStartingPosition == AutoStartingPosition.CENTER) {
-                    addSequential(new MiddleToRightSwitch());
-                } else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
-                    addSequential(new RightToRightSwitch());
-                }
-            }
-            break;
-
-        case SCALE:
-            System.out.println("Scale side: " + OI.getScaleSide());
-            if (OI.getScaleSide() == PlateLocation.LEFT) {
-                if (autoStartingPosition == AutoStartingPosition.CENTER) {
-                    addSequential(new MiddleToLeftScale());
-                } else if (autoStartingPosition == AutoStartingPosition.LEFT) {
-                    addSequential(new LeftToLeftScale());
-                } else if (autoStartingPosition == AutoStartingPosition.RIGHT){
-//                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
-//                	addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
-                	addSequential(new RightToLeftScaleDriveStraight());
-                }
-            } else if (OI.getScaleSide() == PlateLocation.RIGHT) {
-                if (autoStartingPosition == AutoStartingPosition.CENTER) {
-                    addSequential(new MiddleToRightScale());
-                } else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
-                    addSequential(new RightToRightScale());
-                } else if (autoStartingPosition == AutoStartingPosition.LEFT){
-//                	addSequential(new DriveToXYHeadingPID(0, 140, 0));
-//                	addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
-                }
-            }
-            break;
-
-        case FORWARD:
-            addSequential(new DriveStraightDistanceTank(TANK_POWER, 295));
-        }
+		switch (autoMovement) {
+			case SWITCH:
+				System.out.println("Switch side: " + OI.getAllianceSwitchSide());
+				
+				if (OI.getAllianceSwitchSide() == PlateLocation.LEFT) {
+					if (autoStartingPosition == AutoStartingPosition.LEFT) {
+						addSequential(new LeftToLeftSwitch());
+					} else if (autoStartingPosition == AutoStartingPosition.CENTER) {
+						addSequential(new MiddleToLeftSwitch());
+					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
+//						 addSequential(new RightToLeftSwitch());
+						addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
+					}
+				} else if (OI.getAllianceSwitchSide() == PlateLocation.RIGHT) {
+					if (autoStartingPosition == AutoStartingPosition.LEFT) {
+//						addSequential(new LeftToRightSwitch());
+						 addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
+					} else if (autoStartingPosition == AutoStartingPosition.CENTER) {
+						addSequential(new MiddleToRightSwitch());
+					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
+						addSequential(new RightToRightSwitch());
+					}
+				}
+				break;
+	
+			case SCALE:
+				System.out.println("Scale side: " + OI.getScaleSide());
+				
+				if (OI.getScaleSide() == PlateLocation.LEFT) {
+					if (autoStartingPosition == AutoStartingPosition.CENTER) {
+						addSequential(new MiddleToLeftScale());
+					} else if (autoStartingPosition == AutoStartingPosition.LEFT) {
+						addSequential(new LeftToLeftScaleDriveStraight());
+					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
+						// addSequential(new DriveToXYHeadingPID(0, 140, 0));
+						addSequential(new RightToLeftScaleDriveStraight());
+					}
+				} else if (OI.getScaleSide() == PlateLocation.RIGHT) {
+					if (autoStartingPosition == AutoStartingPosition.CENTER) {
+						addSequential(new MiddleToRightScale());
+					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
+						addSequential(new RightToRightScale());
+					} else if (autoStartingPosition == AutoStartingPosition.LEFT) {
+						// addSequential(new DriveToXYHeadingPID(0, 140, 0));
+						// addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
+						addSequential(new LeftToLeftScaleDriveStraight());
+					}
+				}
+				break;
+	
+			case FORWARD:
+				addSequential(new DriveStraightDistanceTank(TANK_POWER, 295));
+		}
     }
 
     /*
@@ -247,8 +248,8 @@ public class AutonomousRoutines extends CommandGroup {
     /*
      *  Scale auto routines
      */
-    public class LeftToLeftScale extends CommandGroup {
-        public LeftToLeftScale() {
+    public class LeftToLeftScaleDriveStraight extends CommandGroup {
+        public LeftToLeftScaleDriveStraight() {
             addSequential(new SetDriveScale(0.6));
             addSequential(new DriveStraightDistance(1, 305.5, Drive.DriveDirection.FORWARD));
             addSequential(new TurnToHeading(90));
@@ -366,7 +367,7 @@ public class AutonomousRoutines extends CommandGroup {
     }
     
     /*
-     * Two-cube routines
+     * Two-cube routines: currently just scale, then switch, both on the same side
      */
     public class LeftToLeftTwoCube extends CommandGroup {
     	public LeftToLeftTwoCube() {
@@ -408,7 +409,6 @@ public class AutonomousRoutines extends CommandGroup {
     	}
     }
     
-    // rookies only!
     public class LeftToRightTwoCube extends CommandGroup {
     	// normal LeftToRightScale routine, then follow drivetocube example above
 		public LeftToRightTwoCube() {
