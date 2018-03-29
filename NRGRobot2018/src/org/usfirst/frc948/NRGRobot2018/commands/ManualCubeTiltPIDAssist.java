@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ManualCubeTilt extends Command {
+public class ManualCubeTiltPIDAssist extends Command {
 	private double prevPower;
 
-	public ManualCubeTilt() {
+	public ManualCubeTiltPIDAssist() {
 		requires(Robot.cubeTilter);
 	}
 

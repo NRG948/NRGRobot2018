@@ -1,7 +1,7 @@
 package org.usfirst.frc948.NRGRobot2018.subsystems;
 
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
-import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeTilt;
+import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeTiltPIDAssist;
 import org.usfirst.frc948.NRGRobot2018.utilities.SimplePIDController;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -32,7 +32,7 @@ public class CubeTilter extends Subsystem {
 	private static SimplePIDController tiltPIDController;
 
     public void initDefaultCommand() {
-        setDefaultCommand(new ManualCubeTilt());
+        setDefaultCommand(new ManualCubeTiltPIDAssist());
     }
     
     private void createTiltPIDController(double setpoint, double tolerance){

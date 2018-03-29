@@ -248,9 +248,9 @@ public class AutonomousRoutines extends CommandGroup {
     public class LeftToLeftScale extends CommandGroup {
         public LeftToLeftScale() {
             addSequential(new SetDriveScale(0.6));
-            addSequential(new DriveStraightDistance(1, 305.5, Drive.Direction.FORWARD));
+            addSequential(new DriveStraightDistance(1, 305.5, Drive.DriveDirection.FORWARD));
             addSequential(new TurnToHeading(90));
-            addSequential(new DriveStraightDistance(1, 20.875, Drive.Direction.FORWARD));
+            addSequential(new DriveStraightDistance(1, 20.875, Drive.DriveDirection.FORWARD));
         }
     }
     

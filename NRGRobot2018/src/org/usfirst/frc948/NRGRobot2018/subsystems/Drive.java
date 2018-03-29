@@ -26,7 +26,7 @@ import sun.java2d.DestSurfaceProvider;
  *
  */
 public class Drive extends Subsystem implements PIDOutput {
-	public enum Direction {
+	public enum DriveDirection {
 		FORWARD, BACKWARD, LEFT, RIGHT
 	}
 

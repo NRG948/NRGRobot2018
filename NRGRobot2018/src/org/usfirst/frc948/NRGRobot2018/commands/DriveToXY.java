@@ -40,7 +40,7 @@ public class DriveToXY extends Command {
 		new CommandGroup() {
 			{
 				addSequential(new TurnToHeading(desiredHeading));
-				addSequential(new DriveStraightDistance(0.5, distanceToTravel, Drive.Direction.FORWARD));
+				addSequential(new DriveStraightDistance(0.5, distanceToTravel, Drive.DriveDirection.FORWARD));
 			}
 		}.start();
 	}

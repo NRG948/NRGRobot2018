@@ -35,7 +35,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
-import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.Direction;
+import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.DriveDirection;
 import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 
@@ -114,11 +114,11 @@ public class OI {
 		SmartDashboard.putData("Reset Sensors", new ResetSensors());
 
 		SmartDashboard.putData("ManualDrive", new ManualDrive());
-		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, Direction.FORWARD));
+		SmartDashboard.putData("driveStraightDistance 20 feet", new DriveStraightDistance(1, 240, DriveDirection.FORWARD));
 		SmartDashboard.putData("Drive to XY Heading Test", new DriveToXYHeadingPIDTest());
-		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48,Direction.RIGHT));
+		SmartDashboard.putData("StrafeStraightDistance 4 feet", new DriveStraightDistance(1, 48,DriveDirection.RIGHT));
 		SmartDashboard.putData("DriveStraightDistanceTank 10 feet", new DriveStraightDistanceTank(0.7, 120));
-		SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, Direction.BACKWARD));
+		SmartDashboard.putData("driveStraightDistanceBackward 4 feet", new DriveStraightDistance(0.5, 48, DriveDirection.BACKWARD));
 		
 		SmartDashboard.putData("Drive to Cube", new DriveToCube(false));
 		SmartDashboard.putData("Drive to Cube and grab", new DriveToCubeAndGrab());

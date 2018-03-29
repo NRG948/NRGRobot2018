@@ -22,7 +22,7 @@ public class DriveStraightDistance extends Command {
 	private double startY;
 	private double distanceTravelled;
 
-	public DriveStraightDistance(double power, double distance, Drive.Direction direction) {
+	public DriveStraightDistance(double power, double distance, Drive.DriveDirection direction) {
 		requires(Robot.drive);
 		this.desiredDistance = Math.abs(distance);
 		switch (direction) {
