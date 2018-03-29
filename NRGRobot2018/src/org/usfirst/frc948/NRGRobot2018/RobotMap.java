@@ -55,7 +55,7 @@ public class RobotMap {
 	public static Encoder leftRearEncoder;
 	public static Encoder rightFrontEncoder;
 	public static Encoder rightRearEncoder;
-	private static final double MEC_ENCODER_INCHES_PER_TICK = 0.0249;
+	private static final double MEC_ENCODER_INCHES_PER_TICK = 0.0241;
 
 	public static Encoder cubeLiftEncoder;
 	public static Encoder cubeTiltEncoder;

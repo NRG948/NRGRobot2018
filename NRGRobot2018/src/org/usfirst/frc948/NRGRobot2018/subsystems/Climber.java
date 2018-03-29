@@ -21,7 +21,7 @@ public class Climber extends Subsystem {
     	setDefaultCommand(new ManualClimb(0));
     }
     public void rawClimb(double power){
-//    	RobotMap.climberMotor.set(power);
+    	RobotMap.climberMotor.set(power);
     }
     
     public void stop(){

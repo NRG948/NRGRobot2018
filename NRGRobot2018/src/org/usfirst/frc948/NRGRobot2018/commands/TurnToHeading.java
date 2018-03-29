@@ -20,7 +20,7 @@ public class TurnToHeading extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drive.driveHeadingPIDInit(targetHeading, 1.0);
-    	System.out.println("TurnToHeading int");
+    	System.out.println("TurnToHeading init:" + targetHeading);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,7 +36,6 @@ public class TurnToHeading extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.drive.driveHeadingPIDEnd();
-    	
     	System.out.println("TurnToHeading End");
     }
 

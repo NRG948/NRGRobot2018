@@ -88,9 +88,9 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void drivePIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
-		drivePIDController = new SimplePIDController(p, i, d, false, RobotMap.gyro, this);
+		drivePIDController = new SimplePIDController(p, i, d, false);
 
-		drivePIDController.setOutputRange(-1, 1);
+		drivePIDController.setOutputRange(-0.5, 0.5);
 		drivePIDController.setAbsoluteTolerance(tolerance);
 		drivePIDController.setSetpoint(setpoint);
 
@@ -147,8 +147,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveHeadingPIDExecute(double velX, double velY) {
-		drivePIDController.update();
-		double pidOutput = drivePIDOutput;
+		double pidOutput = drivePIDController.update(RobotMap.gyro.getAngle());
 
 		SmartDashboard.putNumber("Turn To Heading PID Error", drivePIDController.getError());
 		SmartDashboard.putNumber("Turn To Heading PID Output", pidOutput);
