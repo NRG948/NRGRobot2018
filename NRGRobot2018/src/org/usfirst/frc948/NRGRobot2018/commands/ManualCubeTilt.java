@@ -34,15 +34,15 @@ public class ManualCubeTilt extends Command {
 			power = CubeTilter.TILT_DOWN_POWER;
 			Robot.cubeTilter.rawTilt(power);
 		} else {
-//			double encoderValue = RobotMap.cubeTiltEncoder.getDistance();
-//
-//			if (encoderValue >= CubeTilter.TILTER_PID_CUTOFF) {
-//				if (prevPower != 0) {
-//					Robot.cubeTilter.tiltToAnglePIDIntialize(encoderValue, 50);
-//					System.out.println("Entering Tilter PID mode for setpoint " + encoderValue);
-//				}
-//				Robot.cubeTilter.tiltToAnglePIDExecute();
-//			}
+			double currAngle = RobotMap.cubeTiltEncoder.getDistance();
+
+			if (currAngle >= CubeTilter.TILTER_PID_CUTOFF) {
+				if (prevPower != 0) {
+					Robot.cubeTilter.tiltToAnglePIDIntialize(currAngle, 1);
+					System.out.println("Entering Tilter PID mode for setpoint " + currAngle);
+				}
+				Robot.cubeTilter.tiltToAnglePIDExecute();
+			}
 		}
 
 		prevPower = power;
