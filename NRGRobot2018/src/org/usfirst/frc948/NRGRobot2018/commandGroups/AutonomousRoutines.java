@@ -411,9 +411,26 @@ public class AutonomousRoutines extends CommandGroup {
     // rookies only!
     public class LeftToRightTwoCube extends CommandGroup {
     	// normal LeftToRightScale routine, then follow drivetocube example above
+		public LeftToRightTwoCube() {
+			addSequential(new LeftToRightScaleDriveStraight());
+
+			addParallel(new DelayThenLift(0.75, STOWED));
+			addSequential(new TurnAndDriveToCube(150)); // estimated heading to get cube into pixy frame
+
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new EjectUntilCubeOut(0.5, 1));
+		}
     }
     
     public class RightToLeftTwoCube extends CommandGroup {
-    	
+    	public RightToLeftTwoCube() {
+    		addSequential(new RightToLeftScaleDriveStraight());
+
+			addParallel(new DelayThenLift(0.75, STOWED));
+			addSequential(new TurnAndDriveToCube(-150)); // estimated heading to get cube into pixy frame
+
+			addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new EjectUntilCubeOut(0.5, 1));
+    	}
     }
 }
