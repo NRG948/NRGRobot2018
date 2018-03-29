@@ -23,11 +23,11 @@ public class CubeTilter extends Subsystem {
 	public static final double DEFAULT_TILT_D = 0;
 	
 	public static final double TILTER_UP = 0;
-	public static final double TILTER_DOWN = -1200;
+	public static final double TILTER_DOWN = -45;
 	
-	public static final double TILTER_RANGE_MIN = -2300;
+	public static final double TILTER_RANGE_MIN = -90;
 	public static final double TILTER_RANGE_MAX = 0;
-	public static final double TILTER_PID_CUTOFF = -2000;
+	public static final double TILTER_PID_CUTOFF = -80;
 	
 	private static SimplePIDController tiltPIDController;
 
