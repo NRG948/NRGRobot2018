@@ -64,14 +64,16 @@ public class AutonomousRoutines extends CommandGroup {
 						addSequential(new LeftToLeftSwitch());
 					} else if (autoStartingPosition == AutoStartingPosition.CENTER) {
 						addSequential(new MiddleToLeftSwitch());
-					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
+				} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
 //						 addSequential(new RightToLeftSwitch());
-						addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
+						//addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
+						addSequential(new RightToLeftSwitchDriveStraight());
 					}
 				} else if (OI.getAllianceSwitchSide() == PlateLocation.RIGHT) {
 					if (autoStartingPosition == AutoStartingPosition.LEFT) {
 //						addSequential(new LeftToRightSwitch());
-						 addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
+						 //addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
+						addSequential(new LeftToRightSwitchDriveStraight());
 					} else if (autoStartingPosition == AutoStartingPosition.CENTER) {
 						addSequential(new MiddleToRightSwitch());
 					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
@@ -106,7 +108,7 @@ public class AutonomousRoutines extends CommandGroup {
 				break;
 	
 			case FORWARD:
-				addSequential(new DriveStraightDistanceTank(TANK_POWER, 295));
+				addSequential(new DriveStraightDistanceTank(TANK_POWER, 295), 4);
 		}
     }
 
@@ -190,7 +192,7 @@ public class AutonomousRoutines extends CommandGroup {
     
     private static final Waypoint MIDDLE_LEFT_SWITCH_PATH[] = {
     		new Waypoint(CoordinateType.RELATIVE, -62, 50, -51, new WithinInches(15)),
-    		new Waypoint(CoordinateType.RELATIVE, 0, 45, 0, USE_PID) };
+    		new Waypoint(CoordinateType.RELATIVE, 0, 52, 0, new WithinInches(3)) };
     
     public class MiddleToLeftSwitch extends CommandGroup {
     	public MiddleToLeftSwitch() {
@@ -203,7 +205,7 @@ public class AutonomousRoutines extends CommandGroup {
     
     private static final Waypoint MIDDLE_RIGHT_SWITCH_PATH[] = {
     		new Waypoint(CoordinateType.RELATIVE, 45, 50, 45, new WithinInches(15)),
-    		new Waypoint(CoordinateType.RELATIVE, 0, 45, 0, USE_PID) };
+    		new Waypoint(CoordinateType.RELATIVE, 0, 52, 0, new WithinInches(3)) };
     
     public class MiddleToRightSwitch extends CommandGroup {
     	public MiddleToRightSwitch() {
@@ -342,10 +344,10 @@ public class AutonomousRoutines extends CommandGroup {
     		addSequential(new TurnToHeading(-90));
     		
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new DriveStraightDistanceTank(TANK_POWER, 232));
+    		addSequential(new DriveStraightDistanceTank(TANK_POWER, -246));
     		
-    		addSequential(new TurnToHeading(-135));
-    		addSequential(new DriveStraightDistanceTank(0.6, 21));
+    		addSequential(new TurnToHeading(-127));
+    		addSequential(new DriveStraightDistanceTank(0.6, 44), 3.0);
     		addSequential(new EjectUntilCubeOut(0.5, 1));
     	}
     }
@@ -358,10 +360,10 @@ public class AutonomousRoutines extends CommandGroup {
     		addSequential(new TurnToHeading(90));
     		
     		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new DriveStraightDistanceTank(TANK_POWER, 232));
+    		addSequential(new DriveStraightDistanceTank(TANK_POWER, -246));
     		
-    		addSequential(new TurnToHeading(135));
-    		addSequential(new DriveStraightDistanceTank(0.6, 21));
+    		addSequential(new TurnToHeading(127));
+    		addSequential(new DriveStraightDistanceTank(0.6, 44), 3.0);
     		addSequential(new EjectUntilCubeOut(0.5, 1));
     	}
     }

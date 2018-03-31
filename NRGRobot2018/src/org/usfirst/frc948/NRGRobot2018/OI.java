@@ -16,6 +16,7 @@ import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.DriveToCubeAndGrab;
 import org.usfirst.frc948.NRGRobot2018.commandGroups.TiltAcquirerAndEject;
 import org.usfirst.frc948.NRGRobot2018.commands.StrafeAlignWithCube;
+import org.usfirst.frc948.NRGRobot2018.commands.CubeTiltUpDown;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistance;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistanceTank;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveToCube;
@@ -60,19 +61,21 @@ public class OI {
 
 	public static final JoystickButton interruptCommands = new JoystickButton(leftJoystick, 6);
 	public static final JoystickButton resetSensors = new JoystickButton(leftJoystick, 7);
+	public static final JoystickButton driveStraight = new JoystickButton(rightJoystick, 3);
 
 	public static final JoystickButton leftShiftGears = new JoystickButton(leftJoystick, 1);
 	public static final JoystickButton rightShiftGears = new JoystickButton(rightJoystick, 1);
-	public static final JoystickButton driveStraight = new JoystickButton(leftJoystick, 2);
 	public static final JoystickButton strafeStraight = new JoystickButton(leftJoystick, 3);
 	
 	// need to talk with driver about these button locations
 	public static final JoystickButton driveToCube = new JoystickButton(rightJoystick, 5);
 	public static final JoystickButton driveToCubeAndGrab = new JoystickButton(rightJoystick, 2);
-	public static final JoystickButton strafeAlignWithCube = new JoystickButton(rightJoystick, 3);
+	public static final JoystickButton strafeAlignWithCube = new JoystickButton(leftJoystick, 2);
 	
 	//xbox buttons
-	public static final JoystickButton tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1); // 'A' Button
+//	public static final JoystickButton tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1); // 'A' Button
+	public static final JoystickButton tiltAcquirerUp = new JoystickButton(xboxController, 4); // Y button
+	public static final JoystickButton tiltAcquirerDown = new JoystickButton(xboxController, 1); // A button
 	
 	// arduino buttons
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 10);
@@ -107,7 +110,10 @@ public class OI {
 		driveToCubeAndGrab.whenPressed(new DriveToCubeAndGrab());
 		strafeAlignWithCube.whenPressed(new StrafeAlignWithCube());
 
-		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(-133, 1, 0.5));
+//		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(-133, 1, 0.5));
+		tiltAcquirerUp.whenPressed(new CubeTiltUpDown(0.35, 2));
+		tiltAcquirerDown.whenPressed(new CubeTiltUpDown(-0.1, 1));
+		
 		climberButton.whileHeld(new ManualClimb(0.9));
 
 		// SmartDashboard Buttons

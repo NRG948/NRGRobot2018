@@ -55,7 +55,7 @@ public class RobotMap {
 	public static Encoder leftRearEncoder;
 	public static Encoder rightFrontEncoder;
 	public static Encoder rightRearEncoder;
-	private static final double MEC_ENCODER_INCHES_PER_TICK = 0.0241;
+	private static final double MEC_ENCODER_INCHES_PER_TICK = 0.0227;
 
 	public static Encoder cubeLiftEncoder;
 	public static Encoder cubeTiltEncoder;
@@ -110,7 +110,7 @@ public class RobotMap {
 		cubeTiltEncoder = new Encoder(8, 9, false);
 		
 		xEncoder.setDistancePerPulse(0.0457); // inches per pulse, encoder is slipping, 0.0519 -> previous value
-		yEncoder.setDistancePerPulse(0.0529); // .0544 -> prev value
+		yEncoder.setDistancePerPulse(0.0501); // .0544 -> prev value
 		leftFrontEncoder.setDistancePerPulse(MEC_ENCODER_INCHES_PER_TICK);
 		rightFrontEncoder.setDistancePerPulse(MEC_ENCODER_INCHES_PER_TICK);
 		leftRearEncoder.setDistancePerPulse(MEC_ENCODER_INCHES_PER_TICK);

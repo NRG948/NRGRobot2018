@@ -36,6 +36,7 @@ public class TurnToHeading extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.drive.driveHeadingPIDEnd();
+    	Robot.drive.setDesiredHeading(targetHeading);
     	System.out.println("TurnToHeading End");
     }
 

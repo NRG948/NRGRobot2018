@@ -2,8 +2,6 @@ package org.usfirst.frc948.NRGRobot2018.commands;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.Robot;
-import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter.TiltDirection;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -62,10 +60,12 @@ public class CubeTiltUpDown extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.cubeTilter.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

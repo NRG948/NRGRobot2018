@@ -309,4 +309,8 @@ public class Drive extends Subsystem implements PIDOutput {
 	public double getDesiredHeading() {
 		return desiredHeading;
 	}
+	
+	public void setDesiredHeading(double desiredHeading) {
+		this.desiredHeading = desiredHeading;
+	}
 }
