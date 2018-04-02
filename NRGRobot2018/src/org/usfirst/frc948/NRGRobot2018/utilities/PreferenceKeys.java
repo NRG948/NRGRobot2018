@@ -47,8 +47,20 @@ public class PreferenceKeys {
 	
 	public static final String USE_PHYSICAL_AUTO_CHOOSER = "USE_PHYSICAL_AUTO_CHOOSER";
 	
+	public static final String USING_PRACTICE_BOT = "USING_PRACTICE_BOT";
 	public static final String USE_FOUR_ENCODERS = "USE_FOUR_ENCODERS";
+	
 	public static final String AUTO_MAX_DRIVE_ACCEL = "AUTO_MAX_DRIVE_ACCEL";
 	public static final String TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT = "TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT";
+
+	public static final String MEC_ENCODER_LF_RATIO_PRACTICE = "MEC_ENCODER_LF_RATIO_PRACTICE";
+	public static final String MEC_ENCODER_LR_RATIO_PRACTICE = "MEC_ENCODER_LR_RATIO_PRACTICE";
+	public static final String MEC_ENCODER_RF_RATIO_PRACTICE = "MEC_ENCODER_RF_RATIO_PRACTICE";
+	public static final String MEC_ENCODER_RR_RATIO_PRACTICE = "MEC_ENCODER_RR_RATIO_PRACTICE";
+
+	public static final String MEC_ENCODER_LF_RATIO_COMP = "MEC_ENCODER_LF_RATIO_COMP";
+	public static final String MEC_ENCODER_LR_RATIO_COMP = "MEC_ENCODER_LR_RATIO_COMP";
+	public static final String MEC_ENCODER_RF_RATIO_COMP = "MEC_ENCODER_RF_RATIO_COMP";
+	public static final String MEC_ENCODER_RR_RATIO_COMP = "MEC_ENCODER_RR_RATIO_COMP";
 }
 
