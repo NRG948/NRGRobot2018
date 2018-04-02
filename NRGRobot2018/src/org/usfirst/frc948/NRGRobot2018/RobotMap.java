@@ -18,6 +18,9 @@ import org.usfirst.frc948.NRGRobot2018.vision.IPixyLink;
 import org.usfirst.frc948.NRGRobot2018.vision.PixyCam;
 import org.usfirst.frc948.NRGRobot2018.vision.SPIwrapper;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.cscore.UsbCamera;
@@ -43,7 +46,7 @@ public class RobotMap {
 	public static MecanumDrive driveMecanumDrive;
 
 	public static Victor cubeLifterMotor;
-	public static Victor cubeTilterMotor;
+	public static WPI_TalonSRX cubeTilterMotor;
 	
 	public static Victor acquirerRightMotor;
 	public static Victor acquirerLeftMotor;
@@ -115,8 +118,14 @@ public class RobotMap {
 
 		cubeLifterMotor = new Victor(4);
 		
-		cubeTilterMotor = new Victor(7);
+		// cube tilter talon srx configuration
+		cubeTilterMotor = new WPI_TalonSRX(7);
 		cubeTilterMotor.setInverted(false);
+		cubeTilterMotor.setNeutralMode(NeutralMode.Brake);
+		cubeTilterMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0); // use mag encoder as input for pid loop
+		cubeTilterMotor.configOpenloopRamp(1, 0); // set power ramp for open-loop/manual tilt commands e.g. neutral to full power in 1 second
+		cubeTilterMotor.configForwardSoftLimitThreshold(-128, 0); // positive power not applied when above specified ticks
+		cubeTilterMotor.configForwardSoftLimitThreshold(-1152, 0); // negative power not applied when below specified ticks
 		
 		acquirerLeftMotor = new Victor(5);
 		acquirerRightMotor = new Victor(6);

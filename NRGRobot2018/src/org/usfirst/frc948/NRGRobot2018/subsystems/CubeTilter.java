@@ -4,6 +4,8 @@ import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeTiltPIDAssist;
 import org.usfirst.frc948.NRGRobot2018.utilities.SimplePIDController;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,37 +31,35 @@ public class CubeTilter extends Subsystem {
 	public static final double TILTER_RANGE_MAX = 0;
 	public static final double TILTER_PID_CUTOFF = -80;
 	
-	private static SimplePIDController tiltPIDController;
+	private double desiredAngle;
+	private double tiltPIDTolerance;
 
     public void initDefaultCommand() {
         setDefaultCommand(new ManualCubeTiltPIDAssist());
     }
     
-    private void createTiltPIDController(double setpoint, double tolerance){
-    	tiltPIDController = new SimplePIDController(DEFAULT_TILT_P, DEFAULT_TILT_I, DEFAULT_TILT_D, true)
-    			.setAbsoluteTolerance(tolerance)
-    			.setInputRange(TILTER_RANGE_MIN, TILTER_RANGE_MAX)
-    			.setOutputRange(TILT_DOWN_POWER, TILT_UP_POWER)
-    			.setSetpoint(setpoint)
-    			.start();
+    public void tiltToAnglePIDIntialize(double desiredAngle, double tolerance) {
+    	this.desiredAngle = desiredAngle;
+    	tiltPIDTolerance = tolerance;
+    	
+    	RobotMap.cubeTilterMotor.selectProfileSlot(0, 0);
+    	RobotMap.cubeTilterMotor.config_kP(0, DEFAULT_TILT_P, 0);
+    	RobotMap.cubeTilterMotor.config_kI(0, DEFAULT_TILT_I, 0);
+    	RobotMap.cubeTilterMotor.config_kD(0, DEFAULT_TILT_D, 0);
+    	RobotMap.cubeTilterMotor.configClosedLoopPeakOutput(0, TILT_UP_POWER, 0);
     }
     
-    public void tiltToAnglePIDIntialize(double setpoint, double tolerance){
-    	createTiltPIDController(setpoint, tolerance);
+    public void tiltToAnglePIDExecute() {
+    	RobotMap.cubeTilterMotor.set(ControlMode.Position, desiredAngle);
+    	SmartDashboard.putNumber("TiltPID/computedPower", RobotMap.cubeTilterMotor.getMotorOutputPercent());
     }
     
-    public void tiltToAnglePIDExecute(){
-    	double computedPower = tiltPIDController.update(RobotMap.cubeTiltEncoder.getDistance());
-    	SmartDashboard.putNumber("computedPower", computedPower);
-    	rawTilt(computedPower);
-    }
-    
-    public boolean tiltToAnglePIDOnTarget(){
-    	return tiltPIDController.onTarget();
+    public boolean tiltToAnglePIDOnTarget() {
+    	return Math.abs(RobotMap.cubeTilterMotor.getClosedLoopError(0)) <= tiltPIDTolerance;
     }
     
     public void rawTilt(double power) {
-    	RobotMap.cubeTilterMotor.set(power);
+    	RobotMap.cubeTilterMotor.set(ControlMode.PercentOutput, power);
     }
     
     public void tiltDown() {
