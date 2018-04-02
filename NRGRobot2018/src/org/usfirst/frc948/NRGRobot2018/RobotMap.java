@@ -76,7 +76,6 @@ public class RobotMap {
 	public static final double DEF_MEC_ENCODER_RR_RATIO_COMP = 0.0227;
 
 	public static Encoder cubeLiftEncoder;
-	public static Encoder cubeTiltEncoder;
 	
 	public static DigitalInput lifterLowerLimitSwitch;
 	public static DigitalInput lifterUpperLimitSwitch;
@@ -141,7 +140,6 @@ public class RobotMap {
 		rightRearEncoder = new Encoder(21, 22, true);
 		
 		cubeLiftEncoder = new Encoder(6, 7, false);
-		cubeTiltEncoder = new Encoder(8, 9, false);
 		
 		xEncoder.setDistancePerPulse(0.0457); // inches per pulse, encoder is slipping, 0.0519 -> previous value
 		yEncoder.setDistancePerPulse(0.0501); // .0544 -> prev value
@@ -152,7 +150,6 @@ public class RobotMap {
 		rightRearEncoder.setDistancePerPulse(mecEncoderRRRatio);
 		
 		cubeLiftEncoder.setDistancePerPulse(1.0);
-		cubeTiltEncoder.setDistancePerPulse(1.0);
 		
 		navx = new AHRS(SPI.Port.kMXP);
 		gyro = new ContinuousGyro(navx);

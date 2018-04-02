@@ -35,7 +35,6 @@ public class ResetSensors extends Command {
     	RobotMap.rightRearEncoder.reset();
     	
     	RobotMap.cubeLiftEncoder.reset();
-    	RobotMap.cubeTiltEncoder.reset();
     }
 
     // Make this return true when this Command no longer needs to run execute()

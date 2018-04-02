@@ -140,7 +140,7 @@ public class OI {
 		SmartDashboard.putData("Lift to Switch?", new LiftToHeight(CubeLifter.SWITCH_LEVEL));
 		SmartDashboard.putData("Set Lift height to zero?", new LiftToHeight(CubeLifter.STOWED));
 		
-		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(45, 1, 0.5));
+		SmartDashboard.putData("Tilt acquirer and eject cube", new TiltAcquirerAndEject(-128, 1, 0.5));
 		SmartDashboard.putData("TiltDown", new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
 		SmartDashboard.putData("TiltUp", new TiltAcquirerToAngle(CubeTilter.TILTER_UP));
 		SmartDashboard.putData("Tilt acquirer down", new TiltAcquirerDown(1));

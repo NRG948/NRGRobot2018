@@ -34,7 +34,7 @@ public class ManualCubeTiltPIDAssist extends Command {
 			power = CubeTilter.TILT_DOWN_POWER;
 			Robot.cubeTilter.rawTilt(power);
 		} else {
-			double currAngle = RobotMap.cubeTiltEncoder.getDistance();
+			double currAngle = RobotMap.cubeTilterMotor.getSensorCollection().getPulseWidthPosition();
 
 			if (prevPower != 0) {
 				Robot.cubeTilter.tiltToAnglePIDIntialize(currAngle, 6);
