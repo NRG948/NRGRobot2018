@@ -204,7 +204,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Encoders/right front", RobotMap.rightFrontEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/right rear", RobotMap.rightRearEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/lifter", RobotMap.cubeLiftEncoder.getDistance());
-		SmartDashboard.putNumber("Encoders/tilter", RobotMap.cubeTiltEncoder.getDistance());
+		// getting absolute reading
+		SmartDashboard.putNumber("Encoders/tilter", RobotMap.cubeTilterMotor.getSensorCollection().getPulseWidthPosition());
 		
 		SmartDashboard.putData("LifterLimitSwitches/upper", RobotMap.lifterUpperLimitSwitch);
 		SmartDashboard.putData("LifterLimitSwitches/lower", RobotMap.lifterLowerLimitSwitch);

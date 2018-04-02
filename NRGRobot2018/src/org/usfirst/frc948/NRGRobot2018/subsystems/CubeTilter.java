@@ -53,13 +53,21 @@ public class CubeTilter extends Subsystem {
     	RobotMap.cubeTilterMotor.set(ControlMode.Position, desiredAngle);
     	SmartDashboard.putNumber("TiltPID/computedPower", RobotMap.cubeTilterMotor.getMotorOutputPercent());
     }
-    
-    public boolean tiltToAnglePIDOnTarget() {
+
+	public boolean tiltToAnglePIDOnTarget() {
     	return Math.abs(RobotMap.cubeTilterMotor.getClosedLoopError(0)) <= tiltPIDTolerance;
     }
     
     public void rawTilt(double power) {
     	RobotMap.cubeTilterMotor.set(ControlMode.PercentOutput, power);
+    }
+    
+    public double getDesiredAngle() {
+    	return desiredAngle;
+    }
+    
+    public double getTiltPIDTolerance() {
+    	return tiltPIDTolerance;
     }
     
     public void tiltDown() {

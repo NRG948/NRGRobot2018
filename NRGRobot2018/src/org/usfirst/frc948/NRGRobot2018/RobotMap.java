@@ -124,8 +124,8 @@ public class RobotMap {
 		cubeTilterMotor.setNeutralMode(NeutralMode.Brake);
 		cubeTilterMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0); // use mag encoder as input for pid loop
 		cubeTilterMotor.configOpenloopRamp(1, 0); // set power ramp for open-loop/manual tilt commands e.g. neutral to full power in 1 second
-		cubeTilterMotor.configForwardSoftLimitThreshold(-128, 0); // positive power not applied when above specified ticks
-		cubeTilterMotor.configForwardSoftLimitThreshold(-1152, 0); // negative power not applied when below specified ticks
+		cubeTilterMotor.configForwardSoftLimitThreshold(-32, 0); // positive power not applied when above specified ticks
+		cubeTilterMotor.configReverseSoftLimitThreshold(-224, 0); // negative power not applied when below specified ticks
 		
 		acquirerLeftMotor = new Victor(5);
 		acquirerRightMotor = new Victor(6);
