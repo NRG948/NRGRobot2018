@@ -1,6 +1,8 @@
 package org.usfirst.frc948.NRGRobot2018.subsystems;
 
+import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
+import org.usfirst.frc948.NRGRobot2018.commands.InterruptCommands;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeTiltPIDAssist;
 import org.usfirst.frc948.NRGRobot2018.utilities.SimplePIDController;
 
@@ -15,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Held upright by mechanical arm before auto period is 0deg, all the way down is 86deg
  */ 
 public class CubeTilter extends Subsystem {
-	public static final double TILT_UP_POWER = 0.3;
-	public static final double TILT_DOWN_POWER = -0.1;
+	public static final double TILT_UP_POWER = 0.4;
+	public static final double TILT_DOWN_POWER = -0.15;
 
 	public static final double DEFAULT_TILT_P = 1 / 100.0;
 	public static final double DEFAULT_TILT_I = 0;
@@ -32,7 +34,8 @@ public class CubeTilter extends Subsystem {
 	private static SimplePIDController tiltPIDController;
 
     public void initDefaultCommand() {
-        setDefaultCommand(new ManualCubeTiltPIDAssist());
+//        setDefaultCommand(new InterruptCommands(Robot.cubeTilter));
+    	
     }
     
     private void createTiltPIDController(double setpoint, double tolerance){
