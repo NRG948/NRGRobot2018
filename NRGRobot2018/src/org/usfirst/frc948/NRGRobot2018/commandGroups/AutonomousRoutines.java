@@ -308,6 +308,90 @@ public class AutonomousRoutines extends CommandGroup {
     /*
      *  DriveStraightDistanceTank backup routines
      */
+	
+	public class LeftToLeftSwitchDriveStraight extends CommandGroup {
+		public LeftToLeftSwitchDriveStraight() {
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new DriveStraightDistanceTank(TANK_POWER, 168 - HALF_LENGTH_AND_BUMPER));
+			
+			addSequential(new TurnToHeading(90));
+			addSequential(new DriveStraightDistanceTank(0.6, 15), 2);
+			addSequential(new EjectUntilCubeOut(0.5, 1));
+		}
+	}
+	
+	public class RightToLeftSwitchDriveStraight extends CommandGroup {
+		public RightToLeftSwitchDriveStraight() {
+			addParallel(new TiltAcquirerDown(1));
+			addSequential(new DriveStraightDistanceTank(TANK_POWER, 236 - HALF_LENGTH_AND_BUMPER));
+			
+			addSequential(new TurnToHeading(90));
+			
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new DriveStraightDistanceTank(TANK_POWER, -246));
+			
+			addSequential(new TurnToHeading(127));
+			addSequential(new DriveStraightDistanceTank(0.6, 44), 3.0);
+			addSequential(new EjectUntilCubeOut(0.5, 1));
+		}
+	}
+	
+	public class LeftToRightSwitchDriveStraight extends CommandGroup {
+		public LeftToRightSwitchDriveStraight() {
+			addParallel(new TiltAcquirerDown(1));
+			addSequential(new DriveStraightDistanceTank(TANK_POWER, 236 - HALF_LENGTH_AND_BUMPER));
+			
+			addSequential(new TurnToHeading(-90));
+			
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new DriveStraightDistanceTank(TANK_POWER, -246));
+			
+			addSequential(new TurnToHeading(-127));
+			addSequential(new DriveStraightDistanceTank(0.6, 44), 3.0);
+			addSequential(new EjectUntilCubeOut(0.5, 1));
+		}
+	}
+	
+	public class MiddleToRightSwitchDriveStraight extends CommandGroup {
+		public MiddleToRightSwitchDriveStraight() {
+			addParallel(new TiltAcquirerDown(1));
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addSequential(new DriveStraightDistanceTank(0.6, 37 - HALF_LENGTH_AND_BUMPER));
+			
+			addSequential(new TurnToHeading(45));
+			addSequential(new DriveStraightDistanceTank(TANK_POWER, 67));
+			addSequential(new TurnToHeading(0));
+			addSequential(new DriveStraightDistanceTank(0.6, 56 - HALF_LENGTH_AND_BUMPER), 3.0);
+			addSequential(new EjectUntilCubeOut(0.5, 1));
+		}
+	}
+	
+	public class RightToRightSwitchDriveStraight extends CommandGroup {
+		public RightToRightSwitchDriveStraight() {
+			addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+			addParallel(new DriveStraightDistanceTank(TANK_POWER, 168 - HALF_LENGTH_AND_BUMPER));
+			
+			addSequential(new TurnToHeading(-90));
+			addSequential(new DriveStraightDistanceTank(0.6, 15), 2);
+			addSequential(new EjectUntilCubeOut(0.5, 1));
+		}
+	}   
+	
+	public class LeftToRightScaleDriveStraight extends CommandGroup {
+		public LeftToRightScaleDriveStraight() {
+			addParallel(new TiltAcquirerDown(1));
+			addSequential(new DriveStraightDistanceTank(TANK_POWER, 236 - HALF_LENGTH_AND_BUMPER));
+			
+			addSequential(new TurnToHeading(90));
+			
+			addParallel(new LiftToHeightAndHold(SCALE_LOW));
+			addSequential(new DriveStraightDistanceTank(TANK_POWER, 206));
+			
+			addSequential(new TurnToHeading(0));
+			addSequential(new DriveStraightDistanceTank(0.6, 17));
+			addSequential(new EjectUntilCubeOut(0.5, 1));
+		}
+	}
     
     public class RightToRightScaleDriveStraight extends CommandGroup {
         public RightToRightScaleDriveStraight() {
@@ -324,23 +408,6 @@ public class AutonomousRoutines extends CommandGroup {
         }
     }
     
-    public class LeftToRightScaleDriveStraight extends CommandGroup {
-
-		public LeftToRightScaleDriveStraight() {
-    		addParallel(new TiltAcquirerDown(1));
-    		addSequential(new DriveStraightDistanceTank(TANK_POWER, 236 - HALF_LENGTH_AND_BUMPER));
-    		
-    		addSequential(new TurnToHeading(90));
-    		
-    		addParallel(new LiftToHeightAndHold(SCALE_LOW));
-    		addSequential(new DriveStraightDistanceTank(TANK_POWER, 206));
-    		
-    		addSequential(new TurnToHeading(0));
-    		addSequential(new DriveStraightDistanceTank(0.6, 17));
-    		addSequential(new EjectUntilCubeOut(0.5, 1));
-    	}
-    }
-    
     public class RightToLeftScaleDriveStraight extends CommandGroup {
     	public RightToLeftScaleDriveStraight() {
     		addParallel(new TiltAcquirerDown(1));
@@ -353,38 +420,6 @@ public class AutonomousRoutines extends CommandGroup {
     		
     		addSequential(new TurnToHeading(0));
     		addSequential(new DriveStraightDistanceTank(0.6, 17));
-    		addSequential(new EjectUntilCubeOut(0.5, 1));
-    	}
-    }
-    
-    public class LeftToRightSwitchDriveStraight extends CommandGroup {
-    	public LeftToRightSwitchDriveStraight() {
-    		addParallel(new TiltAcquirerDown(1));
-    		addSequential(new DriveStraightDistanceTank(TANK_POWER, 236 - HALF_LENGTH_AND_BUMPER));
-    		
-    		addSequential(new TurnToHeading(-90));
-    		
-    		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new DriveStraightDistanceTank(TANK_POWER, -246));
-    		
-    		addSequential(new TurnToHeading(-127));
-    		addSequential(new DriveStraightDistanceTank(0.6, 44), 3.0);
-    		addSequential(new EjectUntilCubeOut(0.5, 1));
-    	}
-    }
-    
-    public class RightToLeftSwitchDriveStraight extends CommandGroup {
-    	public RightToLeftSwitchDriveStraight() {
-    		addParallel(new TiltAcquirerDown(1));
-    		addSequential(new DriveStraightDistanceTank(TANK_POWER, 236 - HALF_LENGTH_AND_BUMPER));
-    		
-    		addSequential(new TurnToHeading(90));
-    		
-    		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new DriveStraightDistanceTank(TANK_POWER, -246));
-    		
-    		addSequential(new TurnToHeading(127));
-    		addSequential(new DriveStraightDistanceTank(0.6, 44), 3.0);
     		addSequential(new EjectUntilCubeOut(0.5, 1));
     	}
     }
