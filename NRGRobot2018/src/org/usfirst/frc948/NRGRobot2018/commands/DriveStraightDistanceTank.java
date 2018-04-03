@@ -46,11 +46,13 @@ public class DriveStraightDistanceTank extends Command {
 				.setAbsoluteTolerance(distanceTolerance).setSetpoint(distance).start();
 
 		initialY = PositionTracker.getMechY();
+		initialY = RobotMap.yEncoder.getDistance();
 	}
 
 	@Override
 	protected void execute() {
 		double currY = PositionTracker.getMechY();
+//		double currY = RobotMap.yEncoder.getDistance();
 		double dY = currY - initialY;
 
 		double distancePIDOutput = distancePIDController.update(dY);
@@ -85,6 +87,7 @@ public class DriveStraightDistanceTank extends Command {
 
 	protected void end() {
 		Robot.drive.stop();
+		System.out.println("DriveStraightDistanceTank End");
 	}
 
 	protected void interrupted() {

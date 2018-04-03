@@ -265,8 +265,7 @@ public class Robot extends TimedRobot {
 			preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
 			
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
-			
-			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, 0);
+			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, 0.045);
 			preferences.putDouble(PreferenceKeys.TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT, Drive.DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT);
 
 			preferences.putDouble(PreferenceKeys.MEC_ENCODER_LF_RATIO_PRACTICE, RobotMap.DEF_MEC_ENCODER_LF_RATIO_PRACTICE);
