@@ -111,9 +111,9 @@ public class OI {
 		strafeAlignWithCube.whenPressed(new StrafeAlignWithCube());
 
 //		tiltAcquirerAndEjectCube.whenPressed(new TiltAcquirerAndEject(-133, 1, 0.5));
-		tiltAcquirerUp.whenPressed(new CubeTiltUpDown(1.0, 2));
+		tiltAcquirerUp.whenPressed(new CubeTiltUpDown(0.45, 2));
 		tiltAcquirerUp.whenReleased(new InterruptCommands(Robot.cubeTilter));
-		tiltAcquirerDown.whenPressed(new CubeTiltUpDown(-0.1, 1));
+		tiltAcquirerDown.whenPressed(new CubeTiltUpDown(-0.2, 1));
 		tiltAcquirerDown.whenReleased(new InterruptCommands(Robot.cubeTilter));
 		
 		climberButton.whileHeld(new ManualClimb(0.9));
