@@ -108,7 +108,7 @@ public class AutonomousRoutines extends CommandGroup {
 				break;
 	
 			case FORWARD:
-				addSequential(new DriveStraightDistanceTank(TANK_POWER, 295), 4);
+				addSequential(new DriveStraightDistanceTank(TANK_POWER, 140), 4);
 		}
     }
 

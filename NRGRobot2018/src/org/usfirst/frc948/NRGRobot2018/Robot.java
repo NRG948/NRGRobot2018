@@ -204,8 +204,9 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Encoders/right front", RobotMap.rightFrontEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/right rear", RobotMap.rightRearEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/lifter", RobotMap.cubeLiftEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/MechY", Robot.positionTracker.getMechY());
 		// getting absolute reading
-		SmartDashboard.putNumber("Encoders/tilter", RobotMap.cubeTilterMotor.getSensorCollection().getPulseWidthPosition());
+		//SmartDashboard.putNumber("Encoders/tilter", RobotMap.cubeTilterMotor.getSensorCollection().getPulseWidthPosition());
 		
 		SmartDashboard.putData("LifterLimitSwitches/upper", RobotMap.lifterUpperLimitSwitch);
 		SmartDashboard.putData("LifterLimitSwitches/lower", RobotMap.lifterLowerLimitSwitch);
@@ -266,7 +267,7 @@ public class Robot extends TimedRobot {
 			
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 			
-			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, 0);
+			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, Drive.DEF_AUTO_MAX_DRIVE_ACCEL);
 			preferences.putDouble(PreferenceKeys.TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT, Drive.DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT);
 
 			preferences.putDouble(PreferenceKeys.MEC_ENCODER_LF_RATIO_PRACTICE, RobotMap.DEF_MEC_ENCODER_LF_RATIO_PRACTICE);

@@ -34,13 +34,13 @@ public class ManualCubeTiltPIDAssist extends Command {
 			power = CubeTilter.TILT_DOWN_POWER;
 			Robot.cubeTilter.rawTilt(power);
 		} else {
-			double currAngle = RobotMap.cubeTilterMotor.getSensorCollection().getPulseWidthPosition();
+			/*double currAngle = RobotMap.cubeTilterMotor.getSensorCollection().getPulseWidthPosition();
 
 			if (prevPower != 0) {
 				Robot.cubeTilter.tiltToAnglePIDIntialize(currAngle, 6);
 				System.out.println("Entering Tilter PID mode for setpoint " + currAngle);
 			}
-			Robot.cubeTilter.tiltToAnglePIDExecute();
+			Robot.cubeTilter.tiltToAnglePIDExecute();*/
 		}
 
 		prevPower = power;

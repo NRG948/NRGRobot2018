@@ -47,9 +47,9 @@ public class Drive extends Subsystem implements PIDOutput {
 	private final double PID_MIN_OUTPUT = 0.08;
 	private final double PID_MAX_OUTPUT = 1;
 	
-	public final static double DEFAULT_TURN_P = 0.18;
-	public final static double DEFAULT_TURN_I = 0.6;
-	public final static double DEFAULT_TURN_D = 0.0135;
+	public final static double DEFAULT_TURN_P = 0.09;
+	public final static double DEFAULT_TURN_I = 0.6 / 20;
+	public final static double DEFAULT_TURN_D = 0.0135 * 20;
 
 	public final static double DEFAULT_DRIVE_Y_P = 0.24;
 	public final static double DEFAULT_DRIVE_Y_I = 0.6;
@@ -69,12 +69,13 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	private double maxDriveAccel = 1.0;
 	public static final double DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT = 0.045;
-	public static final double DEF_AUTO_MAX_DRIVE_ACCEL = 0.05;
+	public static final double DEF_AUTO_MAX_DRIVE_ACCEL = 0.03;
 
 	private double lastVelX = 0.0;
 	private double lastVelY = 0.0;
 	
 	private double desiredHeading = 0.0;
+	private double lastPower = 0;
 
 	@Override
 	public void initDefaultCommand() {
@@ -223,11 +224,11 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void tankDrive(double pL, double pR) {
-		RobotMap.driveLeftFrontMotor.set(pL);
-		RobotMap.driveLeftRearMotor.set(pL);
+		RobotMap.driveLeftFrontMotor.set(pL * 1);
+		RobotMap.driveLeftRearMotor.set(pL * 1);
 
-		RobotMap.driveRightFrontMotor.set(-pR);
-		RobotMap.driveRightRearMotor.set(-pR);
+		RobotMap.driveRightFrontMotor.set(-pR * 1);
+		RobotMap.driveRightRearMotor.set(-pR * 1);
 	}
 	
 	public void tankDriveOnHeadingPIDInit(double desiredHeading, double maxDrivePower) {
@@ -241,6 +242,10 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 	
 	public void tankDriveOnHeadingPIDExecute(double power) {
+		double accel = power - lastPower;
+		if (Math.abs(accel) > maxDriveAccel) {
+			power = lastPower  + Math.copySign(maxDriveAccel, accel);
+		}
 		double leftPower = power;
 		double rightPower = power;
 
@@ -273,6 +278,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		}
 		
 		tankDrive(leftPower, rightPower);
+		lastPower = power;
 
 		SmartDashboard.putNumber("drive on heading turn adjustment power", turnAdjustmentPower);	
 	}
