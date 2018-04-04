@@ -205,6 +205,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Encoders/right rear", RobotMap.rightRearEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/lifter", RobotMap.cubeLiftEncoder.getDistance());
 		SmartDashboard.putNumber("Encoders/tilter", RobotMap.cubeTiltEncoder.getDistance());
+		SmartDashboard.putNumber("Encoders/MechY", Robot.positionTracker.getMechY());
 		
 		SmartDashboard.putData("LifterLimitSwitches/upper", RobotMap.lifterUpperLimitSwitch);
 		SmartDashboard.putData("LifterLimitSwitches/lower", RobotMap.lifterLowerLimitSwitch);
@@ -264,7 +265,8 @@ public class Robot extends TimedRobot {
 			preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
 			
 			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
-			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, 0.045);
+			
+			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, Drive.DEF_AUTO_MAX_DRIVE_ACCEL);
 			preferences.putDouble(PreferenceKeys.TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT, Drive.DEF_TELEOP_DRIVE_ACCEL_MAX_LIFT_HEIGHT);
 
 			preferences.putDouble(PreferenceKeys.MEC_ENCODER_LF_RATIO_PRACTICE, RobotMap.DEF_MEC_ENCODER_LF_RATIO_PRACTICE);

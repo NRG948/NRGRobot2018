@@ -64,7 +64,7 @@ public class DriveStraightDistanceTank extends Command {
 			revisedPower = 0.0;
 		} 
 		else if (Math.abs(error) < 9.0) {
-			revisedPower = 0.15 * Math.signum(error);
+			revisedPower = 0.2 * Math.signum(error);
 		}
 
 		Robot.drive.tankDriveOnHeadingPIDExecute(revisedPower);
@@ -82,7 +82,17 @@ public class DriveStraightDistanceTank extends Command {
 		}
 
 		SmartDashboard.putNumber("DriveStraightDistanceTank/Cycles On Target", cyclesOnTarget);
-		return (cyclesOnTarget >= 7);
+		if (cyclesOnTarget >= 7) {
+			double lf = RobotMap.leftFrontEncoder.getDistance();
+			double lr = RobotMap.leftRearEncoder.getDistance();
+			double rf = RobotMap.rightFrontEncoder.getDistance();
+			double rr = RobotMap.rightRearEncoder.getDistance();
+			
+			double min = Math.min(Math.min(lf, lr), Math.min(rr, rf));
+			System.out.println("LF: " + min/lf + ", RF: " + min/rf + "LR: " + min/lr + "RR: " + min/rr);
+			return true;
+		}
+		return false;
 	}
 
 	protected void end() {
