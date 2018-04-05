@@ -34,11 +34,12 @@ public class DriveStraightDistanceTank extends Command {
 	}
 
 	public DriveStraightDistanceTank(double power, double distance) {
-		this(power, distance, 1.0);
+		this(power, distance, 2.0);
 	}
 
 	@Override
 	protected void initialize() {
+		System.out.println("DriveStraightDistanceTank init");
 		desiredHeading = Robot.drive.getDesiredHeading();
 		Robot.drive.tankDriveOnHeadingPIDInit(desiredHeading, power);
 
@@ -46,7 +47,7 @@ public class DriveStraightDistanceTank extends Command {
 				.setAbsoluteTolerance(distanceTolerance).setSetpoint(distance).start();
 
 		initialY = PositionTracker.getMechY();
-		initialY = RobotMap.yEncoder.getDistance();
+//		initialY = RobotMap.yEncoder.getDistance();
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class DriveStraightDistanceTank extends Command {
 			revisedPower = 0.0;
 		} 
 		else if (Math.abs(error) < 9.0) {
-			revisedPower = 0.2 * Math.signum(error);
+			revisedPower = 0.25 * Math.signum(error);
 		}
 
 		Robot.drive.tankDriveOnHeadingPIDExecute(revisedPower);

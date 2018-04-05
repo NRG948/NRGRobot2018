@@ -222,17 +222,17 @@ public class OI {
 	public static AutoStartingPosition getAutoStartingPosition() {
 		AutoStartingPosition autoPosition = null;
 		
-		if (Robot.preferences.getBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true)) {
-			if (autoLeft.get()) {
-				autoPosition = AutoStartingPosition.LEFT;
-			} else if (autoRight.get()) {
-				autoPosition = AutoStartingPosition.RIGHT;
-			} else if (autoCenter.get()) {
-				autoPosition = AutoStartingPosition.CENTER;
-			}
-		} else {
-			autoPosition = Robot.autoPositionChooser.getSelected();
+		//if (Robot.preferences.getBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true)) {
+		if (autoLeft.get()) {
+			autoPosition = AutoStartingPosition.LEFT;
+		} else if (autoRight.get()) {
+			autoPosition = AutoStartingPosition.RIGHT;
+		} else if (autoCenter.get()) {
+			autoPosition = AutoStartingPosition.CENTER;
 		}
+//		} /*else {
+//			autoPosition = Robot.autoPositionChooser.getSelected();
+//		}*/
 		
 		return autoPosition;
 	}
@@ -240,22 +240,22 @@ public class OI {
 	public static AutoMovement getAutoMovement() {
 		AutoMovement autoMovement = AutoMovement.SWITCH;
 		
-		if (Robot.preferences.getBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true)) {
-			if (autoSwitch.get()) {
-				autoMovement = AutoMovement.SWITCH;
-			} else if (autoScale.get()) {
-				autoMovement = AutoMovement.SCALE;
-			} else if (autoBoth.get()) {
-				autoMovement = AutoMovement.BOTH;
-			} else if (autoForward.get()) {
-				autoMovement = AutoMovement.FORWARD;
-			} else if (autoNone.get()) {
-				autoMovement = AutoMovement.NONE;
-			}
-		} else {
-			autoMovement = Robot.autoMovementChooser.getSelected();
+		//if (Robot.preferences.getBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true)) {
+		if (autoSwitch.get()) {
+			autoMovement = AutoMovement.SWITCH;
+		} else if (autoScale.get()) {
+			autoMovement = AutoMovement.SCALE;
+		} else if (autoBoth.get()) {
+			autoMovement = AutoMovement.BOTH;
+		} else if (autoForward.get()) {
+			autoMovement = AutoMovement.FORWARD;
+		} else if (autoNone.get()) {
+			autoMovement = AutoMovement.NONE;
 		}
-		
+//		//} else {
+//			autoMovement = Robot.autoMovementChooser.getSelected();
+//		}
+//		
 		return autoMovement;
 	}
 }

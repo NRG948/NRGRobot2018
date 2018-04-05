@@ -25,6 +25,8 @@ public class ResetSensors extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.drive.setDesiredHeading(0);
+
     	RobotMap.navx.reset();
     	RobotMap.xEncoder.reset();
     	RobotMap.yEncoder.reset();
@@ -33,7 +35,6 @@ public class ResetSensors extends Command {
     	RobotMap.rightFrontEncoder.reset();
     	RobotMap.leftRearEncoder.reset();
     	RobotMap.rightRearEncoder.reset();
-    	
     	RobotMap.cubeLiftEncoder.reset();
     	RobotMap.cubeTiltEncoder.reset();
     }
