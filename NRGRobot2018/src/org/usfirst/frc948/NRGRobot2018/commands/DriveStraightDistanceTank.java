@@ -82,22 +82,20 @@ public class DriveStraightDistanceTank extends Command {
 		}
 
 		SmartDashboard.putNumber("DriveStraightDistanceTank/Cycles On Target", cyclesOnTarget);
-		if (cyclesOnTarget >= 7) {
-			double lf = RobotMap.leftFrontEncoder.getDistance();
-			double lr = RobotMap.leftRearEncoder.getDistance();
-			double rf = RobotMap.rightFrontEncoder.getDistance();
-			double rr = RobotMap.rightRearEncoder.getDistance();
-			
-			double min = Math.min(Math.min(lf, lr), Math.min(rr, rf));
-			System.out.println("LF: " + min/lf + ", RF: " + min/rf + "LR: " + min/lr + "RR: " + min/rr);
-			return true;
-		}
-		return false;
+		return cyclesOnTarget >= 7;
 	}
 
 	protected void end() {
 		Robot.drive.stop();
 		System.out.println("DriveStraightDistanceTank End");
+
+		double lf = RobotMap.leftFrontEncoder.getDistance();
+		double lr = RobotMap.leftRearEncoder.getDistance();
+		double rf = RobotMap.rightFrontEncoder.getDistance();
+		double rr = RobotMap.rightRearEncoder.getDistance();
+		
+		double min = Math.min(Math.min(lf, lr), Math.min(rr, rf));
+		System.out.println("LF: " + min/lf + ", RF: " + min/rf + " LR: " + min/lr + " RR: " + min/rr);
 	}
 
 	protected void interrupted() {

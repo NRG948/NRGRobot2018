@@ -107,7 +107,7 @@ public class AutonomousRoutines extends CommandGroup {
 	
 			case FORWARD:
 				addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
-				addSequential(new DriveStraightDistanceTank(TANK_POWER, 200), 4);
+				addSequential(new DriveStraightDistanceTank(TANK_POWER, 120), 4);
 				addSequential(new LiftToHeightAndHold(SCALE_MEDIUM));
 		}
     }

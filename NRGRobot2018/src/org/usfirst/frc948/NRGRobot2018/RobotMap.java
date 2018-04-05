@@ -137,10 +137,10 @@ public class RobotMap {
 		xEncoder.setDistancePerPulse(0.0457); // inches per pulse, encoder is slipping, 0.0519 -> previous value
 		yEncoder.setDistancePerPulse(0.0501); // .0544 -> prev value
 		
-		leftFrontEncoder.setDistancePerPulse(mecEncoderLFRatio);
-		rightFrontEncoder.setDistancePerPulse(mecEncoderLRRatio);
-		leftRearEncoder.setDistancePerPulse(mecEncoderRFRatio);
-		rightRearEncoder.setDistancePerPulse(mecEncoderRRRatio);
+		leftFrontEncoder.setDistancePerPulse(0.02534833333333333333333333333333);
+		rightFrontEncoder.setDistancePerPulse(0.02534833333333333333333333333333);
+		leftRearEncoder.setDistancePerPulse(0.02534833333333333333333333333333);
+		rightRearEncoder.setDistancePerPulse(0.02534833333333333333333333333333);
 		
 		cubeLiftEncoder.setDistancePerPulse(1.0);
 		cubeTiltEncoder.setDistancePerPulse(1.0);

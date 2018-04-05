@@ -224,10 +224,10 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void tankDrive(double pL, double pR) {
-		RobotMap.driveLeftFrontMotor.set(pL * 1);
-		RobotMap.driveLeftRearMotor.set(pL * 1);
+		RobotMap.driveLeftFrontMotor.set(pL * 0.92273117001960456666666666666667);
+		RobotMap.driveLeftRearMotor.set(pL * 0.95501576379652013333333333333333);
 
-		RobotMap.driveRightFrontMotor.set(-pR * 1);
+		RobotMap.driveRightFrontMotor.set(-pR * 0.93875198697074683333333333333333);
 		RobotMap.driveRightRearMotor.set(-pR * 1);
 	}
 	
