@@ -29,7 +29,9 @@ import org.usfirst.frc948.NRGRobot2018.commands.ManualDrive;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualDriveStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualStrafeStraight;
 import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
+import org.usfirst.frc948.NRGRobot2018.commands.SetAcquireScale;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
+import org.usfirst.frc948.NRGRobot2018.commands.SoftShootCube;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerDown;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerToAngle;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
@@ -76,6 +78,7 @@ public class OI {
 //	public static final JoystickButton tiltAcquirerAndEjectCube = new JoystickButton(xboxController, 1); // 'A' Button
 	public static final JoystickButton tiltAcquirerUp = new JoystickButton(xboxController, 4); // Y button
 	public static final JoystickButton tiltAcquirerDown = new JoystickButton(xboxController, 1); // A button
+	public static final JoystickButton softShootCube = new JoystickButton(xboxController, 6); // Right Bumper 
 	
 	// arduino buttons
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 10);
@@ -115,6 +118,7 @@ public class OI {
 		tiltAcquirerUp.whenReleased(new InterruptCommands(Robot.cubeTilter));
 		tiltAcquirerDown.whenPressed(new CubeTiltUpDown(-0.2, 1));
 		tiltAcquirerDown.whenReleased(new InterruptCommands(Robot.cubeTilter));
+		softShootCube.whileHeld(new SoftShootCube());
 		
 		climberButton.whileHeld(new ManualClimb(0.9));
 

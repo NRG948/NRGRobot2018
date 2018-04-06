@@ -17,7 +17,8 @@ public class CubeAcquirer extends Subsystem {
 	}
 	
 	public boolean lastCubeSwitchState;
-	
+	private double acquireScale = 1.0;
+
 	public CubeAcquirer() {
 		lastCubeSwitchState = isCubeIn();
 	}
@@ -37,14 +38,21 @@ public class CubeAcquirer extends Subsystem {
 	}
 	
 	public void rawAcquire(double leftPower, double rightPower) {
-		RobotMap.acquirerLeftMotor.set(leftPower);
-		RobotMap.acquirerRightMotor.set(rightPower);
+		RobotMap.acquirerLeftMotor.set(leftPower * acquireScale);
+		RobotMap.acquirerRightMotor.set(rightPower * acquireScale);
 	}
 	
 	public boolean isCubeIn(){
 		return !RobotMap.cubeDetectSwitch.get();
 	}
 	
+	public double getAcquireScale() {
+		return acquireScale;
+	}
+	
+	public void setAcquireScale(double acquireMaxPower) {
+		this.acquireScale = acquireMaxPower;
+	}
 	
 	public void stop() {
 		RobotMap.acquirerLeftMotor.stopMotor();

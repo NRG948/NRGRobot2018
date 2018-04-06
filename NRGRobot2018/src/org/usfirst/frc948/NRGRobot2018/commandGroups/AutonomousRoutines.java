@@ -435,7 +435,10 @@ public class AutonomousRoutines extends CommandGroup {
     		
     		addSequential(new TurnToHeading(0));
     		addSequential(new DriveStraightDistanceTank(0.6, 33));
-    		addSequential(new EjectUntilCubeOut(0.5, 1));
+    		addSequential(new EjectUntilCubeOut(0.4, 1));
+    		
+    		addParallel(new DelayThenLift(0.75, STOWED));
+    		addSequential(new DriveStraightDistanceTank(0.6, -33));
     	}
     }
     
@@ -451,7 +454,10 @@ public class AutonomousRoutines extends CommandGroup {
     		
     		addSequential(new TurnToHeading(0));
     		addSequential(new DriveStraightDistanceTank(0.6, 33));
-    		addSequential(new EjectUntilCubeOut(0.5, 1));
+    		addSequential(new EjectUntilCubeOut(0.4, 1));
+    		
+    		addParallel(new DelayThenLift(0.75, STOWED));
+    		addSequential(new DriveStraightDistanceTank(0.6, -33));
     	}
     }
     
