@@ -5,6 +5,7 @@ import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_MEDIUM
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.STOWED;
 import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SWITCH_LEVEL;
 import static org.usfirst.frc948.NRGRobot2018.utilities.Waypoint.USE_PID;
+import static org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter.SCALE_HIGH;
 
 import org.usfirst.frc948.NRGRobot2018.OI;
 import org.usfirst.frc948.NRGRobot2018.OI.PlateLocation;
@@ -90,7 +91,7 @@ public class AutonomousRoutines extends CommandGroup {
 					} else if (autoStartingPosition == AutoStartingPosition.LEFT) {
 						addSequential(new LeftToLeftScaleDriveStraight());
 //						addSequential(new LeftToLeftTwoCube());
-
+						//addSequential(new LeftToLeftTwoCube());
 					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
 						// addSequential(new DriveToXYHeadingPID(0, 140, 0));
 						addSequential(new RightToLeftScaleDriveStraight());
@@ -414,7 +415,7 @@ public class AutonomousRoutines extends CommandGroup {
     		addParallel(new LiftToHeightAndHold(SCALE_LOW)); // lift to low height to prevent tipping
     		addSequential(new DriveStraightDistanceTank(TANK_POWER, 236 - HALF_LENGTH_AND_BUMPER));
     		
-    		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to medium scale height
+    		addParallel(new LiftToHeightAndHold(SCALE_HIGH)); // lift to medium scale height
     		addSequential(new TurnToHeading(25));
     		
     		addSequential(new DriveStraightDistanceTank(TANK_POWER, 38));
@@ -433,6 +434,7 @@ public class AutonomousRoutines extends CommandGroup {
     		
     		addSequential(new DriveStraightDistanceTank(TANK_POWER, 203));
     		
+    		addParallel(new LiftToHeightAndHold(SCALE_HIGH));
     		addSequential(new TurnToHeading(0));
     		addSequential(new DriveStraightDistanceTank(0.6, 33));
     		addSequential(new EjectUntilCubeOut(0.4, 1));
@@ -452,6 +454,7 @@ public class AutonomousRoutines extends CommandGroup {
     		
     		addSequential(new DriveStraightDistanceTank(TANK_POWER, 203));
     		
+    		addParallel(new LiftToHeightAndHold(SCALE_HIGH));
     		addSequential(new TurnToHeading(0));
     		addSequential(new DriveStraightDistanceTank(0.6, 33));
     		addSequential(new EjectUntilCubeOut(0.4, 1));
@@ -467,7 +470,7 @@ public class AutonomousRoutines extends CommandGroup {
     		addParallel(new LiftToHeightAndHold(SCALE_LOW)); // lift to low height to prevent tipping
     		addSequential(new DriveStraightDistanceTank(TANK_POWER, 236 - HALF_LENGTH_AND_BUMPER));
     		
-    		addParallel(new LiftToHeightAndHold(SCALE_MEDIUM)); // lift to medium scale height
+    		addParallel(new LiftToHeightAndHold(SCALE_HIGH)); // lift to medium scale height
     		addSequential(new TurnToHeading(-25));
     		
     		addSequential(new DriveStraightDistanceTank(TANK_POWER, 38));
@@ -495,7 +498,7 @@ public class AutonomousRoutines extends CommandGroup {
     		addSequential(new TurnAndDriveToCube(150)); // estimated heading to get cube into pixy frame
     		
     		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new EjectUntilCubeOut(0.5, 1));
+    		addSequential(new EjectUntilCubeOut(0.5, 1)); 
     	}
     }
     
