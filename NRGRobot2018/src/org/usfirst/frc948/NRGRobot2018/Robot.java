@@ -278,6 +278,8 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.MEC_ENCODER_LR_RATIO_COMP, RobotMap.DEF_MEC_ENCODER_LR_RATIO_COMP);
 			preferences.putDouble(PreferenceKeys.MEC_ENCODER_RF_RATIO_COMP, RobotMap.DEF_MEC_ENCODER_RF_RATIO_COMP);
 			preferences.putDouble(PreferenceKeys.MEC_ENCODER_RR_RATIO_COMP, RobotMap.DEF_MEC_ENCODER_RR_RATIO_COMP);
+			
+			preferences.putInt(PreferenceKeys.PIXY_CAM_CUBE_SIGNATURE, 1);
 		}
 	}
 }

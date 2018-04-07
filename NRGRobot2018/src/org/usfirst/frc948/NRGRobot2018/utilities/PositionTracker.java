@@ -118,6 +118,7 @@ public class PositionTracker {
 		double rf = RobotMap.rightFrontEncoder.getDistance();
 		double rr = RobotMap.rightRearEncoder.getDistance();
 		
+//		return (lf + lr + rf) / 3.0;
 		return (lf + lr + rf + rr) / 4.0;
 	}
 

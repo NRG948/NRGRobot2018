@@ -23,7 +23,7 @@ public class LiftToHeight extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.cubeLifter.liftToHeightPIDInit(level.getTicks(), 1);
+		Robot.cubeLifter.liftToHeightPIDInit(level.getTicks(), 100);
 		System.out.println("LiftToHeight init: " + level.getTicks());
 	}
 

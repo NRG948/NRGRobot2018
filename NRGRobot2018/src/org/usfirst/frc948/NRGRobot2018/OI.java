@@ -90,7 +90,8 @@ public class OI {
 	public static final JoystickButton autoBoth = new JoystickButton(arduinoJoystick, 5);
 	public static final JoystickButton autoForward = new JoystickButton(arduinoJoystick, 2);
 	public static final JoystickButton autoNone = new JoystickButton(arduinoJoystick, 1);
-
+	public static final JoystickButton autoTwoCubeScale = new JoystickButton(arduinoJoystick, 6);
+	
 	private static boolean reverseTriggers = false;
 	
 	public enum PlateLocation {
@@ -255,7 +256,7 @@ public class OI {
 			autoMovement = AutoMovement.FORWARD;
 		} else if (autoNone.get()) {
 			autoMovement = AutoMovement.NONE;
-		}
+		} 
 //		//} else {
 //			autoMovement = Robot.autoMovementChooser.getSelected();
 //		}

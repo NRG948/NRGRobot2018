@@ -96,7 +96,12 @@ public class DriveStraightDistanceTank extends Command {
 		double rr = RobotMap.rightRearEncoder.getDistance();
 		
 		double min = Math.min(Math.min(lf, lr), Math.min(rr, rf));
-		System.out.println("LF: " + min/lf + ", RF: " + min/rf + " LR: " + min/lr + " RR: " + min/rr);
+		
+		if (min == 0) {
+			System.out.println("Broken encoder");
+		} else {
+			System.out.println("LF: " + min/lf + ", RF: " + min/rf + " LR: " + min/lr + " RR: " + min/rr);
+		}
 	}
 
 	protected void interrupted() {

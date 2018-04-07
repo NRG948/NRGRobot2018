@@ -6,6 +6,7 @@ import org.usfirst.frc948.NRGRobot2018.Robot;
 import org.usfirst.frc948.NRGRobot2018.RobotMap;
 import org.usfirst.frc948.NRGRobot2018.utilities.CubeCalculations;
 import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
+import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 import org.usfirst.frc948.NRGRobot2018.vision.PixyCam.Block;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -41,7 +42,6 @@ public class DriveToCube extends Command {
 		
 		if (currFrame.size() > 0) {
 			currBlock = currFrame.get(0);
-
 			distanceToCube = CubeCalculations.getDistanceFromWidth(currBlock);
 			double cubeNormalized = CubeCalculations.getDistanceToCenterNormalized(currBlock);
 			

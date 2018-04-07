@@ -89,9 +89,9 @@ public class AutonomousRoutines extends CommandGroup {
 					if (autoStartingPosition == AutoStartingPosition.CENTER) {
 						addSequential(new MiddleToLeftScale());
 					} else if (autoStartingPosition == AutoStartingPosition.LEFT) {
-						addSequential(new LeftToLeftScaleDriveStraight());
+//						addSequential(new LeftToLeftScaleDriveStraight());
 //						addSequential(new LeftToLeftTwoCube());
-						//addSequential(new LeftToLeftTwoCube());
+						addSequential(new LeftToLeftTwoCube());
 					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
 						// addSequential(new DriveToXYHeadingPID(0, 140, 0));
 						addSequential(new RightToLeftScaleDriveStraight());
@@ -104,7 +104,8 @@ public class AutonomousRoutines extends CommandGroup {
 					if (autoStartingPosition == AutoStartingPosition.CENTER) {
 						addSequential(new MiddleToRightScale());
 					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
-						addSequential(new RightToRightScaleDriveStraight());
+//						addSequential(new RightToRightScaleDriveStraight());
+						addSequential(new RightToRightTwoCube());
 					} else if (autoStartingPosition == AutoStartingPosition.LEFT) {
 						// addSequential(new DriveToXYHeadingPID(0, 140, 0));
 						// addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
@@ -494,10 +495,19 @@ public class AutonomousRoutines extends CommandGroup {
     		addSequential(new DriveStraightDistanceTank(TANK_POWER, 38));
     		addSequential(new EjectUntilCubeOut(0.5, 1));
     		
-    		addParallel(new DelayThenLift(0.75, STOWED));
-    		addSequential(new TurnAndDriveToCube(150)); // estimated heading to get cube into pixy frame
+    		addSequential(new SecondCubeScale(170));
+    	}
+    }
+    
+    public class SecondCubeScale extends CommandGroup {
+    	public SecondCubeScale(double heading) {
+    		addParallel(new DelayThenLift(0.5, STOWED));
+    		addSequential(new TurnAndDriveToCube(heading)); // estimated heading to get cube into pixy frame
     		
-    		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
+    		addParallel(new LiftToHeightAndHold(SCALE_HIGH));
+    		addSequential(new TurnToHeading(0));
+    		
+    		addSequential(new DriveStraightDistanceTank(TANK_POWER, 45), 2);
     		addSequential(new EjectUntilCubeOut(0.5, 1)); 
     	}
     }

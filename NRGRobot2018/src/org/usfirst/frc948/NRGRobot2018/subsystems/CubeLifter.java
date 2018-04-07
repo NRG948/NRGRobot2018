@@ -30,7 +30,7 @@ public class CubeLifter extends Subsystem {
 	public final static double DEFAULT_LIFT_I = 0.0;
 	public final static double DEFAULT_LIFT_D = 0.0;
 	
-	public final static int DEFAULT_SCALE_HIGH_TICKS = 7400; // Needs to be tested
+	public final static int DEFAULT_SCALE_HIGH_TICKS = 7000; // Needs to be tested
 	public final static int DEFAULT_SCALE_MEDIUM_TICKS = 7000;
 	public final static int DEFAULT_SCALE_LOW_TICKS = 6500;
 	public final static int DEFAULT_SWITCH_TICKS = 3000;
