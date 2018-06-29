@@ -56,6 +56,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * and command groups that allow control of the robot.
  */
 public class OI {
+	
 	public static final Joystick leftJoystick = new Joystick(0);
 	public static final Joystick rightJoystick = new Joystick(1);
 	public static final XboxController xboxController = new XboxController(2);

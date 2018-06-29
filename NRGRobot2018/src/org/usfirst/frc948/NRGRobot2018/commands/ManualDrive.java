@@ -46,11 +46,12 @@ public class ManualDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	Robot.drive.driveCartesian(
+    	/*Robot.drive.driveCartesian(
     			MathUtil.deadband(OI.getLeftJoystickX(), 0.05), 
     			MathUtil.deadband(OI.getRightJoystickY(), 0.05), 
     			MathUtil.deadband(OI.getRightJoystickRot(), 0.1)
-    			);
+    			);*/
+    	Robot.drive.tankDrive(OI.getLeftJoystickY(), OI.getRightJoystickY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
