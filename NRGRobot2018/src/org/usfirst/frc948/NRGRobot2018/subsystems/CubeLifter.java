@@ -53,9 +53,9 @@ public class CubeLifter extends Subsystem {
 		double maxPowerDown = Robot.preferences.getDouble(PreferenceKeys.LIFT_DOWN_MAX_POWER, LIFT_POWER_SCALE_DOWN);
 		
 		lifterPIDController = new SimplePIDController(p, i, d, true)
-								.setInputRange(LIFTER_MIN_TICKS, LIFTER_MAX_TICKS)
 								.setOutputRange(-maxPowerDown, maxPowerUp)
-								.setAbsoluteTolerance(tolerance).setSetpoint(setpoint)
+								.setAbsoluteTolerance(tolerance)
+								.setSetpoint(setpoint)
 								.start();
 	}
 

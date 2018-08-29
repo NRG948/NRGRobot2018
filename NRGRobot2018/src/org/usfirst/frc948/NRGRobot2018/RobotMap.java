@@ -22,10 +22,14 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
@@ -36,6 +40,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
  */
 
 public class RobotMap {
+	public static Compressor compressor = new Compressor();
 	public static Victor driveLeftFrontMotor;
 	public static Victor driveLeftRearMotor;
 	public static Victor driveRightFrontMotor;
@@ -82,6 +87,9 @@ public class RobotMap {
 	public static AHRS navx;
 	public static ContinuousGyro gyro;
 	
+	
+	public static DoubleSolenoid solenoid;
+	
 	public static IPixyLink pixyLink;
 	public static PixyCam pixy;
 	
@@ -89,6 +97,8 @@ public class RobotMap {
 	public static Arduino arduino;
 	
 	public static UsbCamera USBCamera;
+	
+	public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
 	public static void init() {
 		if (Robot.preferences.getBoolean(PreferenceKeys.USING_PRACTICE_BOT, true)) {
@@ -107,6 +117,10 @@ public class RobotMap {
 		driveLeftRearMotor = new Victor(3);
 		driveRightFrontMotor = new Victor(0);
 		driveRightRearMotor = new Victor(2);
+		
+		solenoid = new DoubleSolenoid(0, 1);
+		
+
 		
 		driveMecanumDrive = new MecanumDrive(driveLeftFrontMotor, driveLeftRearMotor, driveRightFrontMotor, driveRightRearMotor);
 		driveMecanumDrive.setSafetyEnabled(false);
