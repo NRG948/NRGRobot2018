@@ -19,21 +19,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class CubeLifter extends Subsystem {
 	private static final int LIFTER_MAX_TICKS = 7400 - 100; // safe zone of 100 ticks
-	private static final int LIFTER_MIN_TICKS = 50;
+	private static final int LIFTER_MIN_TICKS = 50; 
 
 	private SimplePIDController lifterPIDController;
 
-	public static final double LIFT_POWER_SCALE_UP = 0.95;
-	public static final double LIFT_POWER_SCALE_DOWN = 0.50;
+	public static final double LIFT_POWER_SCALE_UP = 1.0;
+	public static final double LIFT_POWER_SCALE_DOWN = 0.7;
 
 	public final static double DEFAULT_LIFT_P = 0.005;
 	public final static double DEFAULT_LIFT_I = 0.0;
 	public final static double DEFAULT_LIFT_D = 0.0;
 	
-	public final static int DEFAULT_SCALE_HIGH_TICKS = 13800; // Needs to be tested - original 13800
-	public final static int DEFAULT_SCALE_MEDIUM_TICKS = 7000;
-	public final static int DEFAULT_SCALE_LOW_TICKS = 10100; //6500 before
-	public final static int DEFAULT_SWITCH_TICKS = 4600; //3000 before
+	public final static int DEFAULT_SCALE_HIGH_TICKS = 7000; // Needs to be tested - original 7000 - girls gen 13800
+	public final static int DEFAULT_SCALE_LOW_TICKS = 6500; //6500 before - girls gen 10100
+	public final static int DEFAULT_SCALE_MEDIUM_TICKS = (DEFAULT_SCALE_HIGH_TICKS + DEFAULT_SCALE_LOW_TICKS)/2;
+	public final static int DEFAULT_SWITCH_TICKS = 3000; //3000 before - girls gen - 4600
 	public static final int DEFAULT_STOWED_TICKS = 0;
 	
 	public static final LifterLevel SWITCH_LEVEL = new LifterLevel(PreferenceKeys.SWITCH_TICKS, DEFAULT_SWITCH_TICKS);

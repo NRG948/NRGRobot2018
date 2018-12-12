@@ -16,7 +16,8 @@ public class PixyCam {
 
 	private IPixyLink link;
 	private boolean skipStart = false;
-	private boolean isEnabled = false;
+	private boolean isEnabled = true;
+	private Timer timer = new Timer();
 	private BlockType blockType;
 	volatile ArrayList<Block> pixyFrameData = new ArrayList<Block>(10); // arraylist to store blocks in each frame
 
@@ -25,11 +26,12 @@ public class PixyCam {
 	}
 
 	public void startVisionThread() { // starts vision thread
-		new Timer().schedule(new VisionTask(this), 0, 10);
+		timer.schedule(new VisionTask(this), 0, 10);
 		this.enableVision();
 	}
 
 	private boolean getStart() { // checks for new frames
+//		System.out.println("getStart");
 		int word, prevWord;
 		prevWord = 0xffff;
 
@@ -37,15 +39,15 @@ public class PixyCam {
 			word = link.getWord();
 
 			if (word == PIXY_START_WORD && prevWord == PIXY_START_WORD) {
-//				System.out.println("getStart(): New frame, Normal Block");
+				System.out.println("getStart(): New frame, Normal Block");
 				blockType = BlockType.NORMAL_BLOCK;
 				return true;
 			} else if (word == PIXY_START_WORD_CC && prevWord == PIXY_START_WORD) {
-//				System.out.println("\ngetStart(): New frame, CC Block");
+				System.out.println("\ngetStart(): New frame, CC Block");
 				blockType = BlockType.CC_BLOCK;
 				return true;
 			} else if (word == PIXY_START_WORDX) {
-//				System.out.println("getStart(): resyncing");
+				System.out.println("getStart(): resyncing");
 				link.getByte(); // resync
 			} else if (word == 0 && prevWord == 0) {
 				try {
@@ -78,12 +80,12 @@ public class PixyCam {
 				int checksum = link.getWord();
 
 				if (checksum == PIXY_START_WORD) { // previous word was extra sync word to indicate new frame
-//					System.out.println("getBlocksLoop(): New frame, normal block");
+					System.out.println("getBlocksLoop(): New frame, normal block");
 					skipStart = true;
 					blockType = BlockType.NORMAL_BLOCK;
 					break;
 				} else if (checksum == PIXY_START_WORD_CC) { // previous word was extra sync word to indicate new frame
-//					System.out.println("getBlocksLoop(): New frame, color code block");
+					System.out.println("getBlocksLoop(): New frame, color code block");
 					skipStart = true;
 					blockType = BlockType.CC_BLOCK;
 					break;
@@ -95,30 +97,30 @@ public class PixyCam {
 															// x, y
 
 				if (block.getChecksum() == checksum) {
-//					System.out.print("getBlocksLoop(): Checksums equal, added " + block);
+					System.out.print("getBlocksLoop(): Checksums equal, added " + block);
 //					System.out.println(", distance in inches = " + distance);
 					blocks.add(block);
 				} else {
-//					System.out.println(
-//							"getBlocksLoop(): Checksums not equal: " + block.getChecksum() + " != " + checksum);
+					System.out.println(
+							"getBlocksLoop(): Checksums not equal: " + block.getChecksum() + " != " + checksum);
 				}
 
 				int word = link.getWord();
 
 				if (word == PIXY_START_WORD) {
-//					System.out.println("getBlocksLoop(): got normal sync word");
+					System.out.println("getBlocksLoop(): got normal sync word");
 					blockType = BlockType.NORMAL_BLOCK;
 				} else if (word == PIXY_START_WORD_CC) {
-//					System.out.println("getBlocksLoop(): got CC sync word");
+					System.out.println("getBlocksLoop(): got CC sync word");
 					blockType = BlockType.CC_BLOCK;
 				} else { // unexpected data
-//					System.out.println("getBlocksLooop(): unexpected data, w = " + Integer.toHexString(word));
+					System.out.println("getBlocksLooop(): unexpected data, w = " + Integer.toHexString(word));
 					break;
 				}
 			}
 
 			setPixyFrameData(blocks);
-//			System.out.println("getBlocksLoop(): blocks added to list, size: " + blocks.size() + "\n");
+			System.out.println("getBlocksLoop(): blocks added to list, size: " + blocks.size() + "\n");
 		}
 	}
 

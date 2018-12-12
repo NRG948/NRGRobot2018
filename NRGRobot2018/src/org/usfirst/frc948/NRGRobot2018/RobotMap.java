@@ -87,7 +87,6 @@ public class RobotMap {
 	public static AHRS navx;
 	public static ContinuousGyro gyro;
 	
-	
 	public static DoubleSolenoid solenoid;
 	
 	public static IPixyLink pixyLink;
@@ -128,7 +127,6 @@ public class RobotMap {
 		driveMecanumDrive.setMaxOutput(1.0);
 
 		cubeLifterMotor = new Victor(4);
-		
 		cubeTilterMotor = new Victor(7);
 		cubeTilterMotor.setInverted(false);
 		
