@@ -13,6 +13,7 @@ import org.usfirst.frc948.NRGRobot2018.Robot.AutoMovement;
 import org.usfirst.frc948.NRGRobot2018.Robot.AutoStartingPosition;
 import org.usfirst.frc948.NRGRobot2018.commands.DelaySeconds;
 import org.usfirst.frc948.NRGRobot2018.commands.DriveStraightDistanceTank;
+import org.usfirst.frc948.NRGRobot2018.commands.DriveToCube;
 import org.usfirst.frc948.NRGRobot2018.commands.EjectUntilCubeOut;
 import org.usfirst.frc948.NRGRobot2018.commands.LiftToHeight;
 import org.usfirst.frc948.NRGRobot2018.commands.ManualCubeLift;
@@ -89,11 +90,12 @@ public class AutonomousRoutines extends CommandGroup {
 					if (autoStartingPosition == AutoStartingPosition.CENTER) {
 						addSequential(new MiddleToLeftScale());
 					} else if (autoStartingPosition == AutoStartingPosition.LEFT) {
-//						addSequential(new LeftToLeftScaleDriveStraight());
+						addSequential(new LeftToLeftScaleDriveStraight());
 //						addSequential(new LeftToLeftTwoCube());
-						addSequential(new LeftToLeftTwoCube());
+						//addSequential(new LeftToLeftTwoCube());
 					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
 						// addSequential(new DriveToXYHeadingPID(0, 140, 0));
+						//addSequential(new RightToLeftTwoCube());\
 						addSequential(new RightToLeftScaleDriveStraight());
 						
 //						addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
@@ -105,7 +107,8 @@ public class AutonomousRoutines extends CommandGroup {
 						addSequential(new MiddleToRightScale());
 					} else if (autoStartingPosition == AutoStartingPosition.RIGHT) {
 //						addSequential(new RightToRightScaleDriveStraight());
-						addSequential(new RightToRightTwoCube());
+//						addSequential(new RightToRightTwoCube());
+						addSequential(new RightToRightScaleDriveStraight());
 					} else if (autoStartingPosition == AutoStartingPosition.LEFT) {
 						// addSequential(new DriveToXYHeadingPID(0, 140, 0));
 						// addSequential(new DriveStraightDistanceTank(TANK_POWER, 140));
@@ -270,6 +273,20 @@ public class AutonomousRoutines extends CommandGroup {
     /*
      *  Scale auto routines
      */
+    
+    private static final Waypoint RIGHT_TO_RIGHT_SCALE[] = {
+    		new Waypoint(CoordinateType.RELATIVE, 0, 211, 0, new WithinInches(44)),
+    		new Waypoint(CoordinateType.RELATIVE, 0, 90, -45, USE_PID)
+    };
+    
+    public class RightToRightScale extends CommandGroup {
+    	public RightToRightScale() {
+    		addParallel(new DriveAndEject(0, 0, RIGHT_TO_RIGHT_SCALE, 6));
+    		addParallel(new LiftToHeightAndHold(SWITCH_LEVEL));
+    		//addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
+    		addSequential(new TiltAcquirerDown(1));
+    	}
+    }
     public class LeftToLeftScale extends CommandGroup {
         public LeftToLeftScale() {
             addSequential(new SetDriveScale(0.6));
@@ -311,8 +328,8 @@ public class AutonomousRoutines extends CommandGroup {
             new Waypoint(CoordinateType.RELATIVE, 0, 295, 0, new Waypoint.GreaterThanY(280)),
             new Waypoint(CoordinateType.RELATIVE, -21, 0, -90, USE_PID) };
 
-    public class RightToRightScale extends CommandGroup {
-        public RightToRightScale() {
+    public class RightToRightScaleWAY extends CommandGroup {
+        public RightToRightScaleWAY() {
             addParallel(new DriveAndEject(0, 0, RIGHT_RIGHT_SCALE_PATH, 12));
             addParallel(new LiftToHeightAndHold(SCALE_LOW));
             //addSequential(new TiltAcquirerToAngle(CubeTilter.TILTER_DOWN));
@@ -495,15 +512,20 @@ public class AutonomousRoutines extends CommandGroup {
     		addSequential(new DriveStraightDistanceTank(TANK_POWER, 38));
     		addSequential(new EjectUntilCubeOut(0.5, 1));
     		
-    		addSequential(new SecondCubeScale(170));
+    		addSequential(new SecondCubeScale(160));
     	}
     }
     
     public class SecondCubeScale extends CommandGroup {
     	public SecondCubeScale(double heading) {
-    		addParallel(new DelayThenLift(0.5, STOWED));
-    		addSequential(new TurnAndDriveToCube(heading)); // estimated heading to get cube into pixy frame
-    		
+    		addParallel(new DelayThenLift(0, STOWED));
+    		addSequential(new TurnToHeading(heading));
+    		addSequential(new DriveStraightDistanceTank(1.0, 30));
+    		addSequential(new DriveToCubeAndGrab()); // estimated heading to get cube into pixy frame
+    		if(OI.getAllianceSwitchSide() == PlateLocation.LEFT){
+    			addSequential(new LiftToHeight(SWITCH_LEVEL));
+    			addSequential(new EjectUntilCubeOut(0.5, 1));
+    		}
     		addParallel(new LiftToHeightAndHold(SCALE_HIGH));
     		addSequential(new TurnToHeading(0));
     		
@@ -524,11 +546,7 @@ public class AutonomousRoutines extends CommandGroup {
     		addSequential(new DriveStraightDistanceTank(TANK_POWER, 38));
     		addSequential(new EjectUntilCubeOut(0.5, 1));
 
-    		addParallel(new DelayThenLift(0.75, STOWED));
-    		addSequential(new TurnAndDriveToCube(150)); // estimated heading to get cube into pixy frame
-    		
-    		addSequential(new LiftToHeightAndHold(SWITCH_LEVEL));
-    		addSequential(new EjectUntilCubeOut(0.5, 1));
+    		addSequential(new SecondCubeScale(-170));
     	}
     }
     

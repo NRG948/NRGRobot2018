@@ -119,7 +119,8 @@ public class PositionTracker {
 		double rr = RobotMap.rightRearEncoder.getDistance();
 		
 //		return (lf + lr + rf) / 3.0;
-		return (lf + lr + rf + rr) / 4.0;
+//		return (lf + lr + rf + rr) / 4.0;
+		return (Math.max(lf , lr) + Math.max(rf, rr))/2;
 	}
 
 	public void setXY(double x, double y) {
@@ -133,7 +134,11 @@ public class PositionTracker {
 	public double getXGoal() {
 		return xGoal;
 	}
-	public double getYGoal() {
+	public 
+	
+	
+	
+	double getYGoal() {
 		return yGoal;
 	}
 	public void setXYGoal(double xGoal, double yGoal) {

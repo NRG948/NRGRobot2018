@@ -32,6 +32,7 @@ import org.usfirst.frc948.NRGRobot2018.commands.ResetSensors;
 import org.usfirst.frc948.NRGRobot2018.commands.SetAcquireScale;
 import org.usfirst.frc948.NRGRobot2018.commands.SetDriveScale;
 import org.usfirst.frc948.NRGRobot2018.commands.SoftShootCube;
+import org.usfirst.frc948.NRGRobot2018.commands.SolenoidAcquire;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerDown;
 import org.usfirst.frc948.NRGRobot2018.commands.TiltAcquirerToAngle;
 import org.usfirst.frc948.NRGRobot2018.commands.TurnToHeading;
@@ -42,6 +43,7 @@ import org.usfirst.frc948.NRGRobot2018.subsystems.Drive.DriveDirection;
 import org.usfirst.frc948.NRGRobot2018.utilities.MathUtil;
 import org.usfirst.frc948.NRGRobot2018.utilities.PreferenceKeys;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -61,6 +63,9 @@ public class OI {
 	public static final Joystick rightJoystick = new Joystick(1);
 	public static final XboxController xboxController = new XboxController(2);
 	public static final Joystick arduinoJoystick = new Joystick(3);
+	
+	public static final JoystickButton solenoid = new JoystickButton(xboxController, 8);
+	public static final JoystickButton solenoid2 = new JoystickButton(xboxController, 7);
 
 	public static final JoystickButton interruptCommands = new JoystickButton(leftJoystick, 6);
 	public static final JoystickButton resetSensors = new JoystickButton(leftJoystick, 7);
@@ -111,6 +116,8 @@ public class OI {
 		driveStraight.whileHeld(new ManualDriveStraight());
 		strafeStraight.whileHeld(new ManualStrafeStraight());
 		
+		solenoid.whenPressed(new SolenoidAcquire(true));
+		solenoid2.whenPressed(new SolenoidAcquire(false));
 		driveToCube.whenPressed(new DriveToCube(false));
 		driveToCubeAndGrab.whenPressed(new DriveToCubeAndGrab());
 		strafeAlignWithCube.whenPressed(new StrafeAlignWithCube());

@@ -18,7 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveToCube extends Command {
 	private final double DISTANCE_TO_SLOW = 50;
 	private final int DISTANCE_TO_STOP = 31;
-
+	double drivePower;
+	double turnPower;
 	double distanceToCube; // in inches
 	boolean driveUntilCubeAcquired;
 
@@ -41,22 +42,22 @@ public class DriveToCube extends Command {
 		SmartDashboard.putNumber("DriveToCube/current frame size", currFrame.size());
 		
 		if (currFrame.size() > 0) {
+			System.out.println(currFrame.size());
 			currBlock = currFrame.get(0);
 			distanceToCube = CubeCalculations.getDistanceFromWidth(currBlock);
 			double cubeNormalized = CubeCalculations.getDistanceToCenterNormalized(currBlock);
 			
-			double turnPower = MathUtil.clampNegativePositive(cubeNormalized, 0.15, 0.7);
-			double drivePower;
+			turnPower = MathUtil.clampNegativePositive(cubeNormalized, 0.15, 0.7);
+			Robot.drive.rawDriveCartesian(0, drivePower, turnPower);
 			
 			if (driveUntilCubeAcquired) {
-				drivePower = MathUtil.clamp(Math.abs(distanceToCube / DISTANCE_TO_SLOW), 0.12, 0.35);
+				drivePower = MathUtil.clamp(Math.abs(distanceToCube / DISTANCE_TO_SLOW), 0.2, 0.5);
 			} else {
 				drivePower = Math.min(1.0, (distanceToCube - DISTANCE_TO_STOP) / (DISTANCE_TO_SLOW - DISTANCE_TO_STOP));
 			}
-
-			Robot.drive.rawDriveCartesian(0, drivePower, turnPower);
 			
 			SmartDashboard.putNumber("DriveToCube/distance", distanceToCube);
+			System.out.println("Driving" + " drivePower " + drivePower + " turnPower " + turnPower + " distanceToCube " + distanceToCube);
 		}
 	}
 

@@ -17,6 +17,7 @@ import org.usfirst.frc948.NRGRobot2018.commandGroups.AutonomousRoutines;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Climber;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeAcquirer;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeLifter;
+import org.usfirst.frc948.NRGRobot2018.subsystems.CubeSolenoid;
 import org.usfirst.frc948.NRGRobot2018.subsystems.CubeTilter;
 import org.usfirst.frc948.NRGRobot2018.subsystems.Drive;
 import org.usfirst.frc948.NRGRobot2018.utilities.CubeCalculations;
@@ -50,6 +51,7 @@ public class Robot extends TimedRobot {
 	public static CubeTilter cubeTilter;
 	public static Climber climber;
 	public static PositionTracker positionTracker;
+	public static CubeSolenoid cubeSolenoid;
 
 	public enum AutoStartingPosition {
 		LEFT, CENTER, RIGHT
@@ -76,6 +78,8 @@ public class Robot extends TimedRobot {
 		cubeTilter = new CubeTilter();
 		climber = new Climber();
 		positionTracker = new PositionTracker(0, 0);
+		
+		cubeSolenoid = new CubeSolenoid();
 
 		OI.init();
 		OI.initTriggers();
